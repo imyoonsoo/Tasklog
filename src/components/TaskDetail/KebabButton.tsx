@@ -29,7 +29,18 @@ export function KebabButton({
   });
 
   const handleEdit = () => {
-    router.push(`/dashboard/${dashboardId}/${taskId}/edit`);
+    setIsOpen(false);
+
+    // 1. 먼저 상세 모달을 닫습니다 (히스토리에서 한 칸 뒤로)
+    router.back();
+
+    // 2. 아주 잠깐의 시간을 두고 수정 페이지로 이동합니다.
+    // 상세 모달이 언마운트될 시간을 주는 트릭입니다.
+    setTimeout(() => {
+      router.push(`/dashboard/${dashboardId}/card/${taskId}/edit`, {
+        scroll: false,
+      });
+    }, 100);
   };
 
   const handleDelete = () => {
