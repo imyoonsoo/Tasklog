@@ -1,4 +1,3 @@
-// src/components/Dropdown.tsx
 "use client";
 
 import Image from "next/image";
@@ -9,7 +8,7 @@ interface DropdownProps {
   options: string[];
   label: string;
   onSelect?: (value: string) => void;
-  defaultValue?: string; // 초기값 프롭 추가
+  defaultValue?: string;
 }
 
 export function Dropdown({
@@ -19,12 +18,10 @@ export function Dropdown({
   defaultValue,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  // 초기값을 defaultValue가 있으면 그것으로 설정
   const [selected, setSelected] = useState(defaultValue || "");
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 만약 외부에서 defaultValue가 나중에 바뀔 경우를 대비한 동기화
   useEffect(() => {
     if (defaultValue) setSelected(defaultValue);
   }, [defaultValue]);
