@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -11,11 +10,22 @@ import { ImageUpload } from "@/components/ImageUpload";
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
 
+interface Member {
+  userId?: number;
+  id?: number;
+  nickname: string;
+}
+
+interface Column {
+  id: number;
+  title: string;
+}
+
 interface TaskEditFormProps {
-  columnList: any[];
-  memberList: any[];
+  columnList: Column[];
+  memberList: Member[];
   dashboardId: number;
-  initialData: any;
+  initialData: any; // API 응답 스펙에 따라 정의 권장
   onCancel: () => void;
 }
 
@@ -45,7 +55,7 @@ export default function TaskEditForm({
     dueDate: initialData?.dueDate?.replace(" ", "T") || "",
   });
 
-  /** 기존 태그 */
+  /** 1. 대시보드 내 기존 태그들을 수집하여 추천 목록 생성 */
   useEffect(() => {
     const fetchTags = async () => {
       try {
@@ -76,28 +86,26 @@ export default function TaskEditForm({
 
         setSuggestedTags(Array.from(tagSet));
       } catch (error) {
-        console.error(error);
+        console.error("태그 로드 실패:", error);
       }
     };
 
     if (columnList.length > 0) fetchTags();
   }, [columnList]);
 
+  /** 2. 태그 추가 로직 */
   const addTag = (tagName: string) => {
     const trimmed = tagName.trim();
-
     if (trimmed && !tags.includes(trimmed)) {
       setTags((prev) => [...prev, trimmed]);
-
       if (!suggestedTags.includes(trimmed)) {
         setSuggestedTags((prev) => [...prev, trimmed]);
       }
     }
-
     setTagInput("");
   };
 
-  /** 수정 */
+  /** 3. 수정 데이터 제출 (Submit) */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -105,18 +113,17 @@ export default function TaskEditForm({
     try {
       let imageUrl = initialData?.imageUrl;
 
-      /** 삭제 */
+      // 이미지 삭제 처리
       if (isImageRemoved) {
         imageUrl = null;
       }
 
-      /** 새 이미지 업로드 */
+      // 새 이미지 업로드 처리
       if (imageFile) {
         const uploadRes = await postCardImage(
           Number(formData.columnId),
           imageFile
         );
-
         imageUrl = uploadRes.imageUrl;
       }
 
@@ -129,12 +136,7 @@ export default function TaskEditForm({
         tags,
       };
 
-      /**
-       * 핵심:
-       * 삭제면 imageUrl:null
-       * 새 이미지면 imageUrl:url
-       * 유지면 imageUrl 자체를 안보냄
-       */
+      // 이미지 상태에 따른 데이터 할당
       if (isImageRemoved) {
         submitData.imageUrl = null;
       } else if (imageUrl) {
@@ -147,7 +149,7 @@ export default function TaskEditForm({
       onCancel();
     } catch (error) {
       console.error("수정 실패:", error);
-      alert("수정 실패");
+      alert("할 일 수정에 실패했습니다.");
     } finally {
       setIsLoading(false);
     }
@@ -155,6 +157,7 @@ export default function TaskEditForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex w-full flex-col gap-6">
+      {/* 컬럼 및 담당자 선택 */}
       <div className="grid grid-cols-2 gap-4">
         <Dropdown
           label="컬럼"
@@ -164,11 +167,7 @@ export default function TaskEditForm({
           }
           onSelect={(val) => {
             const selected = columnList.find((c) => c.title === val);
-
-            setFormData({
-              ...formData,
-              columnId: selected?.id || 0,
-            });
+            setFormData((prev) => ({ ...prev, columnId: selected?.id || 0 }));
           }}
         />
 
@@ -184,15 +183,15 @@ export default function TaskEditForm({
           }
           onSelect={(val) => {
             const selected = memberList.find((m) => m.nickname === val);
-
-            setFormData({
-              ...formData,
+            setFormData((prev) => ({
+              ...prev,
               assigneeUserId: selected?.userId || selected?.id || 0,
-            });
+            }));
           }}
         />
       </div>
 
+      {/* 제목 입력 */}
       <Input>
         <Label htmlFor="title">제목</Label>
         <Input.Wrapper>
@@ -201,33 +200,28 @@ export default function TaskEditForm({
             required
             value={formData.title}
             onChange={(e) =>
-              setFormData({
-                ...formData,
-                title: e.target.value,
-              })
+              setFormData((prev) => ({ ...prev, title: e.target.value }))
             }
             className="border-none! bg-[#201F23]"
           />
         </Input.Wrapper>
       </Input>
 
+      {/* 설명 입력 */}
       <div className="flex flex-col gap-2">
         <Label>설명</Label>
-
         <textarea
           rows={4}
           required
           value={formData.description}
           onChange={(e) =>
-            setFormData({
-              ...formData,
-              description: e.target.value,
-            })
+            setFormData((prev) => ({ ...prev, description: e.target.value }))
           }
-          className="w-full rounded-[14px] border border-gray-700 bg-[#201F23] p-3 text-white outline-none"
+          className="w-full rounded-[14px] border border-gray-700 bg-[#201F23] p-3 text-white transition-colors outline-none focus:border-[#00A200]"
         />
       </div>
 
+      {/* 마감일 입력 */}
       <Input>
         <Label htmlFor="dueDate">마감일</Label>
         <Input.Wrapper>
@@ -236,35 +230,30 @@ export default function TaskEditForm({
             type="datetime-local"
             value={formData.dueDate}
             onChange={(e) =>
-              setFormData({
-                ...formData,
-                dueDate: e.target.value,
-              })
+              setFormData((prev) => ({ ...prev, dueDate: e.target.value }))
             }
             className="border-none! bg-[#201F23]"
           />
         </Input.Wrapper>
       </Input>
 
-      {/* 이미지 */}
-      <ImageUpload
-        initialImageUrl={isImageRemoved ? undefined : initialData?.imageUrl}
-        onImageChange={(file) => {
-          setImageFile(file);
+      {/* 이미지 업로드 영역 */}
+      <div className="flex flex-col gap-2">
+        <ImageUpload
+          initialImageUrl={isImageRemoved ? undefined : initialData?.imageUrl}
+          onImageChange={(file) => {
+            setImageFile(file);
+            setIsImageRemoved(file === null);
+          }}
+        />
+      </div>
 
-          if (file === null) {
-            setIsImageRemoved(true);
-          } else {
-            setIsImageRemoved(false);
-          }
-        }}
-      />
-
+      {/* 하단 버튼 영역 */}
       <div className="mt-4 flex gap-3">
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 rounded-[14px] border border-gray-700 py-4 text-white"
+          className="flex-1 rounded-[14px] border border-gray-700 py-4 text-white transition-colors hover:bg-white/5"
         >
           취소
         </button>
@@ -272,7 +261,7 @@ export default function TaskEditForm({
         <button
           type="submit"
           disabled={isLoading}
-          className="flex-1 rounded-[14px] bg-[#00A200] py-4 text-white"
+          className="flex-1 rounded-[14px] bg-[#00A200] py-4 font-bold text-white transition-colors hover:bg-[#008500] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isLoading ? "수정 중..." : "수정"}
         </button>

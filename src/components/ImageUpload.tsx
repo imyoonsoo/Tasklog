@@ -74,7 +74,7 @@ export function ImageUpload({
 
   return (
     <div className="flex w-full flex-col gap-2.5">
-      <label className="text-[16px] font-semibold text-gray-400">이미지</label>
+      <label className="text-[16px] font-semibold text-gray-300">이미지</label>
 
       <div
         onClick={handleClick}
