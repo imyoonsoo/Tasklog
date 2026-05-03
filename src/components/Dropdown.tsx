@@ -1,21 +1,33 @@
+// src/components/Dropdown.tsx
 "use client";
 
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-
 import iconChevronDown from "@/assets/common/ic-chevron-down.svg";
 
 interface DropdownProps {
   options: string[];
   label: string;
   onSelect?: (value: string) => void;
+  defaultValue?: string; // 초기값 프롭 추가
 }
 
-export function Dropdown({ options, label, onSelect }: DropdownProps) {
+export function Dropdown({
+  options,
+  label,
+  onSelect,
+  defaultValue,
+}: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("");
+  // 초기값을 defaultValue가 있으면 그것으로 설정
+  const [selected, setSelected] = useState(defaultValue || "");
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // 만약 외부에서 defaultValue가 나중에 바뀔 경우를 대비한 동기화
+  useEffect(() => {
+    if (defaultValue) setSelected(defaultValue);
+  }, [defaultValue]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -26,12 +38,8 @@ export function Dropdown({ options, label, onSelect }: DropdownProps) {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -45,7 +53,7 @@ export function Dropdown({ options, label, onSelect }: DropdownProps) {
         className="bg-black-800 flex h-13.5 w-full cursor-pointer items-center justify-between rounded-[14px] border border-solid border-gray-700 px-5 py-1.5 transition-all"
       >
         <span
-          className={`font-pretendard truncate text-[16px] ${selected ? "text-gray-100" : "text-gray-400"}`}
+          className={`truncate text-[16px] ${selected ? "text-gray-100" : "text-gray-400"}`}
         >
           {selected || `선택`}
         </span>
@@ -59,7 +67,7 @@ export function Dropdown({ options, label, onSelect }: DropdownProps) {
       </div>
 
       {isOpen && (
-        <ul className="bg-black-800 absolute z-10 mt-2 max-h-50 w-full overflow-y-auto rounded-lg border border-gray-700 shadow-lg [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-track]:bg-transparent">
+        <ul className="bg-black-800 absolute z-10 z-50 mt-2 max-h-50 w-full overflow-y-auto rounded-lg border border-gray-700 shadow-lg">
           {options.map((option) => (
             <li
               key={option}
@@ -68,7 +76,7 @@ export function Dropdown({ options, label, onSelect }: DropdownProps) {
                 setIsOpen(false);
                 if (onSelect) onSelect(option);
               }}
-              className="hover:bg-black-700 cursor-pointer px-4 py-3 text-[16px] text-gray-100 transition-colors"
+              className="cursor-pointer px-4 py-3 text-[16px] text-gray-100 transition-colors hover:bg-gray-700"
             >
               {option}
             </li>
