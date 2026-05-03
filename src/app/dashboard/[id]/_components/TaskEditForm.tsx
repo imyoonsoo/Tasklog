@@ -264,7 +264,7 @@ export default function TaskEditForm({
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 rounded-[14px] border border-gray-700 py-4"
+          className="flex-1 rounded-[14px] border border-gray-700 py-4 text-white"
         >
           취소
         </button>

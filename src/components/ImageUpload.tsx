@@ -36,7 +36,6 @@ export function ImageUpload({
 
     if (!file) return;
 
-    /* 기존 blob URL 정리 */
     if (previewUrl && previewUrl.startsWith("blob:")) {
       URL.revokeObjectURL(previewUrl);
     }
@@ -52,7 +51,6 @@ export function ImageUpload({
     e.preventDefault();
     e.stopPropagation();
 
-    /* blob URL 정리 */
     if (previewUrl && previewUrl.startsWith("blob:")) {
       URL.revokeObjectURL(previewUrl);
     }
@@ -63,7 +61,6 @@ export function ImageUpload({
       fileInputRef.current.value = "";
     }
 
-    /* 핵심 */
     onImageChange?.(null);
   };
 
