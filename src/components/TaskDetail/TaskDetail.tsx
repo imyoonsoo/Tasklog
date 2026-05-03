@@ -14,10 +14,9 @@ import { TaskDetailPanelMobile } from "./TaskDetailPanelMobile";
 
 interface TaskDetailProps {
   cardInfo: CardResponse;
-  dashboardId: number;
 }
 
-export async function TaskDetail({ cardInfo, dashboardId }: TaskDetailProps) {
+export async function TaskDetail({ cardInfo }: TaskDetailProps) {
   const {
     id: cardId,
     columnId,
@@ -27,12 +26,13 @@ export async function TaskDetail({ cardInfo, dashboardId }: TaskDetailProps) {
     imageUrl,
     dueDate,
     assignee,
+    dashboardId,
   } = cardInfo;
 
   const [{ title: dashboardTitle }, { data: columnList }, { comments }, user] =
     await Promise.all([
-      getDashboardDetail(Number(dashboardId)),
-      getColumnList(Number(dashboardId)),
+      getDashboardDetail(dashboardId),
+      getColumnList(dashboardId),
       getCommentList({ cardId }),
       getMyInfo(),
     ]);
