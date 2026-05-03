@@ -148,7 +148,7 @@ export function ColumnList({ column }: { column: ColumnList }) {
         // onSettingClick={handleOpenEdit}
       />
       {cardList?.map((colCard) => (
-        <Link key={colCard.id} href={`/dashboard/${dashboardId}/${colCard.id}`}>
+        <Link key={colCard.id} href={`/card/${colCard.id}`}>
           <ColumnCard
             cardTitle={colCard.title}
             // [참고] 필요시 아래 주석들을 해제하여 데이터 연결
