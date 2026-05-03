@@ -1,15 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* src/app/dashboard/[id]/card/[cardId]/edit/page.tsx */
+/* 수정 페이지 - 생성 모달과 동일 디자인 */
+
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { getColumnList, getMemberList, getCardDetail } from "@/api/data";
-import { Modal } from "@/components/modal/Modal";
+import { getCardDetail, getColumnList, getMemberList } from "@/api/data";
 import { ModalCloseButton } from "@/components/modal/ModalCloseButton";
 import TaskEditForm from "@/app/dashboard/[id]/_components/TaskEditForm";
 
-export default function TaskEditModalPage() {
+export default function TaskEditPage() {
   const params = useParams();
   const router = useRouter();
 
@@ -24,65 +25,58 @@ export default function TaskEditModalPage() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleSafeClose = () => {
-    router.push(`/dashboard/${dashboardId}`, { scroll: false });
-  };
-
   useEffect(() => {
     const fetchData = async () => {
-      if (!dashboardId || !cardId) return;
       try {
         const [columnsData, membersData, taskDetail] = await Promise.all([
           getColumnList(dashboardId),
-          getMemberList({ dashboardId, size: 100 }),
+          getMemberList({
+            dashboardId,
+            size: 100,
+          }),
           getCardDetail(cardId),
         ]);
 
         setData({
           columns: columnsData.data || [],
           members: membersData.members || [],
-          taskDetail: taskDetail,
+          taskDetail,
         });
       } catch (error) {
-        console.error("데이터 로드 실패:", error);
+        console.error("수정 데이터 로드 실패:", error);
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchData();
   }, [dashboardId, cardId]);
 
   if (isLoading) {
     return (
-      <Modal>
-        <div className="flex min-h-[400px] w-[500px] items-center justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-600 border-t-[#00A200]" />
-        </div>
-      </Modal>
+      <div className="bg-modal-background fixed top-1/2 left-1/2 z-[100] flex h-full max-h-203 w-full max-w-93.75 -translate-x-1/2 -translate-y-1/2 items-center justify-center text-white md:h-auto md:w-126.5 md:rounded-3xl md:border md:border-[#333] lg:w-150">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-600 border-t-[#00A200]" />
+      </div>
     );
   }
 
-  if (!data || !data.taskDetail) return null;
+  if (!data) return null;
 
   return (
-    <Modal>
-      <div
-        onMouseDown={(e) => e.stopPropagation()}
-        className="flex max-h-[90vh] w-full max-w-[600px] flex-col overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        <div className="mb-8 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">할 일 수정</h2>
-          <ModalCloseButton />
-        </div>
+    <div className="bg-modal-background fixed top-1/2 left-1/2 z-[100] flex h-full max-h-203 w-full max-w-93.75 -translate-x-1/2 -translate-y-1/2 flex-col overflow-y-auto p-5 text-white shadow-2xl [scrollbar-width:none] md:h-auto md:max-h-[calc(100vh-100px)] md:w-126.5 md:max-w-none md:rounded-3xl md:border md:border-[#333] md:p-7 lg:max-h-[calc(100vh-128px)] lg:w-150 lg:p-7.5 [&::-webkit-scrollbar]:hidden">
+      <div className="mb-8 flex items-center justify-between">
+        <h2 className="text-2xl font-bold">할 일 수정</h2>
 
-        <TaskEditForm
-          columnList={data.columns}
-          memberList={data.members}
-          dashboardId={dashboardId}
-          initialData={data.taskDetail}
-          onCancel={handleSafeClose}
-        />
+        <ModalCloseButton />
       </div>
-    </Modal>
+
+      <TaskEditForm
+        columnList={data.columns}
+        memberList={data.members}
+        dashboardId={dashboardId}
+        initialData={data.taskDetail}
+        onCancel={() => router.push(`/dashboard/${dashboardId}`)}
+      />
+    </div>
   );
 }
