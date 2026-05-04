@@ -21,7 +21,7 @@ interface SideMenuProps {
   isOpen?: boolean;
 }
 
-export async function SideMenu({ isOpen = false }: SideMenuProps) {
+export function SideMenu({ isOpen = false }: SideMenuProps) {
   return (
     <>
       <div
@@ -31,7 +31,7 @@ export async function SideMenu({ isOpen = false }: SideMenuProps) {
       />
 
       <div
-        className={`bg-black-900 fixed top-0 left-0 z-30 flex h-screen w-[clamp(220px,20vw,340px)] flex-col pt-2.5 transition-transform duration-300 lg:relative ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"} `}
+        className={`bg-black-900 fixed top-0 left-0 z-30 flex h-screen w-[clamp(220px,20vw,340px)] flex-col pt-2.5 transition-transform duration-300 md:relative md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="flex h-11 items-start px-4 text-2xl text-gray-100">
           <Image src={logoImg} height={40} width={156} alt="로고 이미지" />

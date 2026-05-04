@@ -6,8 +6,8 @@ import { use, useEffect, useState } from "react";
 import { getColumnList, getDashboardDetail } from "@/api/data";
 import { HashtagIcon } from "@/assets/dashboard/ic-colorchips";
 
-import { ColumnAdd } from "./_components/ColumnAdd";
-import { ColumnList } from "./_components/ColumnList";
+import { ColumnAdd } from "../_components/ColumnAdd";
+import { ColumnList } from "../_components/ColumnList";
 
 export interface ColumnList {
   id: number;
@@ -63,7 +63,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
   }
 
   return (
-    <div className="text-gray-100 lg:px-12.5">
+    <div className="text-gray-100 max-md:px-4 lg:px-12.5">
       <div className="flex items-center gap-1 pt-6 pb-3.5 md:mx-10 lg:mx-0">
         <HashtagIcon color={dashboardDetail.color} />
         <h1 className="text-2xl font-bold">{dashboardDetail?.title}</h1>

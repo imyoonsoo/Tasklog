@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
+
 import iconChevronDown from "@/assets/common/ic-chevron-down.svg";
 
 interface DropdownProps {
@@ -21,10 +22,6 @@ export function Dropdown({
   const [selected, setSelected] = useState(defaultValue || "");
 
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (defaultValue) setSelected(defaultValue);
-  }, [defaultValue]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -64,7 +61,7 @@ export function Dropdown({
       </div>
 
       {isOpen && (
-        <ul className="bg-black-800 absolute z-10 z-50 mt-2 max-h-50 w-full overflow-y-auto rounded-lg border border-gray-700 shadow-lg">
+        <ul className="bg-black-800 absolute z-10 mt-2 max-h-50 w-full overflow-y-auto rounded-lg border border-gray-700 shadow-lg">
           {options.map((option) => (
             <li
               key={option}

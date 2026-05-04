@@ -1,4 +1,3 @@
-import { getMemberList } from "@/api/data";
 import { DashboardHeader } from "@/components/layout/DashboardHeader";
 import { SideMenu } from "@/components/SideMenu";
 
@@ -8,14 +7,10 @@ interface DashboardLayoutProps {
   params: Promise<{ id: number }>;
 }
 
-export default async function DashboardLayout({
+export default function DashboardLayout({
   children,
   modal,
-  params,
 }: DashboardLayoutProps) {
-  const { id } = await params;
-  const memberData = await getMemberList({ dashboardId: id, size: 20 });
-
   return (
     <div className="grid min-h-screen w-full grid-cols-[auto_1fr]">
       {/* 1. 사이드 메뉴 영역 */}
@@ -25,13 +20,10 @@ export default async function DashboardLayout({
 
       <div className="flex h-screen min-w-0 flex-col overflow-hidden bg-[#131214]">
         <header className="flex h-12.5 items-center border-b border-gray-800 bg-[#1B1A1F] text-white md:h-15">
-          <DashboardHeader
-            members={memberData.members}
-            totalCount={memberData.totalCount}
-          />
+          <DashboardHeader />
         </header>
 
-        <main className="w-full flex-1 overflow-x-auto overflow-y-auto text-white">
+        <main className="w-full flex-1 overflow-x-auto overflow-y-auto text-white [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-600 [&::-webkit-scrollbar-track]:bg-transparent">
           {children}
         </main>
       </div>

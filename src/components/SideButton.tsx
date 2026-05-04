@@ -23,7 +23,7 @@ interface SideButtonProps {
   createdByMe: boolean;
 }
 
-function SideButton({ id, title, color, createdByMe }: SideButtonProps) {
+export function SideButton({ id, title, color, createdByMe }: SideButtonProps) {
   const chipSrc = CHIP_IMAGE_MAP[color] || colorChipsGreen;
   const router = useRouter();
   return (
@@ -39,4 +39,3 @@ function SideButton({ id, title, color, createdByMe }: SideButtonProps) {
     </div>
   );
 }
-export { SideButton };
