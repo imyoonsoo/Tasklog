@@ -1,4 +1,3 @@
-/* src/app/dashboard/[id]/card/[cardId]/edit/page.tsx */
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
@@ -9,7 +8,6 @@ import { ModalCloseButton } from "@/components/modal/ModalCloseButton";
 export default function TaskEditPage() {
   const params = useParams();
   const router = useRouter();
-  const dashboardId = Number(params.id);
   const cardId = Number(params.cardId);
 
   return (
@@ -19,11 +17,7 @@ export default function TaskEditPage() {
         <ModalCloseButton />
       </div>
 
-      <TaskEditContainer
-        dashboardId={dashboardId}
-        cardId={cardId}
-        onCancel={() => router.push(`/dashboard/${dashboardId}`)}
-      />
+      <TaskEditContainer cardId={cardId} onCancel={() => router.back()} />
     </div>
   );
 }

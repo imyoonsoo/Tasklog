@@ -35,7 +35,7 @@ export function ColumnListHeader({
       return;
     }
     // 쿼리 스트링을 포함하여 task-add 페이지로 이동
-    router.push(`/task-add?dashboardId=${dashboardId}`);
+    router.push(`/dashboard/${dashboardId}/task-add?columnId=${columnId}`);
   };
 
   const handleColumEdit = () => {

@@ -30,12 +30,7 @@ export function KebabButton({
 
   const handleEdit = () => {
     setIsOpen(false);
-    router.back();
-    setTimeout(() => {
-      router.push(`/dashboard/${dashboardId}/card/${taskId}/edit`, {
-        scroll: false,
-      });
-    }, 100);
+    router.push(`/card/${taskId}/edit`);
   };
 
   const handleDelete = () => {
