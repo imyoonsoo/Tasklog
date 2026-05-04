@@ -7,7 +7,7 @@ import { putDashboardUpdate } from "@/api/data";
 import { DashboardColorChoiceList } from "@/components/DashboardColorChoiceList";
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
-import { SaveToast } from "@/components/Toast";
+import { SaveToast } from "@/components/SaveToast";
 
 export interface ApiError {
   response?: {
