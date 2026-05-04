@@ -24,6 +24,8 @@ export function PopDoverMenu({
           <Image height={20} width={20} src={icEdit} alt="수정 버튼" />
           <span className="text-base text-white">수정하기</span>
         </li>
+
+        {/* 삭제하기: 기존 방식 유지 */}
         <li
           onClick={handleDelete}
           className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-b-xl px-5.5 pt-2.5 pb-4 transition-colors duration-300 hover:bg-gray-800"

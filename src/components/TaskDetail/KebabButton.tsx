@@ -29,7 +29,13 @@ export function KebabButton({
   });
 
   const handleEdit = () => {
-    router.push(`/dashboard/${dashboardId}/${taskId}/edit`);
+    setIsOpen(false);
+    router.back();
+    setTimeout(() => {
+      router.push(`/dashboard/${dashboardId}/card/${taskId}/edit`, {
+        scroll: false,
+      });
+    }, 100);
   };
 
   const handleDelete = () => {
