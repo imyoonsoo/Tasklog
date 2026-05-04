@@ -18,11 +18,10 @@ interface MydashboardListProp {
 
 export function MydashboardList({ data, currentPage }: MydashboardListProp) {
   return (
-    <div className="flex flex-col gap-5 md:flex-row">
+    <div className="flex flex-col gap-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-4">
       {currentPage === 1 && <MyDashboardItemContainerAdd />}
       {data.map((item: DashboardCard) => (
         <MyDashboardItemContainer key={item.id} dashid={item.id}>
-          {/* @TODO Hash 컴포넌트로 교체 */}
           <div className="flex items-center gap-1">
             <HashtagIcon size={20} color={item.color} />
             {item.title}
