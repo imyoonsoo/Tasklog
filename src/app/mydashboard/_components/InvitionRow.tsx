@@ -1,7 +1,7 @@
 "use client";
 
-import { Profile } from "@/app/mydashboard/_components/Profile";
 import { Button } from "@/components/Button";
+import { Profile } from "@/components/profile/Profile";
 
 import { UserInfo } from "./InvitionContainer";
 
@@ -24,7 +24,7 @@ export function InvitionRow({
       <div className="flex items-center justify-between">
         <div className="w-50">
           {/* 임시 컴포넌트 @TODO 교체 필요*/}
-          <Profile name={inviter.nickname} />
+          <Profile name={inviter.nickname} type={"invite"} />
         </div>
         <div className="flex w-32.5 gap-3">
           <Button

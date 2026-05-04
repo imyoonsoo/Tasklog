@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 // [수정] dashboardId 추출을 위해 필요한 훅 추가
@@ -29,9 +28,9 @@ interface GetCardListResponse {
   title: string;
   description: string;
   tags: string[];
-  dueDate: string;
-  assignee: Assignee;
-  imageUrl: string;
+  dueDate?: string;
+  assignee?: Assignee;
+  imageUrl?: string;
   teamId: string;
   columnId: number;
   createdAt: string;
@@ -135,7 +134,7 @@ export function ColumnList({ column }: { column: ColumnList }) {
   }, [isLoading, hasMore]);
 
   return (
-    <div className="flex w-full flex-col gap-5 md:mx-10 lg:mx-0">
+    <div className="flex min-w-83.5 flex-col gap-5 md:mx-10 lg:mx-0">
       <ColumnListHeader
         title={title}
         contentCount={totalCount}
@@ -149,15 +148,13 @@ export function ColumnList({ column }: { column: ColumnList }) {
         // onSettingClick={handleOpenEdit}
       />
       {cardList?.map((colCard) => (
-        <Link key={colCard.id} href={`/dashboard/${dashboardId}/${colCard.id}`}>
-          <ColumnCard
-            cardTitle={colCard.title}
-            // [참고] 필요시 아래 주석들을 해제하여 데이터 연결
-            // tags={colCard.tags}
-            // creator={colCard.assignee.nickname}
-            // imgSrc={colCard.imageUrl}
-          />
-        </Link>
+        <ColumnCard
+          key={colCard.id}
+          cardTitle={colCard.title}
+          tags={colCard.tags}
+          creator={colCard.assignee?.nickname}
+          imgSrc={colCard.imageUrl}
+        />
       ))}
       {/* observer */}
       <div ref={observerTarget}></div>
