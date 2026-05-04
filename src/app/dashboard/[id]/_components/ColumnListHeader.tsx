@@ -38,6 +38,16 @@ export function ColumnListHeader({
     router.push(`/task-add?dashboardId=${dashboardId}`);
   };
 
+  const handleColumEdit = () => {
+    router.push(
+      `/dashboard/${dashboardId}/column-edit?columnId=${columnId}&columnName=${title}`
+    );
+  };
+
+  const handleColumDelete = () => {
+    router.push(`/dashboard/${dashboardId}/column-delete?columnId=${columnId}`);
+  };
+
   const handleSettingClick = () => {
     setIsOpen((prev) => !prev);
   };
@@ -73,7 +83,10 @@ export function ColumnListHeader({
             className="cursor-pointer transition-transform hover:rotate-90"
           />
           {isOpen && (
-            <PopDoverMenu title={title} columnId={columnId} type="columnEdit" />
+            <PopDoverMenu
+              onEdit={handleColumEdit}
+              onDelete={handleColumDelete}
+            />
           )}
         </div>
       </div>

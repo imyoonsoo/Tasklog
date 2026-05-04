@@ -15,7 +15,7 @@ export function PopDoverMenu({
   onDelete: handleDelete,
 }: PopDoverMenuProps) {
   return (
-    <div className="border-stroke absolute top-5 right-0 mt-2 w-35 rounded-xl border bg-[#2F2F33] shadow-lg">
+    <div className="border-stroke absolute top-5 right-0 z-999 mt-2 w-35 rounded-xl border bg-[#2F2F33] shadow-lg">
       <ul className="flex flex-col items-center justify-center text-sm text-gray-700">
         <li
           onClick={handleEdit}
