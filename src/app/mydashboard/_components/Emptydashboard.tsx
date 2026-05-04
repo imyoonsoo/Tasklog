@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import chartIcon from "@/assets/mydashboard/chart.svg";
 import mailIcon from "@/assets/mydashboard/MailIcon.svg";
+import { Button } from "@/components/Button";
 
 interface DashboardProps {
   dashtype: "my" | "invite";
@@ -32,10 +33,15 @@ export function Emptydashboard({ dashtype }: DashboardProps) {
       </div>
       {/* @TODO 버튼은 공통 컴포넌트로 수정 필요 */}
       {dashtype === "my" && (
-        <Link href={"/new-board"}>
-          <button className="py-1.2 h-9 rounded-[100px] border px-4 text-base">
-            생성하기
-          </button>
+        <Link href={`/new-dashboard`}>
+          <Button colorType="secondary" size="sm" className="px-2">
+            <div className="flex items-center gap-1">
+              생성하기
+              <div className="flex h-4 w-4 items-center justify-center rounded-full bg-gray-300 text-gray-700">
+                +
+              </div>
+            </div>
+          </Button>
         </Link>
       )}
     </div>
