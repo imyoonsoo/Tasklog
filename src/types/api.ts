@@ -67,10 +67,10 @@ export interface CreateCardRequest {
   imageUrl?: string;
 }
 
-interface Assignee {
+export interface Assignee {
   id: number;
   nickname: string;
-  profileImageUrl: string;
+  profileImageUrl: string | null;
 }
 
 export interface CreateCardResponse {
@@ -93,11 +93,7 @@ export interface Card {
   description: string;
   tags: string[];
   dueDate: string;
-  assignee: {
-    profileImageUrl: string;
-    nickname: string;
-    id: number;
-  };
+  assignee: Assignee;
   imageUrl: string;
   teamId: string;
   columnId: number;
@@ -134,11 +130,7 @@ export interface UpdateCardResponse {
   description: string;
   tags: string[];
   dueDate: string;
-  assignee: {
-    profileImageUrl: string;
-    nickname: string;
-    id: number;
-  };
+  assignee: Assignee;
   imageUrl: string;
   teamId: string;
   columnId: number;
@@ -152,14 +144,11 @@ export interface CardResponse {
   description: string;
   tags: string[];
   dueDate: string;
-  assignee: {
-    profileImageUrl: string;
-    nickname: string;
-    id: number;
-  };
+  assignee: Assignee;
   imageUrl: string;
   teamId: string;
   columnId: number;
+  dashboardId: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -354,8 +343,12 @@ export interface GetMemberListResponse {
 // [ APIResponse ] - API 응답 구조
 // ==========================================================
 
-export interface APIResponse {
-  success: boolean;
+export interface APISuccessResponse {
+  success: true;
+  data?: unknown;
+}
+export interface APIErrorResponse {
+  success: false;
   message: string;
 }
 
@@ -366,3 +359,5 @@ export interface ApiError {
     };
   };
 }
+
+export type APIResponse = APISuccessResponse | APIErrorResponse;

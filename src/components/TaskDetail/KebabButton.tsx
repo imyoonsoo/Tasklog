@@ -1,14 +1,24 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 import icMore from "@/assets/common/ic-more.svg";
-import { PopDoverMenu } from "@/components/PopDoverMenu";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
-export function KebabButton() {
+import { PopDoverMenu } from "../PopDoverMenu";
+
+export function KebabButton({
+  dashboardId,
+  taskId,
+}: {
+  dashboardId: number;
+  taskId: string;
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
 
   const handleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -17,6 +27,14 @@ export function KebabButton() {
   useClickOutside(containerRef, () => {
     setIsOpen(false);
   });
+
+  const handleEdit = () => {
+    router.push(`/dashboard/${dashboardId}/${taskId}/edit`);
+  };
+
+  const handleDelete = () => {
+    router.push(`/dashboard/${dashboardId}/${taskId}/delete`);
+  };
 
   return (
     <div
@@ -29,7 +47,7 @@ export function KebabButton() {
       >
         <Image src={icMore} height={24} width={24} alt="더보기 아이콘" />
       </button>
-      {isOpen && <PopDoverMenu />}
+      {isOpen && <PopDoverMenu onEdit={handleEdit} onDelete={handleDelete} />}
     </div>
   );
 }

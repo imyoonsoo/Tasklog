@@ -9,7 +9,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="bg-background">
+      <body className="bg-background custom-scrollbar">
         {children}
         {modal}
       </body>
