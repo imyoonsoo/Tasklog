@@ -1,11 +1,11 @@
-import { getTagColor } from "@/util/tags";
+import { getRandomColor } from "@/utils/color";
 
 interface Prop {
   children?: string;
 }
 
 export function Badge({ children = "" }: Prop) {
-  const colorClass = getTagColor(children);
+  const colorClass = getRandomColor(children);
 
   return (
     <div

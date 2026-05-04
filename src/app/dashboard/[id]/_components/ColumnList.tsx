@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 // [수정] dashboardId 추출을 위해 필요한 훅 추가
@@ -148,14 +149,15 @@ export function ColumnList({ column }: { column: ColumnList }) {
         // onSettingClick={handleOpenEdit}
       />
       {cardList?.map((colCard) => (
-        <ColumnCard
-          key={colCard.id}
-          cardTitle={colCard.title}
-          // [참고] 필요시 아래 주석들을 해제하여 데이터 연결
-          // tags={colCard.tags}
-          // creator={colCard.assignee.nickname}
-          // imgSrc={colCard.imageUrl}
-        />
+        <Link key={colCard.id} href={`/dashboard/${dashboardId}/${colCard.id}`}>
+          <ColumnCard
+            cardTitle={colCard.title}
+            // [참고] 필요시 아래 주석들을 해제하여 데이터 연결
+            // tags={colCard.tags}
+            // creator={colCard.assignee.nickname}
+            // imgSrc={colCard.imageUrl}
+          />
+        </Link>
       ))}
       {/* observer */}
       <div ref={observerTarget}></div>
