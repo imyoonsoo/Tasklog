@@ -67,6 +67,8 @@ export function ColumnListHeader({
         <Image
           src={plusicon}
           alt="add"
+          height={20}
+          width={20}
           onClick={handleAddTask}
           className="cursor-pointer transition-transform hover:scale-110"
         />
@@ -80,6 +82,8 @@ export function ColumnListHeader({
             src={settingicon}
             alt="setting"
             onClick={handleSettingClick}
+            height={20}
+            width={20}
             className="cursor-pointer transition-transform hover:rotate-90"
           />
           {isOpen && (

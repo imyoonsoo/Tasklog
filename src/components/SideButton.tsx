@@ -9,11 +9,11 @@ import colorChipsRed from "@/assets/dashboard/colorchips-red.svg";
 import colorChipsYellow from "@/assets/dashboard/colorchips-yellow.svg";
 
 const CHIP_IMAGE_MAP: Record<string, string> = {
-  "#206E4E": colorChipsGreen,
-  "#AE2E24": colorChipsRed,
-  "#1458BC": colorChipsBlue,
-  "#BD8C00": colorChipsYellow,
-  "#9F4B00": colorChipsOrange,
+  "#206e4e": colorChipsGreen,
+  "#ae2e24": colorChipsRed,
+  "#1458bc": colorChipsBlue,
+  "#bd8c00": colorChipsYellow,
+  "#9f4b00": colorChipsOrange,
 };
 
 interface SideButtonProps {
@@ -23,7 +23,7 @@ interface SideButtonProps {
   createdByMe: boolean;
 }
 
-function SideButton({ id, title, color, createdByMe }: SideButtonProps) {
+export function SideButton({ id, title, color, createdByMe }: SideButtonProps) {
   const chipSrc = CHIP_IMAGE_MAP[color] || colorChipsGreen;
   const router = useRouter();
   return (
@@ -32,11 +32,10 @@ function SideButton({ id, title, color, createdByMe }: SideButtonProps) {
       className="flex cursor-pointer items-center justify-between rounded-xl px-2.5 py-4 transition-colors duration-300 ease-in-out hover:bg-[#2C2B30]"
     >
       <div className="flex items-center justify-center gap-2">
-        <Image className="h-6 w-6" src={chipSrc} alt={`${color} 컬러칩`} />
+        <Image height={24} width={24} src={chipSrc} alt={`${color} 컬러칩`} />
         <span className="text-white">{title}</span>
       </div>
       {createdByMe && <Image className="h-6" src={icCrown} alt="왕관 아이콘" />}
     </div>
   );
 }
-export { SideButton };

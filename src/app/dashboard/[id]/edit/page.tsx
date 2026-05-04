@@ -62,9 +62,6 @@ export default function Edit() {
       }
     } catch (error) {
       console.error("데이터 로딩 오류:", error);
-
-      alert("해당 대시보드에 접근 권한이 없거나 존재하지 않습니다.");
-
       router.push("/mydashboard");
     }
   }, [dashboardId, router, memberPage, invitePage]);
