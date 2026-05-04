@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
 
 import { getColumnList, getDashboardDetail } from "@/api/data";
@@ -34,6 +35,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
   const [activeCol, setActiveCol] = useState(columnList?.[0]);
   const [dashboardDetail, setDashboardDetail] = useState<Dashboard>();
   const { id } = use(params);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const fetchdashboardData = async () => {
@@ -48,7 +50,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
       }
     };
     fetchdashboardData();
-  }, [id]);
+  }, [id, searchParams]);
 
   const handleTabSwitch = (col: ColumnList) => {
     setActiveCol(() => col);

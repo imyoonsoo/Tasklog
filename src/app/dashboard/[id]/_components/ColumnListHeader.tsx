@@ -2,14 +2,18 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation"; // [추가] 페이지 이동을 위한 useRouter 훅
+import { useRef, useState } from "react";
 
 import plusicon from "@/assets/dashboard/ic-plusbtn.svg";
 import settingicon from "@/assets/dashboard/ic-setting.svg";
+import { PopDoverMenu } from "@/components/PopDoverMenu";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 interface ColumnListHeaderProp {
   title: string;
   contentCount: number;
   dashboardId: number; // [추가] 태스크 추가 페이지 이동 시 필요한 ID 값
+  columnId: number;
   onSettingClick?: () => void;
 }
 
@@ -17,10 +21,12 @@ export function ColumnListHeader({
   title,
   contentCount,
   dashboardId,
-  // onSettingClick,
+  columnId,
 }: ColumnListHeaderProp) {
   const router = useRouter(); // [추가]
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const containerRef = useRef<HTMLDivElement>(null);
   // [추가] + 버튼 클릭 시 실행될 핸들러
   const handleAddTask = () => {
     // 유효성 검사: ID가 없으면 경고창을 띄워 에러 방지
@@ -31,6 +37,14 @@ export function ColumnListHeader({
     // 쿼리 스트링을 포함하여 task-add 페이지로 이동
     router.push(`/task-add?dashboardId=${dashboardId}`);
   };
+
+  const handleSettingClick = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  useClickOutside(containerRef, () => {
+    setIsOpen(false);
+  });
 
   return (
     <div className="flex w-full max-w-83 items-center justify-between">
@@ -49,12 +63,20 @@ export function ColumnListHeader({
         />
         {/* [수정] 불필요한 내부 핸들러(handleColumnEdit) 대신 props로 받은 onSettingClick 바로 연결 */}
         {/* 호버 시 90도 회전하는 시각적 피드백 추가 */}
-        <Image
-          src={settingicon}
-          alt="setting"
-          // onClick={onSettingClick}
-          className="cursor-pointer transition-transform hover:rotate-90"
-        />
+        <div
+          className="relative flex items-center justify-center"
+          ref={containerRef}
+        >
+          <Image
+            src={settingicon}
+            alt="setting"
+            onClick={handleSettingClick}
+            className="cursor-pointer transition-transform hover:rotate-90"
+          />
+          {isOpen && (
+            <PopDoverMenu title={title} columnId={columnId} type="columnEdit" />
+          )}
+        </div>
       </div>
     </div>
   );
