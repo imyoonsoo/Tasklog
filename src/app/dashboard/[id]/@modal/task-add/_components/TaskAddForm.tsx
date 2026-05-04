@@ -25,12 +25,14 @@ interface TaskAddFormProps {
   columnList: Column[];
   memberList: Member[];
   dashboardId: number;
+  columnId: number;
 }
 
 export function TaskAddForm({
   columnList,
   memberList,
   dashboardId,
+  columnId,
 }: TaskAddFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -41,12 +43,15 @@ export function TaskAddForm({
   const [suggestedTags, setSuggestedTags] = useState<string[]>([]);
 
   const [formData, setFormData] = useState({
-    columnId: columnList[0]?.id || 0,
+    columnId: columnId || columnList[0]?.id || 0,
     assigneeUserId: memberList[0]?.userId || 0,
     title: "",
     description: "",
     dueDate: "",
   });
+
+  const defaultColumnTitle =
+    columnList.find((c) => c.id === formData.columnId)?.title || "";
 
   useEffect(() => {
     const fetchExistingTags = async () => {
@@ -146,6 +151,7 @@ export function TaskAddForm({
         <div className="grid grid-cols-2 gap-4">
           <Dropdown
             label="컬럼"
+            defaultValue={defaultColumnTitle} // defaultValue 추가
             options={columnList.map((c) => c.title)}
             onSelect={(val) =>
               setFormData({
