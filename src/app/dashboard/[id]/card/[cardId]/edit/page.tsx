@@ -20,7 +20,6 @@ export default function TaskEditPage() {
       </div>
 
       <TaskEditContainer
-        dashboardId={dashboardId}
         cardId={cardId}
         onCancel={() => router.push(`/dashboard/${dashboardId}`)}
       />
