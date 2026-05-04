@@ -68,7 +68,7 @@ export function DashboardHeader({ members, totalCount }: DashboardHeaderProps) {
 
   return (
     <header
-      className={`bg-black-900 font-pretendard border-black-800 fixed top-0 right-0 z-30 flex h-12.5 w-full items-center justify-between border-b-2 px-3 md:left-55 md:h-15 md:w-[calc(100%-220px)] md:justify-end md:px-6 lg:left-85 lg:w-[calc(100%-340px)]`}
+      className={`bg-black-900 border-black-800 flex h-12.5 w-full items-center justify-between border-b-2 px-3 md:left-55 md:h-15 md:justify-end md:px-6 lg:left-85`}
     >
       <div className="flex-1 md:hidden" />
 
