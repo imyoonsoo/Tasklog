@@ -9,11 +9,11 @@ import colorChipsRed from "@/assets/dashboard/colorchips-red.svg";
 import colorChipsYellow from "@/assets/dashboard/colorchips-yellow.svg";
 
 const CHIP_IMAGE_MAP: Record<string, string> = {
-  "#206E4E": colorChipsGreen,
-  "#AE2E24": colorChipsRed,
+  "#206e4e": colorChipsGreen,
+  "#ae2e24": colorChipsRed,
   "#1458bc": colorChipsBlue,
-  "#BD8C00": colorChipsYellow,
-  "#9F4B00": colorChipsOrange,
+  "#bd8c00": colorChipsYellow,
+  "#9f4b00": colorChipsOrange,
 };
 
 interface SideButtonProps {

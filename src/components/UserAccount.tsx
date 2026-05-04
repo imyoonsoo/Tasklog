@@ -1,12 +1,22 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 import { getMyInfo } from "@/api/data";
 import icSetting from "@/assets/common/ic-setting.svg";
 
-export async function UserAccount() {
-  const myInfo = await getMyInfo();
-  const { nickname = "", profileImageUrl = null } = myInfo;
+export function UserAccount() {
+  const [nickname, setNickname] = useState("");
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    getMyInfo().then((myInfo) => {
+      setNickname(myInfo.nickname || "");
+      setProfileImageUrl(myInfo.profileImageUrl || null);
+    });
+  }, []);
 
   return (
     <div className="flex items-center justify-between border-t-2 border-[#2C2B30] px-7.5 py-3 text-gray-100">
