@@ -57,7 +57,7 @@ export function ImageUpload({
 
       <div
         onClick={handleClick}
-        className={`relative flex h-36.75 w-83.75 rounded-xl transition-all md:h-42.75 md:w-135 ${
+        className={`relative flex h-36.75 w-full rounded-xl transition-all md:h-42.75 ${
           previewUrl
             ? "items-start justify-start p-2"
             : "bg-black-800 hover:bg-black-700 cursor-pointer items-center justify-center overflow-hidden border-2 border-dashed border-gray-600"

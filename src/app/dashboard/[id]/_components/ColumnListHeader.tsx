@@ -33,8 +33,8 @@ export function ColumnListHeader({
   };
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-baseline justify-center gap-2">
+    <div className="flex w-full max-w-83 items-center justify-between">
+      <div className="flex justify-center gap-2">
         {/* font-bold 추가하여 가독성 강화 */}
         <h1 className="text-[20px] font-bold text-white">{title}</h1>
         <span className="text-gray-400">{contentCount}</span>

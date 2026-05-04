@@ -2,7 +2,7 @@
 
 import { use, useEffect, useState } from "react";
 
-import { getColumnList, getDashboardDetail, postLogin } from "@/api/data";
+import { getColumnList, getDashboardDetail } from "@/api/data";
 import { HashtagIcon } from "@/assets/dashboard/ic-colorchips";
 
 import { ColumnList } from "./_components/ColumnList";
@@ -36,10 +36,6 @@ export default function Dashboard({ params }: DashboardPageProps) {
   const { id } = use(params);
 
   useEffect(() => {
-    const setUp = async () => {
-      //임시 로그인
-      await postLogin({ email: "333@333.com", password: "123123123" });
-    };
     const fetchdashboardData = async () => {
       const columnData = await getColumnList(id);
       const dashboardData = await getDashboardDetail(id);
@@ -51,7 +47,6 @@ export default function Dashboard({ params }: DashboardPageProps) {
         setActiveCol(columnData.data[0]);
       }
     };
-    setUp();
     fetchdashboardData();
   }, [id]);
 
@@ -67,11 +62,9 @@ export default function Dashboard({ params }: DashboardPageProps) {
   return (
     <div className="px-5 text-gray-100 lg:px-12.5">
       <div className="flex items-center gap-1 pt-6 pb-3.5 md:mx-10 lg:mx-0">
-        {/* @TODO 컬러도 prop으로 바꿔서 데이터에 따라 바뀌도록 구현 */}
-        <HashtagIcon />
+        <HashtagIcon color={dashboardDetail.color} />
         <h1 className="text-2xl font-bold">{dashboardDetail?.title}</h1>
       </div>
-
       {/* 모바일과 태블릿 환경 전용 UI */}
       <div className="flex w-full gap-4 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none] md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
         {columnList.map((column) => (

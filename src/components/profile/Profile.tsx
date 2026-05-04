@@ -8,7 +8,7 @@ interface ProfileProps {
 
 export function Profile({ name, type, imageUrl }: ProfileProps) {
   return (
-    <div className="relative flex items-center justify-center gap-2">
+    <div className="relative flex gap-2">
       {type === "member" && (
         <div className="bg-profile-green relative flex h-6 w-6 items-center justify-center overflow-hidden rounded-2xl">
           {imageUrl ? (
@@ -20,7 +20,6 @@ export function Profile({ name, type, imageUrl }: ProfileProps) {
             />
           ) : (
             <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12px] font-semibold whitespace-nowrap text-white">
-              {/* '민영' 대신 이름 첫 글자를 보여주는 게 자연스러워요 */}
               {name.slice(0, 2)}
             </span>
           )}
