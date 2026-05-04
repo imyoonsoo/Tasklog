@@ -68,6 +68,10 @@ export function DashboardHeader() {
     if (dashboardId) router.push(`/dashboard/${dashboardId}/edit`);
   };
 
+  const handleShareClick = () => {
+    if (dashboardId) router.push(`/dashboard/${dashboardId}/invite`);
+  };
+
   return (
     <header className="bg-black-900 border-black-800 flex h-12.5 w-full items-center justify-between border-b-2 px-3 md:left-55 md:h-15 md:justify-end md:px-6 lg:left-85">
       <button onClick={handleOpenSideMenu} className="p-2.5 md:hidden">
@@ -126,7 +130,10 @@ export function DashboardHeader() {
             <span className="hidden text-sm font-medium md:inline">관리</span>
           </button>
 
-          <button className="group flex h-7.5 w-7.5 shrink-0 cursor-pointer items-center justify-center text-gray-300 transition hover:text-white md:h-auto md:w-auto md:gap-2 md:py-1.5">
+          <button
+            onClick={handleShareClick}
+            className="group flex h-7.5 w-7.5 shrink-0 cursor-pointer items-center justify-center text-gray-300 transition hover:text-white md:h-auto md:w-auto md:gap-2 md:py-1.5"
+          >
             <Image
               src={iconShare}
               alt="share"
