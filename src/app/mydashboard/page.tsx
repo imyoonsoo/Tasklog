@@ -26,7 +26,7 @@ export default function MyDashboard() {
   const [searchInvited, setSearchInvited] = useState<T.Invitation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [value, setValue] = useState("");
+  const [searchWord, setSearchWord] = useState("");
   const [error, setError] = useState("");
   const [dashboardList, setDashboardList] = useState<DashboardList[]>([]);
   const targetdiv = useRef(null);
@@ -127,19 +127,19 @@ export default function MyDashboard() {
   }, [isLoading, hasMore]);
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setSearchWord(e.target.value);
     if (error) setError("");
   };
 
   const handleFieldBlur = () => {
-    if (value.length < 3) {
+    if (searchWord.length < 3) {
       setError("검색 글자 수는 3글자 이상이어야 합니다.");
     }
   };
 
   //검색어로 데이터 가져오는 함수
   const handleSearchInvited = async () => {
-    const result = await getMyInvitationList({ title: value });
+    const result = await getMyInvitationList({ title: searchWord });
     return result;
   };
 
@@ -173,7 +173,7 @@ export default function MyDashboard() {
             초대받은 대시보드
           </h2>
           <div>
-            {(invitaionList.length !== 0 || value.length !== 0) && (
+            {(invitaionList.length !== 0 || searchWord.length !== 0) && (
               <form onSubmit={handleSubmit}>
                 <Input>
                   <Input.Wrapper>
@@ -181,7 +181,7 @@ export default function MyDashboard() {
                     <Input.Field
                       id="invitedSearch"
                       placeholder="검색"
-                      value={value}
+                      value={searchWord}
                       onChange={handleFieldChange}
                       onBlur={handleFieldBlur}
                     />
@@ -194,11 +194,11 @@ export default function MyDashboard() {
         </div>
         {invitaionList.length === 0 ? (
           <Emptydashboard dashtype="invite" />
-        ) : searchInvited.length === 0 && value !== "" ? (
+        ) : searchInvited.length === 0 && searchWord !== "" ? (
           <SearchNoResult />
         ) : (
           <InvitionContainer
-            invitedData={value ? searchInvited : invitaionList}
+            invitedData={searchWord ? searchInvited : invitaionList}
           />
         )}
       </div>
