@@ -64,11 +64,9 @@ export default function Dashboard({ params }: DashboardPageProps) {
   return (
     <div className="px-5 text-gray-100 lg:px-12.5">
       <div className="flex items-center gap-1 pt-6 pb-3.5 md:mx-10 lg:mx-0">
-        {/* @TODO 컬러도 prop으로 바꿔서 데이터에 따라 바뀌도록 구현 */}
-        <HashtagIcon />
+        <HashtagIcon color={dashboardDetail.color} />
         <h1 className="text-2xl font-bold">{dashboardDetail?.title}</h1>
       </div>
-
       {/* 모바일과 태블릿 환경 전용 UI */}
       <div className="flex w-full gap-4 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none] md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
         {columnList.map((column) => (

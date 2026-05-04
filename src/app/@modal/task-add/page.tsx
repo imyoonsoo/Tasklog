@@ -52,16 +52,14 @@ export default function TaskAddPage() {
 
   if (isLoading) {
     return (
-      <Modal>
-        <div className="flex min-h-125 w-full flex-col items-center justify-center p-10 md:w-135">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-600 border-t-[#00A200]" />
+      <div className="flex min-h-125 w-full flex-col items-center justify-center p-10 md:w-135">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-600 border-t-[#00A200]" />
 
-          <p className="mt-6 text-lg font-medium text-white">
-            데이터를 불러오는 중입니다
-          </p>
-          <p className="mt-2 text-sm text-gray-400">잠시만 기다려 주세요.</p>
-        </div>
-      </Modal>
+        <p className="mt-6 text-lg font-medium text-white">
+          데이터를 불러오는 중입니다
+        </p>
+        <p className="mt-2 text-sm text-gray-400">잠시만 기다려 주세요.</p>
+      </div>
     );
   }
 

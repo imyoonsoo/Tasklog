@@ -8,6 +8,7 @@ import * as T from "@/types/api";
 import { Emptydashboard } from "./_components/Emptydashboard";
 import { InvitionContainer } from "./_components/InvitionContainer";
 import { MydashContainer } from "./_components/MydashContainer";
+import { SearchNoResult } from "./_components/SearchNoResult";
 
 export interface DashboardList {
   id: number;
@@ -18,10 +19,11 @@ export interface DashboardList {
   createdByMe: boolean;
   userId: number;
 }
-export const SIZE = 9;
+export const SIZE = 10;
 
 export default function MyDashboard() {
   const [invitaionList, setInvitationList] = useState<T.Invitation[]>([]);
+  // const [searchInvited, setSearchInvited] = useState<T.Invitation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [value, setValue] = useState("");
@@ -70,7 +72,7 @@ export default function MyDashboard() {
     fetchInitialDash();
   }, []);
 
-  //====================================================================
+  //======================================================================
 
   //데이터 가져올 함수 정의
   const fetchInvitionList = async () => {
@@ -135,6 +137,18 @@ export default function MyDashboard() {
     }
   };
 
+  //검색어로 데이터 가져오는 함수
+  const handleSearchInvited = async () => {
+    const result = await getMyInvitationList({ title: value });
+    return result;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const result = await handleSearchInvited();
+    setInvitationList(result.invitations);
+  };
+
   return (
     <div className="font-pretendard flex flex-col gap-2.5 px-5 text-gray-100">
       <h1 className="pt-3.5 text-4xl font-bold">홈</h1>
@@ -159,29 +173,33 @@ export default function MyDashboard() {
             초대받은 대시보드
           </h2>
           <div>
-            {invitaionList.length !== 0 && (
-              <Input>
-                <Input.Wrapper>
-                  <Input.SearchIcon />
-                  <Input.Field
-                    id="test"
-                    placeholder="검색"
-                    value={value}
-                    onChange={handleFieldChange}
-                    onBlur={handleFieldBlur}
-                  />
-                </Input.Wrapper>
-                <Input.Error />
-              </Input>
+            {(invitaionList.length !== 0 || value.length !== 0) && (
+              <form onSubmit={handleSubmit}>
+                <Input>
+                  <Input.Wrapper>
+                    <Input.SearchIcon />
+                    <Input.Field
+                      id="invitedSearch"
+                      placeholder="검색"
+                      value={value}
+                      onChange={handleFieldChange}
+                      onBlur={handleFieldBlur}
+                    />
+                  </Input.Wrapper>
+                  <Input.Error />
+                </Input>
+              </form>
             )}
           </div>
         </div>
-        {invitaionList.length !== 0 ? (
-          <div>
-            <InvitionContainer invitedData={invitaionList} />
-          </div>
+        {invitaionList.length === 0 ? (
+          value === "" ? (
+            <Emptydashboard dashtype="invite" />
+          ) : (
+            <SearchNoResult />
+          )
         ) : (
-          <Emptydashboard dashtype="invite" />
+          <InvitionContainer invitedData={invitaionList} />
         )}
       </div>
       <div ref={targetdiv}></div>
