@@ -32,7 +32,7 @@ export function SideButton({ id, title, color, createdByMe }: SideButtonProps) {
       className="flex cursor-pointer items-center justify-between rounded-xl px-2.5 py-4 transition-colors duration-300 ease-in-out hover:bg-[#2C2B30]"
     >
       <div className="flex items-center justify-center gap-2">
-        <Image className="h-6 w-6" src={chipSrc} alt={`${color} 컬러칩`} />
+        <Image height={24} width={24} src={chipSrc} alt={`${color} 컬러칩`} />
         <span className="text-white">{title}</span>
       </div>
       {createdByMe && <Image className="h-6" src={icCrown} alt="왕관 아이콘" />}

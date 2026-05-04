@@ -26,14 +26,14 @@ export function PaginationButton({
         onClick={handleClickPrev}
         disabled={current === 0}
       >
-        <Image src={leftbtn} alt="left" />
+        <Image height={24} width={24} src={leftbtn} alt="left" />
       </button>
       <button
         className="disabled:opacity-30"
         onClick={handleClickNext}
         disabled={current === total - 1}
       >
-        <Image src={rightbtn} alt="right" />
+        <Image height={24} width={24} src={rightbtn} alt="right" />
       </button>
     </div>
   );
