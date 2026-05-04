@@ -32,7 +32,7 @@ export function DashboardHeader() {
   const [members, setMembers] = useState<Member[]>([]);
   const [totalCount, setTotalCount] = useState(0);
 
-  const { open: handleOpen } = useSideMenu();
+  const { open: handleOpenSideMenu } = useSideMenu();
 
   const dashboardId = params?.id ? Number(params.id) : null;
 
@@ -70,16 +70,15 @@ export function DashboardHeader() {
 
   return (
     <header className="bg-black-900 border-black-800 flex h-12.5 w-full items-center justify-between border-b-2 px-3 md:left-55 md:h-15 md:justify-end md:px-6 lg:left-85">
-      <button onClick={handleOpen} className="p-2.5 md:hidden">
+      <button onClick={handleOpenSideMenu} className="p-2.5 md:hidden">
         <Image
           src={icSideMenu}
           alt="사이드 메뉴 아이콘"
           height={20}
           width={20}
-          className="md:hidden"
         />
       </button>
-      <div className="flex items-center gap-7.5 md:gap-8.5 lg:gap-12.5">
+      <div className="flex items-center gap-6 md:gap-8.5 lg:gap-12.5">
         <div className="flex h-6 w-19.75 items-center md:h-8.5 md:w-auto">
           {membersWithColors.map((member, index) => (
             <div
