@@ -23,7 +23,7 @@ export const SIZE = 10;
 
 export default function MyDashboard() {
   const [invitaionList, setInvitationList] = useState<T.Invitation[]>([]);
-  // const [searchInvited, setSearchInvited] = useState<T.Invitation[]>([]);
+  const [searchInvited, setSearchInvited] = useState<T.Invitation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [value, setValue] = useState("");
@@ -146,7 +146,7 @@ export default function MyDashboard() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = await handleSearchInvited();
-    setInvitationList(result.invitations);
+    setSearchInvited(result.invitations);
   };
 
   return (
@@ -193,13 +193,13 @@ export default function MyDashboard() {
           </div>
         </div>
         {invitaionList.length === 0 ? (
-          value === "" ? (
-            <Emptydashboard dashtype="invite" />
-          ) : (
-            <SearchNoResult />
-          )
+          <Emptydashboard dashtype="invite" />
+        ) : searchInvited.length === 0 && value !== "" ? (
+          <SearchNoResult />
         ) : (
-          <InvitionContainer invitedData={invitaionList} />
+          <InvitionContainer
+            invitedData={value ? searchInvited : invitaionList}
+          />
         )}
       </div>
       <div ref={targetdiv}></div>
