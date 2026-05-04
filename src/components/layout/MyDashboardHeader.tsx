@@ -20,7 +20,7 @@ export function MyDashboardHeader() {
   };
 
   return (
-    <header className="bg-black-900 border-black-800 flex h-12.5 w-full items-center border-b-2 px-3 md:h-15">
+    <header className="bg-black-900 border-black-800 flex h-12.5 w-full items-center justify-end gap-7.5 border-b-2 px-3 md:h-15 md:gap-8.5 md:px-6 lg:gap-12.5">
       <button onClick={handleOpenSideMenu} className="p-2.5 md:hidden">
         <Image
           src={icSideMenu}

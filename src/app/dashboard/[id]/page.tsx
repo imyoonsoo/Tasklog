@@ -6,8 +6,8 @@ import { use, useEffect, useState } from "react";
 import { getColumnList, getDashboardDetail } from "@/api/data";
 import { HashtagIcon } from "@/assets/dashboard/ic-colorchips";
 
-import { ColumnAdd } from "../_components/ColumnAdd";
-import { ColumnList } from "../_components/ColumnList";
+import { ColumnAdd } from "./_components/ColumnAdd";
+import { ColumnList } from "./_components/ColumnList";
 
 export interface ColumnList {
   id: number;
