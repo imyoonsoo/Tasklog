@@ -79,10 +79,22 @@ export function ColumnList({ column }: { column: ColumnList }) {
       if (coldata && coldata.cards) {
         setTotalCount(coldata.totalCount);
         setCardList((prev) => {
-          const updated = [...prev, ...coldata.cards];
+          const formattedCards = coldata.cards.map((card) => ({
+            ...card,
+            assignee: card.assignee
+              ? {
+                  ...card.assignee,
+                  profileImageUrl: card.assignee.profileImageUrl ?? "",
+                }
+              : card.assignee,
+          }));
+
+          const updated = [...prev, ...formattedCards];
+
           if (updated.length >= coldata.totalCount) {
             setHasMore(false);
           }
+
           return updated;
         });
 
