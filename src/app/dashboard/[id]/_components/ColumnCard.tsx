@@ -9,6 +9,7 @@ interface ColumnCardProps {
   imgSrc?: string;
   tags?: string[];
   descrip?: string;
+  duedate?: string;
   onClick?: () => void; // 칼럼 카드 클릭 -> 칼럼 관리 -> 칼럼 수정/삭제 모달을 렌더링 하기 위해 추가
 }
 export function ColumnCard({
@@ -17,10 +18,12 @@ export function ColumnCard({
   creator,
   imgSrc,
   onClick,
+  duedate,
 }: ColumnCardProps) {
   const handleSetting = () => {
     onClick?.();
   };
+
   return (
     <div
       onClick={handleSetting}
@@ -34,7 +37,7 @@ export function ColumnCard({
       <h1 className="text-[18px] font-semibold">{cardTitle}</h1>
       {/* 기능구현할 때는 배지리스트 받아서 처리 */}
       {tags && <BadgeContainer tags={tags} />}
-      <div>2025년 7월 20일</div>
+      {duedate && <div>{new Date(duedate).toLocaleDateString()}</div>}
       {creator && <Profile name={creator} type="member" />}
     </div>
   );
