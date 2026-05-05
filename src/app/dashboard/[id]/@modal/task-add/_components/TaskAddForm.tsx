@@ -171,7 +171,7 @@ export function TaskAddForm({
 
           <Dropdown
             label="담당자"
-            showAvatar // ⭐ 이거 추가
+            showAvatar
             options={uniqueMembers.map((m) => ({
               label: m.nickname,
               value: String(m.userId),

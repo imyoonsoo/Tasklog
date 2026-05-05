@@ -49,12 +49,10 @@ export function Dropdown({
 
   return (
     <div className="relative w-full" ref={dropdownRef}>
-      {/* 라벨 */}
       <label className="mb-2 block text-[16px] font-semibold text-gray-100">
         {label}
       </label>
 
-      {/* 선택 영역 */}
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="bg-black-800 flex h-13.5 w-full cursor-pointer items-center justify-between rounded-[14px] border border-gray-700 px-5 py-1.5"
@@ -95,7 +93,6 @@ export function Dropdown({
         </button>
       </div>
 
-      {/* 옵션 리스트 */}
       {isOpen && (
         <ul className="bg-black-800 absolute z-10 mt-2 max-h-50 w-full overflow-y-auto rounded-lg border border-gray-700 shadow-lg">
           {options.map((option) => (
