@@ -80,6 +80,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-input-autofill: #d8d9da; /* [추가] 자동완성 배경색 */
+  --color-input-autofill-text: #000000; /* [추가] 자동완성 글자색 */
 }
 
 @utility custom-scrollbar {
@@ -93,5 +95,43 @@
   }
   &::-webkit-scrollbar-track {
     background-color: transparent;
+  }
+}
+
+@layer utilities {
+  /* [추가] 자동완성 시 브라우저 기본 흰색 영역 제거 */
+
+  /* Chrome, Edge, Safari, iOS */
+  .autofill-field:-webkit-autofill,
+  .autofill-field:-webkit-autofill:focus,
+  .autofill-field:-webkit-autofill:hover,
+  .autofill-field:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-input-autofill) inset !important;
+    -webkit-text-fill-color: var(--color-input-autofill-text) !important;
+    caret-color: var(--color-input-autofill-text);
+    font-weight: 500;
+    /* 자동완성 강제 스타일 유지용 우회책 */
+    transition:
+      background-color 5000s ease-in-out 0s,
+      color 5000s ease-in-out 0s;
+  }
+
+  /* Firefox */
+  .autofill-field:autofill {
+    box-shadow: 0 0 0 1000px var(--color-input-autofill) inset !important;
+    color: var(--color-input-autofill-text) !important;
+    caret-color: var(--color-input-autofill-text);
+    font-weight: 500;
+  }
+
+  /* InputWrapper */
+  .autofill-wrapper:has(input:-webkit-autofill),
+  .autofill-wrapper:has(input:-webkit-autofill):focus-within,
+  .autofill-wrapper:has(input:autofill),
+  .autofill-wrapper:has(textarea:-webkit-autofill),
+  .autofill-wrapper:has(textarea:autofill) {
+    background-color: var(--color-input-autofill);
+    color: var(--color-input-autofill-text);
+    outline: 1.8px solid #5a8f7b; /* [추가] 자동완성 태두리색 */
   }
 }
