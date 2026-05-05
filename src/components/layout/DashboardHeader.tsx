@@ -24,6 +24,7 @@ interface Member {
   id: number;
   nickname: string;
   profileImageUrl: string | null;
+  userId: number;
 }
 
 export function DashboardHeader() {
@@ -37,13 +38,25 @@ export function DashboardHeader() {
   const dashboardId = params?.id ? Number(params.id) : null;
 
   useEffect(() => {
-    if (!dashboardId || isNaN(dashboardId)) return;
+    if (dashboardId === null || isNaN(dashboardId)) return;
 
     const fetchMembers = async () => {
       try {
         const memberData = await getMemberList({ dashboardId, size: 20 });
-        setMembers(memberData.members || []);
-        setTotalCount(memberData.totalCount || 0);
+        const rawMembers: Member[] = memberData.members || [];
+
+        const uniqueMembers = rawMembers.reduce<Member[]>((acc, current) => {
+          const isDuplicate = acc.find(
+            (item) => item.userId === current.userId
+          );
+          if (!isDuplicate) {
+            acc.push(current);
+          }
+          return acc;
+        }, []);
+
+        setMembers(uniqueMembers);
+        setTotalCount(uniqueMembers.length);
       } catch (error) {
         console.error("헤더 멤버 로드 실패:", error);
       }
@@ -63,6 +76,8 @@ export function DashboardHeader() {
       colorKey: PROFILE_COLOR_KEYS[member.id % PROFILE_COLOR_KEYS.length],
     }));
   }, [visibleMembers]);
+
+  if (dashboardId === null || isNaN(dashboardId)) return null;
 
   const handleEditClick = () => {
     if (dashboardId) router.push(`/dashboard/${dashboardId}/edit`);
