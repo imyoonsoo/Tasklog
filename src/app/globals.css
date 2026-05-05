@@ -33,6 +33,9 @@
   --color-black-600: #333236;
   --color-black-500: #4b4b4b;
 
+  --color-input-autofill: #2b2b29; /* [추가] 자동완성 배경색 */
+  --color-input-autofill-text: #ececee; /* [추가] 자동완성 글자색 */
+
   --color-gray-900: #3c3c41;
   --color-gray-800: #49474f;
   --color-gray-700: #524f5b;
@@ -80,8 +83,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --color-input-autofill: #d8d9da; /* [추가] 자동완성 배경색 */
-  --color-input-autofill-text: #000000; /* [추가] 자동완성 글자색 */
 }
 
 @utility custom-scrollbar {
@@ -121,7 +122,7 @@
     box-shadow: 0 0 0 1000px var(--color-input-autofill) inset !important;
     color: var(--color-input-autofill-text) !important;
     caret-color: var(--color-input-autofill-text);
-    font-weight: 500;
+    font-weight: 400;
   }
 
   /* InputWrapper */
@@ -132,6 +133,6 @@
   .autofill-wrapper:has(textarea:autofill) {
     background-color: var(--color-input-autofill);
     color: var(--color-input-autofill-text);
-    outline: 1.8px solid #5a8f7b; /* [추가] 자동완성 태두리색 */
+    outline: 1.8px solid #494ca2; /* [추가] 자동완성 태두리색 */
   }
 }
