@@ -199,9 +199,7 @@ export default function MyDashboard() {
         ) : searchInvited.length === 0 && searchWord !== "" ? (
           <SearchNoResult />
         ) : (
-          <InvitionContainer
-            invitedData={searchWord ? searchInvited : invitaionList}
-          />
+          <InvitionContainer searchWord={searchWord} />
         )}
       </div>
       <div ref={targetdiv}></div>

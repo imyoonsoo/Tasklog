@@ -1,6 +1,9 @@
 "use client";
 
-import { useAcceptInvitationMutation } from "../hooks/useInvitations";
+import {
+  useAcceptInvitationMutation,
+  useGetInvitations,
+} from "../hooks/useInvitations";
 
 import { InvitionHeader } from "./InvitionHeader";
 import { InvitionRow } from "./InvitionRow";
@@ -26,33 +29,32 @@ export interface InvitedData {
   createdAt: string;
   updatedAt: string;
 }
-interface InvitionContainerProps {
-  invitedData: InvitedData[];
-}
-export function InvitionContainer({ invitedData }: InvitionContainerProps) {
-  // const { data: InvitedData = [] } = useGetInvitations("");
-  const answerMutation = useAcceptInvitationMutation();
+
+export function InvitionContainer({ searchWord = "" }: { searchWord: string }) {
+  const { data } = useGetInvitations(searchWord);
+  const { mutate: acceptInvitation } = useAcceptInvitationMutation();
+  const invitations = data?.pages.flatMap((page) => page.invitations) ?? [];
 
   const onClickDismiss = (id: number) => {
-    answerMutation.mutate({
-      data: { inviteAccepted: false }, // 거절 처리라면 false
+    acceptInvitation({
       invitationId: id,
+      data: { inviteAccepted: false },
     });
-    console.log("ttjdrhd");
   };
 
   const onClickAccept = (id: number) => {
-    answerMutation.mutate({
-      data: { inviteAccepted: true },
+    acceptInvitation({
       invitationId: id,
+      data: { inviteAccepted: true },
     });
   };
+
   return (
     <div>
       <div className="pd-3.5 hidden md:block">
         <InvitionHeader />
       </div>
-      {invitedData.map((item) => (
+      {invitations.map((item) => (
         <InvitionRow
           key={item.id}
           title={item.dashboard.title}
