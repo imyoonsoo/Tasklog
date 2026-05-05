@@ -73,7 +73,7 @@ export function DashboardHeader() {
   };
 
   return (
-    <header className="bg-black-900 border-black-800 flex h-12.5 w-full items-center justify-between border-b-2 px-3 md:left-55 md:h-15 md:justify-end md:px-6 lg:left-85">
+    <header className="border-black-800 flex h-12.5 w-full items-center justify-between border-b-2 bg-[#1B1A1F] px-3 md:left-55 md:h-15 md:justify-end md:px-6 lg:left-85">
       <button onClick={handleOpenSideMenu} className="p-2.5 md:hidden">
         <Image
           src={icSideMenu}
