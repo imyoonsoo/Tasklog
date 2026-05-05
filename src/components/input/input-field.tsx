@@ -27,6 +27,7 @@ export function InputField({ className, type, ...props }: InputFieldProps) {
       disabled={isDisabled ?? props.disabled}
       className={cn(
         "w-full bg-transparent text-gray-300 outline-none placeholder:text-gray-500 disabled:cursor-not-allowed disabled:text-gray-400",
+        "autofill-field",
         className
       )}
       {...props}
