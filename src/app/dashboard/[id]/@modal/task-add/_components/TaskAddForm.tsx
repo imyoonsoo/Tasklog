@@ -42,6 +42,7 @@ export function TaskAddForm({
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [suggestedTags, setSuggestedTags] = useState<string[]>([]);
+  const [imageKey, setImageKey] = useState(() => Date.now());
   const uniqueMembers = useMemo(() => {
     const map = new Map();
     memberList.forEach((member) => {
@@ -175,7 +176,7 @@ export function TaskAddForm({
               setFormData({
                 ...formData,
                 assigneeUserId:
-                  memberList.find((m) => m.nickname === val)?.userId || 0,
+                  uniqueMembers.find((m) => m.nickname === val)?.userId || 0,
               })
             }
           />
@@ -302,10 +303,12 @@ export function TaskAddForm({
         </div>
 
         <ImageUpload
+          key={imageKey}
           onImageChange={(file) => {
-            // 확장자 체크 로직 추가
             if (file && !/\.(jpg|jpeg)$/i.test(file.name)) {
               alert("jpg, jpeg 형식의 이미지만 업로드 가능합니다.");
+              setImageFile(null);
+              setImageKey(Date.now());
               return;
             }
             setImageFile(file);
