@@ -325,8 +325,8 @@ export function TaskEditForm({
           isImageRemoved ? undefined : (initialData?.imageUrl ?? undefined)
         }
         onImageChange={(file) => {
-          if (file && !/\.(jpg|jpeg)$/i.test(file.name)) {
-            alert("jpg, jpeg 형식의 이미지만 업로드 가능합니다.");
+          if (file && !/\.(png|jpg|jpeg)$/i.test(file.name)) {
+            alert("png,jpg, jpeg 형식의 이미지만 업로드 가능합니다.");
             setImageFile(null);
             setImageKey(Date.now());
             return;
