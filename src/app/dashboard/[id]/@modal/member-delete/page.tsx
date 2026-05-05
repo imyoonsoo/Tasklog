@@ -1,12 +1,12 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { deleteMember } from "@/api/data";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/modal/Modal";
-import { refreshDashboardData } from "@/utils/dashboard";
 
 interface ApiError {
   response?: {
@@ -20,6 +20,7 @@ export default function MemberDelete() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
 
   const dashboardId = Number(params.id);
@@ -40,9 +41,10 @@ export default function MemberDelete() {
 
       await deleteMember(memberId);
 
-      if (dashboardId) {
-        await refreshDashboardData(dashboardId);
-      }
+      // ✅ 멤버 목록 자동 갱신
+      await queryClient.invalidateQueries({
+        queryKey: ["members", dashboardId],
+      });
 
       router.back();
     } catch (error) {

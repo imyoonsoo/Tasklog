@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -19,6 +20,7 @@ export default function InviteCancel() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
 
   const dashboardId = Number(params.id);
@@ -37,6 +39,9 @@ export default function InviteCancel() {
     try {
       setIsLoading(true);
       await deleteInvitation(dashboardId, invitationId);
+      await queryClient.invalidateQueries({
+        queryKey: ["invitations", dashboardId],
+      });
 
       router.back();
     } catch (error) {
