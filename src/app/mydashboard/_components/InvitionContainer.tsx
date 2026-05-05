@@ -1,4 +1,4 @@
-import { putInvitationAnswer } from "@/api/data";
+"use client";
 
 import { useAcceptInvitationMutation } from "../hooks/useInvitations";
 
@@ -30,17 +30,22 @@ interface InvitionContainerProps {
   invitedData: InvitedData[];
 }
 export function InvitionContainer({ invitedData }: InvitionContainerProps) {
+  // const { data: InvitedData = [] } = useGetInvitations("");
   const answerMutation = useAcceptInvitationMutation();
 
-  const onClickDismiss = async (id: number) => {
+  const onClickDismiss = (id: number) => {
+    answerMutation.mutate({
+      data: { inviteAccepted: false }, // 거절 처리라면 false
+      invitationId: id,
+    });
+    console.log("ttjdrhd");
+  };
+
+  const onClickAccept = (id: number) => {
     answerMutation.mutate({
       data: { inviteAccepted: true },
       invitationId: id,
     });
-  };
-  const onClickAccept = async (id: number) => {
-    await putInvitationAnswer(id, { inviteAccepted: true });
-    window.location.reload();
   };
   return (
     <div>
