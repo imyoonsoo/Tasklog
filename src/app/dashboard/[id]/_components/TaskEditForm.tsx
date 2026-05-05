@@ -127,10 +127,6 @@ export function TaskEditForm({
     setIsLoading(true);
 
     try {
-      // imageUrl 결정:
-      // - 이미지 삭제 → null (서버가 null을 받아 삭제 처리)
-      // - 새 파일 업로드 → 업로드된 URL
-      // - 변경 없음 → 기존 URL (없으면 null)
       let imageUrl: string | null = initialData?.imageUrl ?? null;
 
       if (isImageRemoved) {
