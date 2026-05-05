@@ -24,11 +24,11 @@ interface ColorMap {
 }
 
 const COLOR_MAP: ColorMap = {
-  "#AE2E24": "red",
-  "#9F4B00": "orange",
-  "#BD8C00": "yellow",
-  "#206E4E": "green",
-  "#1458BC": "blue",
+  "#ae2e24": "red",
+  "#9f4b00": "orange",
+  "#bd8c00": "yellow",
+  "#206e4e": "green",
+  "#1458bc": "blue",
 };
 
 export const REVERSE_COLOR_MAP = Object.fromEntries(
