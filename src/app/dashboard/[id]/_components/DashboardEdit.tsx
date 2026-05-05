@@ -109,7 +109,7 @@ export function DashboardEdit({ initialData, onUpdate }: DashboardEditProps) {
         </Input>
         <div className="min-w-83.75">
           <DashboardColorChoiceList
-            type={"edit"}
+            type="edit"
             selectedColorName={selectedColorName}
             onColorChange={handleColorChange}
           />

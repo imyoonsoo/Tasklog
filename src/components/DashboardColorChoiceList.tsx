@@ -37,17 +37,15 @@ export function DashboardColorChoiceList({
     <div className="flex flex-col gap-3">
       <div className="text-gray-300">색상</div>
       <div className={typeVariants({ type: type })}>
-        <div className="group flex h-10 w-73.75 gap-2 md:h-15 md:w-135">
-          {colorList.map((name) => (
-            <DashboardColorItem
-              key={name}
-              color={name}
-              isSelected={selectedColorName === name}
-              handleClick={() => onColorChange(name)}
-              hasSelection={hasSelection}
-            />
-          ))}
-        </div>
+        {colorList.map((name) => (
+          <DashboardColorItem
+            key={name}
+            color={name}
+            isSelected={selectedColorName === name}
+            handleClick={() => onColorChange(name)}
+            hasSelection={hasSelection}
+          />
+        ))}
       </div>
     </div>
   );

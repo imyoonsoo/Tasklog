@@ -38,7 +38,7 @@ export default function Edit() {
   const searchParams = useSearchParams();
 
   const handleDelete = () => {
-    router.push(`/dashboard/${dashboardId}/edit/dashboard-delete`);
+    router.push(`/dashboard/${dashboardId}/dashboard-delete`);
   };
 
   const handleFetchAllData = useCallback(async () => {

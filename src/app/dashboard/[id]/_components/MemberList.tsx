@@ -43,11 +43,11 @@ export function MemberList({ type, data }: MemberListProps) {
   const handleAction = () => {
     if (type === "member") {
       router.push(
-        `/dashboard/${dashboardId}/edit/member-delete?memberId=${data.id}`
+        `/dashboard/${dashboardId}/member-delete?memberId=${data.id}`
       );
     } else {
       router.push(
-        `/dashboard/${dashboardId}/edit/invite-cancel?invitationId=${data.id}`
+        `/dashboard/${dashboardId}/invite-cancel?invitationId=${data.id}`
       );
     }
   };
