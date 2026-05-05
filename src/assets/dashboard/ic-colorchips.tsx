@@ -5,7 +5,7 @@ interface IconProps {
 
 // type Size = {""}
 
-export function HashtagIcon({ color = "#AE2E24", size = 36 }: IconProps) {
+export function HashtagIcon({ color = "#ae2e24", size = 36 }: IconProps) {
   return (
     <svg
       width={size}
