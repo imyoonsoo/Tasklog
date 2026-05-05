@@ -1,22 +1,20 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 
 import { getMyInfo } from "@/api/data";
 import icSetting from "@/assets/common/ic-setting.svg";
 
 export function UserAccount() {
-  const [nickname, setNickname] = useState("");
-  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+  const { data: myInfo } = useQuery({
+    queryKey: ["myInfo"],
+    queryFn: getMyInfo,
+  });
 
-  useEffect(() => {
-    getMyInfo().then((myInfo) => {
-      setNickname(myInfo.nickname || "");
-      setProfileImageUrl(myInfo.profileImageUrl || null);
-    });
-  }, []);
+  const nickname = myInfo?.nickname || "";
+  const profileImageUrl = myInfo?.profileImageUrl || null;
 
   return (
     <div className="flex items-center justify-between border-t-2 border-[#2C2B30] px-7.5 py-3 text-gray-100">
