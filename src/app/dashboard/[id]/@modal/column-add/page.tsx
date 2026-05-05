@@ -38,7 +38,7 @@ export default function ColumnAdd() {
     <Modal>
       <div className="flex w-fit flex-col gap-4 md:gap-2.5">
         <div className="md:pb-4.5">
-          <ModalHeader>칼럼 관리</ModalHeader>
+          <ModalHeader>칼럼 추가</ModalHeader>
         </div>
         <form>
           <Input>
