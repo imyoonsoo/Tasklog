@@ -1,5 +1,7 @@
 import { putInvitationAnswer } from "@/api/data";
 
+import { useAcceptInvitationMutation } from "../hooks/useInvitations";
+
 import { InvitionHeader } from "./InvitionHeader";
 import { InvitionRow } from "./InvitionRow";
 
@@ -28,9 +30,13 @@ interface InvitionContainerProps {
   invitedData: InvitedData[];
 }
 export function InvitionContainer({ invitedData }: InvitionContainerProps) {
+  const answerMutation = useAcceptInvitationMutation();
+
   const onClickDismiss = async (id: number) => {
-    await putInvitationAnswer(id, { inviteAccepted: false });
-    window.location.reload();
+    answerMutation.mutate({
+      data: { inviteAccepted: true },
+      invitationId: id,
+    });
   };
   const onClickAccept = async (id: number) => {
     await putInvitationAnswer(id, { inviteAccepted: true });
