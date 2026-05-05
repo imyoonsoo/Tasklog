@@ -61,9 +61,6 @@ export function TaskAddForm({
     dueDate: "",
   });
 
-  const defaultColumnTitle =
-    columnList.find((c) => c.id === formData.columnId)?.title || "";
-
   useEffect(() => {
     const fetchExistingTags = async () => {
       try {
@@ -159,24 +156,31 @@ export function TaskAddForm({
         <div className="grid grid-cols-2 gap-4">
           <Dropdown
             label="컬럼"
-            defaultValue={defaultColumnTitle} // defaultValue 추가
-            options={columnList.map((c) => c.title)}
+            defaultValue={String(formData.columnId)}
+            options={columnList.map((c) => ({
+              label: c.title,
+              value: String(c.id),
+            }))}
             onSelect={(val) =>
               setFormData({
                 ...formData,
-                columnId: columnList.find((c) => c.title === val)?.id || 0,
+                columnId: Number(val),
               })
             }
           />
 
           <Dropdown
             label="담당자"
-            options={uniqueMembers.map((m) => m.nickname)}
+            showAvatar // ⭐ 이거 추가
+            options={uniqueMembers.map((m) => ({
+              label: m.nickname,
+              value: String(m.userId),
+              image: m.profileImageUrl || undefined,
+            }))}
             onSelect={(val) =>
               setFormData({
                 ...formData,
-                assigneeUserId:
-                  uniqueMembers.find((m) => m.nickname === val)?.userId || 0,
+                assigneeUserId: Number(val),
               })
             }
           />

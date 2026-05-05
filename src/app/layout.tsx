@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Providers } from "./providers/Queryproviders";
+import { Providers } from "../providers/Queryprovider";
 
 export default function RootLayout({
   children,

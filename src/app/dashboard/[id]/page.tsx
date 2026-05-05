@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
 
@@ -69,21 +70,28 @@ export default function Dashboard({ params }: DashboardPageProps) {
         <h1 className="text-2xl font-bold">{dashboardDetail?.title}</h1>
       </div>
       {/* 모바일과 태블릿 환경 전용 UI */}
-      <div className="flex w-full gap-4 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none] md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
-        {columnList.map((column) => (
-          <button
-            key={column.id}
-            value={column.title}
-            onClick={() => handleTabSwitch(column)}
-            className={`min-h-8 cursor-pointer rounded-4xl border border-gray-600 px-4 whitespace-nowrap transition-colors ${
-              activeCol?.id === column.id
-                ? "bg-green-500 text-white"
-                : "bg-gray-900"
-            }`}
-          >
-            {column.title}
+      <div className="flex w-full items-center justify-between md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
+        <div className="flex items-center gap-2 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none]">
+          {columnList.map((column) => (
+            <button
+              key={column.id}
+              value={column.title}
+              onClick={() => handleTabSwitch(column)}
+              className={`min-h-8 cursor-pointer rounded-4xl border border-gray-600 px-4 whitespace-nowrap transition-colors ${
+                activeCol?.id === column.id
+                  ? "bg-green-500 text-white"
+                  : "bg-gray-900"
+              }`}
+            >
+              {column.title}
+            </button>
+          ))}
+        </div>
+        <Link href={`/dashboard/${id}/column-add`} className="">
+          <button className="active:bg-black-700 m-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-700 text-3xl text-gray-400 hover:bg-gray-500">
+            +
           </button>
-        ))}
+        </Link>
       </div>
       {/* 실제 컬럼 리스트 */}
       <div className="pt-2.5 lg:hidden">
@@ -104,7 +112,16 @@ export default function Dashboard({ params }: DashboardPageProps) {
         {columnList?.map((column) => (
           <ColumnList key={column.id} column={column} />
         ))}
-        <ColumnAdd />
+        <div className="group fixed right-8 bottom-5 z-50 text-right">
+          <div className="relative inline-block cursor-pointer text-5xl">
+            +
+            <div className="invisible absolute right-0 bottom-full mb-2 cursor-default text-left text-base opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+              <Link href={`/dashboard/${id}/column-add`}>
+                <ColumnAdd />
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
