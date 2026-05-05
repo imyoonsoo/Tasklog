@@ -1,7 +1,7 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { deleteDashboard } from "@/api/data";
 import { Button } from "@/components/Button";
@@ -10,31 +10,28 @@ import { Modal } from "@/components/modal/Modal";
 export default function DashboardDelete() {
   const router = useRouter();
   const params = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const dashboardId = Number(params.id);
 
-  const handleClose = () => {
-    router.back();
-  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => deleteDashboard(dashboardId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["dashboards"] });
+      router.replace("/mydashboard");
+    },
+    onError: (error) => {
+      console.error("대시보드 삭제 실패:", error);
+      alert("삭제에 실패했습니다. 다시 시도해주세요.");
+    },
+  });
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!dashboardId || isNaN(dashboardId)) {
       alert("유효하지 않은 대시보드 ID입니다.");
       return;
     }
-
-    try {
-      setIsLoading(true);
-      await deleteDashboard(dashboardId);
-
-      router.back();
-    } catch (error) {
-      console.error("대시보드 삭제 실패:", error);
-      alert("삭제에 실패했습니다. 다시 시도해주세요.");
-    } finally {
-      setIsLoading(false);
-    }
+    mutate();
   };
 
   return (
@@ -53,8 +50,8 @@ export default function DashboardDelete() {
           <Button
             colorType="secondary"
             className="flex-1"
-            onClick={handleClose}
-            disabled={isLoading}
+            onClick={() => router.back()}
+            disabled={isPending}
           >
             취소
           </Button>
@@ -62,9 +59,9 @@ export default function DashboardDelete() {
             className="flex-1"
             colorType="red"
             onClick={handleDelete}
-            disabled={isLoading}
+            disabled={isPending}
           >
-            {isLoading ? "삭제 중..." : "삭제"}
+            {isPending ? "삭제 중..." : "삭제"}
           </Button>
         </div>
       </div>
