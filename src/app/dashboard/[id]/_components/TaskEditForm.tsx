@@ -1,19 +1,18 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 import { getCardList, postCardImage, putCardUpdate } from "@/api/data";
-
 import { Dropdown } from "@/components/Dropdown";
 import { ImageUpload } from "@/components/ImageUpload";
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
 
 interface Member {
-  userId?: number;
-  id?: number;
+  userId: number;
   nickname: string;
+  profileImageUrl?: string | null;
 }
 
 interface Column {
@@ -21,18 +20,45 @@ interface Column {
   title: string;
 }
 
+interface CardDetail {
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  dueDate?: string;
+  imageUrl?: string | null;
+  teamId: string;
+  columnId: number;
+  createdAt: string;
+  updatedAt: string;
+  assignee?: {
+    id: number;
+    nickname: string;
+    profileImageUrl?: string | null;
+  };
+}
+
+interface PutCardRequest {
+  columnId: number;
+  assigneeUserId: number;
+  title: string;
+  description: string;
+  dueDate: string;
+  tags: string[];
+  imageUrl: string | null;
+}
+
 interface TaskEditFormProps {
   columnList: Column[];
   memberList: Member[];
   dashboardId: number;
-  initialData: any; // API 응답 스펙에 따라 정의 권장
+  initialData: CardDetail;
   onCancel: () => void;
 }
 
-export default function TaskEditForm({
+export function TaskEditForm({
   columnList,
   memberList,
-  dashboardId,
   initialData,
   onCancel,
 }: TaskEditFormProps) {
@@ -41,6 +67,7 @@ export default function TaskEditForm({
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isImageRemoved, setIsImageRemoved] = useState(false);
+  const [imageKey, setImageKey] = useState(() => Date.now());
 
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>(initialData?.tags || []);
@@ -48,14 +75,23 @@ export default function TaskEditForm({
 
   const [formData, setFormData] = useState({
     columnId: initialData?.columnId || 0,
-    assigneeUserId:
-      initialData?.assignee?.userId || initialData?.assignee?.id || 0,
+    assigneeUserId: initialData.assignee?.id || 0,
     title: initialData?.title || "",
     description: initialData?.description || "",
     dueDate: initialData?.dueDate?.replace(" ", "T") || "",
   });
 
-  /** 1. 대시보드 내 기존 태그들을 수집하여 추천 목록 생성 */
+  const uniqueMembers = useMemo(() => {
+    const map = new Map<number, Member>();
+    memberList.forEach((member) => {
+      const mId = member.userId || (member as Member & { id?: number }).id;
+      if (mId && !map.has(mId)) {
+        map.set(mId, { ...member, userId: mId });
+      }
+    });
+    return Array.from(map.values());
+  }, [memberList]);
+
   useEffect(() => {
     const fetchTags = async () => {
       try {
@@ -66,34 +102,25 @@ export default function TaskEditForm({
           "디자인",
           "개발",
         ]);
-
         const requests = columnList.map((col) =>
-          getCardList({
-            columnId: col.id,
-            size: 50,
-          })
+          getCardList({ columnId: col.id, size: 50 })
         );
-
         const results = await Promise.all(requests);
-
         results.forEach((res) => {
           if (res.cards) {
-            res.cards.forEach((card: any) => {
-              card.tags.forEach((tag: string) => tagSet.add(tag));
+            res.cards.forEach((card: CardDetail) => {
+              card.tags.forEach((tag) => tagSet.add(tag));
             });
           }
         });
-
         setSuggestedTags(Array.from(tagSet));
       } catch (error) {
         console.error("태그 로드 실패:", error);
       }
     };
-
     if (columnList.length > 0) fetchTags();
   }, [columnList]);
 
-  /** 2. 태그 추가 로직 */
   const addTag = (tagName: string) => {
     const trimmed = tagName.trim();
     if (trimmed && !tags.includes(trimmed)) {
@@ -105,46 +132,35 @@ export default function TaskEditForm({
     setTagInput("");
   };
 
-  /** 3. 수정 데이터 제출 (Submit) */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      let imageUrl = initialData?.imageUrl;
-
-      // 이미지 삭제 처리
-      if (isImageRemoved) {
-        imageUrl = null;
-      }
-
-      // 새 이미지 업로드 처리
+      let finalImageUrl: string | null = initialData?.imageUrl ?? null;
+      if (isImageRemoved) finalImageUrl = null;
       if (imageFile) {
         const uploadRes = await postCardImage(
           Number(formData.columnId),
           imageFile
         );
-        imageUrl = uploadRes.imageUrl;
+        finalImageUrl = uploadRes.imageUrl;
       }
 
-      const submitData: any = {
+      const submitData: PutCardRequest = {
         columnId: Number(formData.columnId),
         assigneeUserId: Number(formData.assigneeUserId),
         title: formData.title,
         description: formData.description,
-        dueDate: formData.dueDate ? formData.dueDate.replace("T", " ") : null,
+        dueDate: formData.dueDate ? formData.dueDate.replace("T", " ") : "",
         tags,
+        imageUrl: finalImageUrl,
       };
 
-      // 이미지 상태에 따른 데이터 할당
-      if (isImageRemoved) {
-        submitData.imageUrl = null;
-      } else if (imageUrl) {
-        submitData.imageUrl = imageUrl;
-      }
-
-      await putCardUpdate(initialData.id, submitData);
-
+      await putCardUpdate(initialData.id, {
+        ...submitData,
+        imageUrl: submitData.imageUrl ?? "",
+      });
       router.refresh();
       onCancel();
     } catch (error) {
@@ -155,43 +171,41 @@ export default function TaskEditForm({
     }
   };
 
+  const handleCancel = onCancel;
+
   return (
-    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-6">
-      {/* 컬럼 및 담당자 선택 */}
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-full flex-col gap-6 bg-transparent text-white"
+    >
       <div className="grid grid-cols-2 gap-4">
         <Dropdown
           label="컬럼"
-          options={columnList.map((c) => c.title)}
-          defaultValue={
-            columnList.find((c) => c.id === formData.columnId)?.title
+          defaultValue={String(formData.columnId)}
+          options={columnList.map((c) => ({
+            label: c.title,
+            value: String(c.id),
+          }))}
+          onSelect={(val) =>
+            setFormData({ ...formData, columnId: Number(val) })
           }
-          onSelect={(val) => {
-            const selected = columnList.find((c) => c.title === val);
-            setFormData((prev) => ({ ...prev, columnId: selected?.id || 0 }));
-          }}
         />
 
         <Dropdown
           label="담당자"
-          options={memberList.map((m) => m.nickname)}
-          defaultValue={
-            memberList.find(
-              (m) =>
-                m.userId === formData.assigneeUserId ||
-                m.id === formData.assigneeUserId
-            )?.nickname || ""
+          showAvatar
+          defaultValue={String(formData.assigneeUserId)}
+          options={uniqueMembers.map((m) => ({
+            label: m.nickname,
+            value: String(m.userId),
+            image: m.profileImageUrl || undefined,
+          }))}
+          onSelect={(val) =>
+            setFormData({ ...formData, assigneeUserId: Number(val) })
           }
-          onSelect={(val) => {
-            const selected = memberList.find((m) => m.nickname === val);
-            setFormData((prev) => ({
-              ...prev,
-              assigneeUserId: selected?.userId || selected?.id || 0,
-            }));
-          }}
         />
       </div>
 
-      {/* 제목 입력 */}
       <Input>
         <Label htmlFor="title">제목</Label>
         <Input.Wrapper>
@@ -200,14 +214,16 @@ export default function TaskEditForm({
             required
             value={formData.title}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, title: e.target.value }))
+              setFormData({
+                ...formData,
+                title: (e.target as HTMLInputElement).value,
+              })
             }
             className="border-none! bg-[#201F23]"
           />
         </Input.Wrapper>
       </Input>
 
-      {/* 설명 입력 */}
       <div className="flex flex-col gap-2">
         <Label>설명</Label>
         <textarea
@@ -215,53 +231,135 @@ export default function TaskEditForm({
           required
           value={formData.description}
           onChange={(e) =>
-            setFormData((prev) => ({ ...prev, description: e.target.value }))
+            setFormData({ ...formData, description: e.target.value })
           }
-          className="w-full rounded-[14px] border border-gray-700 bg-[#201F23] p-3 text-white transition-colors outline-none focus:border-[#00A200]"
+          className="w-full rounded-[14px] border border-gray-700 bg-[#201F23] p-3 transition-colors outline-none focus:border-[#00BFFF]"
         />
       </div>
 
-      {/* 마감일 입력 */}
       <Input>
         <Label htmlFor="dueDate">마감일</Label>
         <Input.Wrapper>
+          {/* Fix lines 242–243: use React.FocusEvent<HTMLInputElement> instead of any */}
           <Input.Field
             id="dueDate"
-            type="datetime-local"
+            type={formData.dueDate ? "datetime-local" : "text"}
+            placeholder="날짜를 선택해 주세요"
+            onFocus={(e: React.FocusEvent<HTMLInputElement>) =>
+              (e.target.type = "datetime-local")
+            }
+            onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+              if (!formData.dueDate) e.target.type = "text";
+            }}
             value={formData.dueDate}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, dueDate: e.target.value }))
+              setFormData({
+                ...formData,
+                dueDate: (e.target as HTMLInputElement).value,
+              })
             }
-            className="border-none! bg-[#201F23]"
+            className="w-full border-none! bg-[#201F23]"
           />
         </Input.Wrapper>
       </Input>
 
-      {/* 이미지 업로드 영역 */}
       <div className="flex flex-col gap-2">
-        <ImageUpload
-          initialImageUrl={isImageRemoved ? undefined : initialData?.imageUrl}
-          onImageChange={(file) => {
-            setImageFile(file);
-            setIsImageRemoved(file === null);
-          }}
-        />
+        <Label htmlFor="tags">태그</Label>
+        <div className="relative">
+          <div className="flex flex-wrap gap-2 rounded-[14px] border border-gray-700 bg-[#201F23] p-3 transition-colors focus-within:border-[#00BFFF]">
+            {tags.map((tag, i) => (
+              <span
+                key={i}
+                className="flex items-center gap-1 rounded bg-[#333] px-2 py-1 text-sm text-[#00A200]"
+              >
+                {tag}
+                <button
+                  type="button"
+                  onClick={() => setTags(tags.filter((_, idx) => idx !== i))}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+            <input
+              id="tags"
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addTag(tagInput);
+                }
+              }}
+              placeholder="태그 입력"
+              className="flex-1 bg-transparent text-gray-100 outline-none"
+            />
+          </div>
+
+          {tagInput && (
+            <div className="absolute top-[calc(100%+8px)] z-110 w-full rounded-xl border border-gray-700 bg-[#1e1e1e] p-4 shadow-2xl">
+              <p className="mb-3 text-xs text-gray-500">기존 태그 검색 결과</p>
+              <div className="flex flex-wrap gap-2">
+                {suggestedTags
+                  .filter((t) => t.includes(tagInput) && !tags.includes(t))
+                  .map((match) => (
+                    <button
+                      key={match}
+                      type="button"
+                      onClick={() => addTag(match)}
+                      className="rounded bg-[#333] px-3 py-1 text-sm text-white hover:bg-[#00A200]"
+                    >
+                      {match}
+                    </button>
+                  ))}
+                {/* Fix line 315: escape the double-quotes with HTML entities */}
+                {!suggestedTags.some((t) => t === tagInput) && (
+                  <div className="mt-1 w-full border-t border-gray-800 pt-3">
+                    <button
+                      type="button"
+                      onClick={() => addTag(tagInput)}
+                      className="rounded bg-[#00A200] px-3 py-1 text-sm font-medium text-white"
+                    >
+                      &ldquo;{tagInput}&rdquo; 신규 추가
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* 하단 버튼 영역 */}
-      <div className="mt-4 flex gap-3">
+      <ImageUpload
+        key={imageKey}
+        initialImageUrl={
+          isImageRemoved ? undefined : (initialData?.imageUrl ?? undefined)
+        }
+        onImageChange={(file) => {
+          if (file && !/\.(jpg|jpeg)$/i.test(file.name)) {
+            alert("jpg, jpeg 형식의 이미지만 업로드 가능합니다.");
+            setImageFile(null);
+            setImageKey(Date.now());
+            return;
+          }
+          setImageFile(file);
+          setIsImageRemoved(file === null);
+        }}
+      />
+
+      <div className="mt-4 flex gap-3 pb-4">
         <button
           type="button"
-          onClick={onCancel}
-          className="flex-1 rounded-[14px] border border-gray-700 py-4 text-white transition-colors hover:bg-white/5"
+          onClick={handleCancel}
+          className="flex-1 rounded-[14px] border border-gray-700 py-4 transition-colors hover:bg-white/5"
         >
           취소
         </button>
-
         <button
           type="submit"
           disabled={isLoading}
-          className="flex-1 rounded-[14px] bg-[#00A200] py-4 font-bold text-white transition-colors hover:bg-[#008500] disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex-1 rounded-[14px] bg-[#00A200] py-4 font-bold transition-colors hover:bg-[#008100] disabled:bg-gray-600"
         >
           {isLoading ? "수정 중..." : "수정"}
         </button>

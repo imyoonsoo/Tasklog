@@ -33,10 +33,10 @@ interface CreateCardRequest {
   columnId: number;
   title: string;
   description: string;
-  assigneeUserId?: number; // 선택
-  dueDate?: string; // 선택
-  tags: string[]; // 배열은 항상 보내는 게 안전
-  imageUrl?: string; // 선택
+  assigneeUserId?: number;
+  dueDate?: string;
+  tags: string[];
+  imageUrl?: string;
 }
 
 export function TaskAddForm({
