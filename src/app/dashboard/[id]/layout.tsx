@@ -16,11 +16,11 @@ export default function DashboardLayout({
     <SideMenuProvider>
       <div className="grid min-h-screen w-full grid-cols-[auto_1fr]">
         {/* 1. 사이드 메뉴 영역 */}
-        <aside className="h-screen border-r border-gray-800 bg-[#1B1A1F] text-white select-none">
+        <aside className="bg-black-900 h-screen text-white select-none">
           <SideMenu />
         </aside>
 
-        <div className="flex h-screen min-w-0 flex-col overflow-hidden bg-[#131214]">
+        <div className="flex h-screen min-w-0 flex-col overflow-hidden bg-[#1B1A1F]">
           <header className="flex h-12.5 items-center border-b border-gray-800 bg-[#1B1A1F] text-white md:h-15">
             <DashboardHeader />
           </header>

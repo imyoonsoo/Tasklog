@@ -1,26 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
 
-import iconSettings from "@/assets/common/ic-setting.svg";
-import iconShare from "@/assets/common/ic-user-plus.svg";
 import icSideMenu from "@/assets/ic-sidemenu.svg";
 import { useSideMenu } from "@/contexts/SideMenuContext";
 
 export function MyDashboardHeader() {
   const { open: handleOpenSideMenu } = useSideMenu();
-  const params = useParams();
-  const router = useRouter();
-
-  const dashboardId = params?.dashboardId ? Number(params.dashboardId) : null;
-
-  const handleEditClick = () => {
-    if (dashboardId) router.push(`/dashboard/${dashboardId}/edit`);
-  };
 
   return (
-    <header className="bg-black-900 border-black-800 flex h-12.5 w-full items-center justify-end gap-7.5 border-b-2 px-3 max-md:justify-between md:h-15 md:px-6">
+    <header className="border-black-800 flex h-12.5 w-full items-center gap-7.5 border-b-2 bg-[#1B1A1F] px-3 max-md:justify-start md:h-15 md:px-6">
       <button onClick={handleOpenSideMenu} className="p-2.5 md:hidden">
         <Image
           src={icSideMenu}
@@ -29,34 +18,6 @@ export function MyDashboardHeader() {
           width={20}
         />
       </button>
-      <div className="flex items-center justify-center gap-6 md:gap-8.5 lg:gap-12.5">
-        <div className="flex h-7.5 w-17.5 shrink-0 items-center gap-2.5 md:h-auto md:w-auto md:gap-4">
-          <button
-            onClick={handleEditClick}
-            className="group flex h-7.5 w-7.5 shrink-0 cursor-pointer items-center justify-center text-gray-300 transition hover:text-white md:h-auto md:w-auto md:gap-2 md:py-1.5"
-          >
-            <Image
-              src={iconSettings}
-              alt="setting"
-              width={16}
-              height={16}
-              className="opacity-70 group-hover:opacity-100"
-            />
-            <span className="hidden text-sm font-medium md:inline">관리</span>
-          </button>
-
-          <button className="group flex h-7.5 w-7.5 shrink-0 cursor-pointer items-center justify-center text-gray-300 transition hover:text-white md:h-auto md:w-auto md:gap-2 md:py-1.5">
-            <Image
-              src={iconShare}
-              alt="share"
-              width={16}
-              height={16}
-              className="opacity-70 group-hover:opacity-100"
-            />
-            <span className="hidden text-sm font-medium md:inline">공유</span>
-          </button>
-        </div>
-      </div>
     </header>
   );
 }
