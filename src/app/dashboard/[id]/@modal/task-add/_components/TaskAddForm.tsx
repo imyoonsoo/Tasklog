@@ -28,6 +28,16 @@ interface TaskAddFormProps {
   dashboardId: number;
   columnId: number;
 }
+interface CreateCardRequest {
+  dashboardId: number;
+  columnId: number;
+  title: string;
+  description: string;
+  assigneeUserId?: number; // 선택
+  dueDate?: string; // 선택
+  tags: string[]; // 배열은 항상 보내는 게 안전
+  imageUrl?: string; // 선택
+}
 
 export function TaskAddForm({
   columnList,
@@ -115,12 +125,12 @@ export function TaskAddForm({
         imageUrl = uploadRes.imageUrl;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const submitData: any = {
+      const submitData: CreateCardRequest = {
         dashboardId: Number(dashboardId),
         columnId: Number(formData.columnId),
         title: formData.title,
         description: formData.description,
+        tags,
       };
 
       if (formData.assigneeUserId && formData.assigneeUserId !== 0) {
