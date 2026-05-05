@@ -1,58 +1,37 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useParams, useRouter } from "next/navigation";
 
-import { deleteMember } from "@/api/data";
+import { deleteDashboard } from "@/api/data";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/modal/Modal";
 
-interface ApiError {
-  response?: {
-    data?: {
-      message?: string;
-    };
-  };
-}
-
-export default function MemberDelete() {
+export default function DashboardDelete() {
   const router = useRouter();
   const params = useParams();
-  const searchParams = useSearchParams();
   const queryClient = useQueryClient();
-  const [isLoading, setIsLoading] = useState(false);
 
   const dashboardId = Number(params.id);
-  const memberId = Number(searchParams.get("memberId"));
 
-  const handleClose = () => {
-    router.back();
-  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => deleteDashboard(dashboardId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["dashboards"] });
+      router.replace("/mydashboard");
+    },
+    onError: (error) => {
+      console.error("대시보드 삭제 실패:", error);
+      alert("삭제에 실패했습니다. 다시 시도해주세요.");
+    },
+  });
 
-  const handleDeleteMember = async () => {
-    if (!memberId) {
-      alert("삭제할 멤버 정보가 없습니다.");
+  const handleDelete = () => {
+    if (!dashboardId || isNaN(dashboardId)) {
+      alert("유효하지 않은 대시보드 ID입니다.");
       return;
     }
-
-    try {
-      setIsLoading(true);
-
-      await deleteMember(memberId);
-      await queryClient.invalidateQueries({
-        queryKey: ["members", dashboardId],
-      });
-
-      router.back();
-    } catch (error) {
-      const err = error as ApiError;
-      const errorMessage =
-        err.response?.data?.message || "멤버 제외에 실패했습니다.";
-      alert(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
+    mutate();
   };
 
   return (
@@ -60,26 +39,29 @@ export default function MemberDelete() {
       <div className="flex w-full flex-col items-center gap-10">
         <div className="flex w-full flex-col items-center gap-2 md:gap-3">
           <h2 className="text-lg font-semibold text-gray-200 lg:text-xl">
-            멤버를 제외하시겠습니까?
+            대시보드를 삭제하시겠습니까?
           </h2>
+          <p className="text-base font-semibold whitespace-nowrap text-gray-400 lg:text-lg">
+            대시보드 내 모든 내용이 함께 삭제됩니다.
+          </p>
         </div>
 
         <div className="flex w-135 gap-5 max-md:w-73.75 max-md:gap-3">
           <Button
             colorType="secondary"
             className="flex-1"
-            onClick={handleClose}
-            disabled={isLoading}
+            onClick={() => router.back()}
+            disabled={isPending}
           >
             취소
           </Button>
           <Button
-            colorType="red"
             className="flex-1"
-            onClick={handleDeleteMember}
-            disabled={isLoading}
+            colorType="red"
+            onClick={handleDelete}
+            disabled={isPending}
           >
-            {isLoading ? "제외 중..." : "제외"}
+            {isPending ? "삭제 중..." : "삭제"}
           </Button>
         </div>
       </div>
