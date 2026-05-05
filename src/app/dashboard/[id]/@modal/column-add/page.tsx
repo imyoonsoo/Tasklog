@@ -13,20 +13,19 @@ import { ModalHeader } from "@/components/modal/ModalHeader";
 export default function ColumnAdd() {
   const router = useRouter();
   const { id } = useParams();
-  // const searchParams = useSearchParams();
   const [value, setValue] = useState("");
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   const dashboardId = Number(id);
+
   const handleCreateNewColumn = async (e: React.MouseEvent) => {
     e.preventDefault();
     await postColumn({
       title: value,
       dashboardId: dashboardId,
     });
-    router.push(`/dashboard/${dashboardId}`);
     router.back();
   };
 
