@@ -1,14 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
-import { postCard, postCardImage, getCardList } from "@/api/data";
+import { postCardImage, getCardList } from "@/api/data";
 import { Dropdown } from "@/components/Dropdown";
 import { ImageUpload } from "@/components/ImageUpload";
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
 import { ModalCloseButton } from "@/components/modal/ModalCloseButton";
+import { useCreateCardMutation } from "@/hooks/useCards";
 
 interface Member {
   userId: number;
@@ -27,6 +28,16 @@ interface TaskAddFormProps {
   dashboardId: number;
   columnId: number;
 }
+interface CreateCardRequest {
+  dashboardId: number;
+  columnId: number;
+  title: string;
+  description: string;
+  assigneeUserId?: number;
+  dueDate?: string;
+  tags: string[];
+  imageUrl?: string;
+}
 
 export function TaskAddForm({
   columnList,
@@ -35,12 +46,22 @@ export function TaskAddForm({
   columnId,
 }: TaskAddFormProps) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const createCard = useCreateCardMutation();
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [suggestedTags, setSuggestedTags] = useState<string[]>([]);
+  const [imageKey, setImageKey] = useState(() => Date.now());
+  const uniqueMembers = useMemo(() => {
+    const map = new Map();
+    memberList.forEach((member) => {
+      if (!map.has(member.userId)) {
+        map.set(member.userId, member);
+      }
+    });
+    return Array.from(map.values()) as Member[];
+  }, [memberList]);
 
   const [formData, setFormData] = useState({
     columnId: columnId || columnList[0]?.id || 0,
@@ -49,9 +70,6 @@ export function TaskAddForm({
     description: "",
     dueDate: "",
   });
-
-  const defaultColumnTitle =
-    columnList.find((c) => c.id === formData.columnId)?.title || "";
 
   useEffect(() => {
     const fetchExistingTags = async () => {
@@ -95,7 +113,7 @@ export function TaskAddForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (createCard.isPending) return;
 
     try {
       let imageUrl = "";
@@ -107,12 +125,12 @@ export function TaskAddForm({
         imageUrl = uploadRes.imageUrl;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const submitData: any = {
+      const submitData: CreateCardRequest = {
         dashboardId: Number(dashboardId),
         columnId: Number(formData.columnId),
         title: formData.title,
         description: formData.description,
+        tags,
       };
 
       if (formData.assigneeUserId && formData.assigneeUserId !== 0) {
@@ -129,14 +147,11 @@ export function TaskAddForm({
         submitData.imageUrl = imageUrl;
       }
 
-      await postCard(submitData);
+      await createCard.mutateAsync(submitData);
       router.back();
-      router.refresh();
     } catch (error) {
       console.error("카드 생성 중 오류:", error);
       alert("생성 실패: 입력 내용을 확인해 주세요.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -151,24 +166,31 @@ export function TaskAddForm({
         <div className="grid grid-cols-2 gap-4">
           <Dropdown
             label="컬럼"
-            defaultValue={defaultColumnTitle} // defaultValue 추가
-            options={columnList.map((c) => c.title)}
+            defaultValue={String(formData.columnId)}
+            options={columnList.map((c) => ({
+              label: c.title,
+              value: String(c.id),
+            }))}
             onSelect={(val) =>
               setFormData({
                 ...formData,
-                columnId: columnList.find((c) => c.title === val)?.id || 0,
+                columnId: Number(val),
               })
             }
           />
 
           <Dropdown
             label="담당자"
-            options={memberList.map((m) => m.nickname)}
+            showAvatar
+            options={uniqueMembers.map((m) => ({
+              label: m.nickname,
+              value: String(m.userId),
+              image: m.profileImageUrl || undefined,
+            }))}
             onSelect={(val) =>
               setFormData({
                 ...formData,
-                assigneeUserId:
-                  memberList.find((m) => m.nickname === val)?.userId || 0,
+                assigneeUserId: Number(val),
               })
             }
           />
@@ -294,7 +316,18 @@ export function TaskAddForm({
           </div>
         </div>
 
-        <ImageUpload onImageChange={(file) => setImageFile(file)} />
+        <ImageUpload
+          key={imageKey}
+          onImageChange={(file) => {
+            if (file && !/\.(jpg|jpeg)$/i.test(file.name)) {
+              alert("jpg, jpeg 형식의 이미지만 업로드 가능합니다.");
+              setImageFile(null);
+              setImageKey(Date.now());
+              return;
+            }
+            setImageFile(file);
+          }}
+        />
 
         <div className="mt-4 flex gap-3 pb-4">
           <button
@@ -306,10 +339,10 @@ export function TaskAddForm({
           </button>
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={createCard.isPending}
             className="flex-1 rounded-[14px] bg-[#00A200] py-4 font-bold transition-colors hover:bg-[#008100] disabled:bg-gray-600"
           >
-            {isLoading ? "생성 중..." : "생성"}
+            {createCard.isPending ? "생성 중..." : "생성"}
           </button>
         </div>
       </form>

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useParams, useSearchParams } from "next/navigation";
@@ -9,6 +8,17 @@ import { Modal } from "@/components/modal/Modal";
 
 import { TaskAddForm } from "./_components/TaskAddForm";
 
+interface Member {
+  userId: number;
+  nickname: string;
+  profileImageUrl?: string | null;
+}
+
+interface Column {
+  id: number;
+  title: string;
+}
+
 export default function TaskAddPage() {
   const params = useParams();
   const searchParams = useSearchParams();
@@ -18,8 +28,8 @@ export default function TaskAddPage() {
   const columnId = Number(searchParams.get("columnId"));
 
   const [data, setData] = useState<{
-    columns: any[];
-    members: any[];
+    columns: Column[];
+    members: Member[];
   } | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
