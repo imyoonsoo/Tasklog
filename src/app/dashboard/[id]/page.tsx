@@ -113,7 +113,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
           <ColumnList key={column.id} column={column} />
         ))}
         <div className="group fixed right-8 bottom-5 z-50 text-right">
-          <div className="relative inline-block cursor-pointer text-5xl">
+          <div className="relative flex h-15 w-15 cursor-pointer items-center justify-center rounded-full bg-gray-700 pb-2 text-5xl">
             +
             <div className="invisible absolute right-0 bottom-full mb-2 cursor-default text-left text-base opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
               <Link href={`/dashboard/${id}/column-add`}>
