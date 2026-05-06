@@ -34,7 +34,7 @@ export function KebabButton({
   };
 
   const handleDelete = () => {
-    router.push(`/dashboard/${dashboardId}/${taskId}/delete`);
+    router.replace(`/card/${taskId}/delete?dashboardId=${dashboardId}`);
   };
 
   return (
