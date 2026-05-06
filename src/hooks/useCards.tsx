@@ -9,8 +9,17 @@ import {
   getDashboardDetail,
   postCard,
   putCardUpdate,
+  getMemberList,
+  deleteMember,
+  postInvitation,
+  putMyInfoUpdate,
 } from "@/api/data";
-import type { CreateCardRequest, UpdateCardRequest } from "@/types/api";
+import type {
+  CreateCardRequest,
+  UpdateCardRequest,
+  CreateInvitationRequest,
+  UpdateUserRequest,
+} from "@/types/api";
 
 export const cardKeys = {
   all: ["cards"] as const,
@@ -24,11 +33,16 @@ export const dashboardKeys = {
     ["dashboard", "columns", dashboardId] as const,
 };
 
+export const memberKeys = {
+  all: ["members"] as const,
+  list: (dashboardId: number) =>
+    [...memberKeys.all, "list", dashboardId] as const,
+};
+
 export function useCardListQuery(columnId: number) {
   return useQuery({
     queryKey: cardKeys.list(columnId),
     queryFn: () => getCardList({ columnId, size: 100 }),
-    // 쿼리 펑션이 실행되는 조건을 의미합니다. 조건이 falsy이면 쿼리는 실행되지 않습니다.
     enabled: !!columnId,
   });
 }
@@ -86,6 +100,50 @@ export function useDeleteCardMutation() {
     mutationFn: (cardId: number) => deleteCard(cardId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: cardKeys.all });
+    },
+  });
+}
+
+export function useMemberListQuery(dashboardId: number) {
+  return useQuery({
+    queryKey: memberKeys.list(dashboardId),
+    queryFn: () => getMemberList({ dashboardId, size: 20 }),
+    enabled: !!dashboardId,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: "always",
+    refetchInterval: 3000,
+  });
+}
+
+export function useInviteMemberMutation(dashboardId: number) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: CreateInvitationRequest) =>
+      postInvitation(dashboardId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: memberKeys.list(dashboardId) });
+    },
+  });
+}
+
+export function useDeleteMemberMutation(dashboardId: number) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (memberId: number) => deleteMember(memberId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: memberKeys.list(dashboardId) });
+    },
+  });
+}
+
+export function useUpdateMyInfoMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: UpdateUserRequest) => putMyInfoUpdate(data),
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: memberKeys.all });
+      queryClient.invalidateQueries({ queryKey: ["users", "me"] });
     },
   });
 }
