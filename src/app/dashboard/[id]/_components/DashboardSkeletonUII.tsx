@@ -1,79 +1,73 @@
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css"; // 최상단에 임포트 필요
+import "react-loading-skeleton/dist/skeleton.css";
 
 export function DashboardSkeletonUI() {
   return (
-    // 전체 스켈레톤의 다크 테마 색상을 한 번에 지정
-    <SkeletonTheme baseColor="#2a2a2a" highlightColor="#3a3a3a">
-      <div className="flex h-screen w-screen flex-col space-y-12 overflow-hidden bg-[#101010] p-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="flex items-center gap-6">
-          <Skeleton height={64} width="25%" borderRadius="0.75rem" />
+    <SkeletonTheme baseColor="#2a2a2d" highlightColor="#3f3f46">
+      <div className="text-gray-100 max-md:px-4 lg:px-12.5">
+        {/* 1. 공통 헤더 영역 (아이콘 + 대시보드 제목) */}
+        <div className="flex items-center gap-1 pt-6 pb-3.5 md:mx-10 lg:mx-0">
+          <Skeleton width={24} height={24} borderRadius={4} />
+          <Skeleton width={180} height={32} borderRadius={8} />
         </div>
 
-        <div className="flex items-center gap-5">
-          <Skeleton height={48} width={160} borderRadius={9999} />
-          <Skeleton height={48} width={224} borderRadius={9999} />
-          <Skeleton height={48} width={160} borderRadius={9999} />
+        {/* ==========================================
+            모바일 및 태블릿 환경 전용 스켈레톤 (lg:hidden)
+        ========================================== */}
+        <div className="flex w-full items-center justify-between md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
+          {/* 탭 리스트 */}
+          <div className="flex items-center gap-2 py-6">
+            <Skeleton width={80} height={32} borderRadius={9999} />
+            <Skeleton width={100} height={32} borderRadius={9999} />
+            <Skeleton width={90} height={32} borderRadius={9999} />
+          </div>
+          {/* 우측 + 버튼 */}
+          <div className="m-2">
+            <Skeleton width={32} height={32} circle />
+          </div>
         </div>
 
-        <div className="flex grow gap-10 overflow-x-auto pb-6">
-          <div className="flex h-full w-105 shrink-0 flex-col space-y-8">
-            <div className="flex items-center justify-between px-6">
-              <Skeleton height={40} width={144} borderRadius="0.5rem" />
-              <div className="flex items-center gap-4">
-                <Skeleton height={40} width={40} circle />
-                <Skeleton height={40} width={40} borderRadius="0.75rem" />
+        {/* 모바일/태블릿 단일 컬럼 리스트 */}
+        <div className="pt-2.5 lg:hidden">
+          <div className="flex w-full justify-center gap-1.5">
+            <div className="w-full max-w-sm md:max-w-lg">
+              {/* 컬럼 제목 */}
+              <div className="mb-4 flex items-center gap-2">
+                <Skeleton width={30} height={24} borderRadius={4} />
+                <Skeleton width={20} height={20} circle />
               </div>
-            </div>
-
-            <div className="flex grow flex-col space-y-6 overflow-y-auto pr-2">
-              <div className="space-y-6 rounded-3xl border border-gray-700 bg-[#1e1e1e] p-8">
-                {/* 카드 내부는 색상이 미세하게 다르므로 baseColor 오버라이드 */}
-                <Skeleton
-                  height={36}
-                  borderRadius="0.75rem"
-                  baseColor="#3a3a3a"
-                  highlightColor="#4a4a4a"
-                />
-
-                <div className="space-y-3">
-                  <Skeleton
-                    height={20}
-                    width="91%"
-                    borderRadius="0.5rem"
-                    baseColor="#3a3a3a"
-                    highlightColor="#4a4a4a"
-                  />
-                  <Skeleton
-                    height={20}
-                    width="66%"
-                    borderRadius="0.5rem"
-                    baseColor="#3a3a3a"
-                    highlightColor="#4a4a4a"
-                  />
-                </div>
-
-                <hr className="border-[#3a3a3a]" />
-
-                <div className="flex items-center gap-4">
-                  <Skeleton
-                    height={56}
-                    width={56}
-                    circle
-                    baseColor="#3a3a3a"
-                    highlightColor="#4a4a4a"
-                  />
-                  <Skeleton
-                    height={28}
-                    width={120}
-                    borderRadius="0.5rem"
-                    baseColor="#3a3a3a"
-                    highlightColor="#4a4a4a"
-                  />
-                </div>
+              {/* 할 일 카드들 */}
+              <div className="flex flex-col gap-4">
+                <Skeleton height={120} borderRadius={12} />
+                <Skeleton height={120} borderRadius={12} />
               </div>
             </div>
           </div>
+        </div>
+
+        {/* ==========================================
+            데스크탑 전용 스켈레톤 (lg:flex)
+        ========================================== */}
+        <div className="hidden gap-15 lg:flex">
+          {/* 데스크탑은 보통 3개 정도의 컬럼이 가로로 나열되므로 map으로 생성 */}
+          {[1, 2, 3].map((col) => (
+            // w-[350px] 부분은 실제 네 ColumnList의 너비에 맞게 조절해 줘!
+            <div key={col} className="w-87.5 shrink-0 flex-col">
+              {/* 컬럼 제목 */}
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Skeleton width={100} height={28} borderRadius={4} />
+                  <Skeleton width={24} height={24} circle />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <Skeleton height={130} borderRadius={12} />
+                <Skeleton height={130} borderRadius={12} />
+                {col === 1 && <Skeleton height={130} borderRadius={12} />}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </SkeletonTheme>
