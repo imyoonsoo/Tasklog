@@ -158,13 +158,10 @@ export function TaskEditForm({
           ? { dueDate: formData.dueDate.replace("T", " ") }
           : { dueDate: null }),
         ...(tags.length > 0 && { tags }),
-        ...(finalImageUrl !== null && { imageUrl: finalImageUrl }),
+        imageUrl: finalImageUrl,
       };
 
-      await putCardUpdate(initialData.id, {
-        ...submitData,
-        imageUrl: submitData.imageUrl ?? "",
-      });
+      await putCardUpdate(initialData.id, submitData);
 
       router.refresh();
       onCancel();
