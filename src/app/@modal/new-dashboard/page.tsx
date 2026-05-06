@@ -52,7 +52,8 @@ export default function DashboardSetupModal() {
         title: dashboardTitle,
         color: selectHex,
       });
-      router.push(`/dashboard/${response.id}`);
+      const newId = response?.id;
+      router.push(`/dashboard/${newId}`);
     }
   };
 
