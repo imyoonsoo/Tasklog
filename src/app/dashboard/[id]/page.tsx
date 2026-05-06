@@ -87,8 +87,8 @@ export default function Dashboard({ params }: DashboardPageProps) {
             </button>
           ))}
         </div>
-        <Link href={`/dashboard/${id}/column-add`} className="">
-          <button className="active:bg-black-700 m-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-700 text-3xl text-gray-400 hover:bg-gray-500">
+        <Link href={`/dashboard/${id}/column-add`}>
+          <button className="active:bg-black-700 m-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-700 pb-1 text-3xl text-gray-400 hover:bg-gray-500">
             +
           </button>
         </Link>
