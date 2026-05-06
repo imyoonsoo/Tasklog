@@ -9,6 +9,7 @@ import iconShare from "@/assets/common/ic-user-plus.svg";
 import icSideMenu from "@/assets/ic-sidemenu.svg";
 import { useSideMenu } from "@/contexts/SideMenuContext";
 import { useMemberListQuery } from "@/hooks/useCards";
+import { ProfileImage } from "../profile/Profile";
 
 const PROFILE_COLOR_KEYS = [
   "profile-green",
@@ -94,6 +95,12 @@ export function DashboardHeader() {
                   {member.nickname.slice(0, 2)}
                 </span>
               )}
+              className={`border-black-900 relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-all ${index !== 0 ? "-ml-2" : ""} md:h-8.5 md:w-8.5 ${index !== 0 ? "md:-ml-3.25" : ""} cursor-pointer hover:z-20 hover:-translate-y-1 hover:border-white`}
+            >
+              <ProfileImage
+                name={member.nickname}
+                imageUrl={member.profileImageUrl}
+              />
             </div>
           ))}
           {extraCount > 0 && (

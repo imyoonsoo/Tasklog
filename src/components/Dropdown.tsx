@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
 import iconChevronDown from "@/assets/common/ic-chevron-down.svg";
+import { ProfileImage } from "./profile/Profile";
 
 export interface DropdownOption {
   label: string;
@@ -58,21 +59,13 @@ export function Dropdown({
         className="bg-black-800 flex h-13.5 w-full cursor-pointer items-center justify-between rounded-[14px] border border-gray-700 px-5 py-1.5"
       >
         <div className="flex items-center gap-2 truncate">
-          {showAvatar &&
-            selected &&
-            (selected.image ? (
-              <Image
-                src={selected.image}
-                alt={selected.label}
-                width={20}
-                height={20}
-                className="h-5 w-5 rounded-full object-cover"
-              />
-            ) : (
-              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gray-600 text-[10px] text-white">
-                {selected.label.slice(0, 2)}
-              </div>
-            ))}
+          {showAvatar && selected && (
+            <ProfileImage
+              name={selected.label}
+              imageUrl={selected.image}
+              className="h-6 w-6"
+            />
+          )}
 
           <span
             className={`text-[16px] ${
@@ -105,20 +98,9 @@ export function Dropdown({
               }}
               className="flex cursor-pointer items-center gap-2 px-4 py-3 text-[16px] text-gray-100 transition-colors hover:bg-gray-700"
             >
-              {showAvatar &&
-                (option.image ? (
-                  <Image
-                    src={option.image}
-                    alt={option.label}
-                    width={20}
-                    height={20}
-                    className="h-5 w-5 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gray-600 text-[10px] text-white">
-                    {option.label.slice(0, 2)}
-                  </div>
-                ))}
+              {showAvatar && (
+                <ProfileImage name={option.label} imageUrl={option.image} />
+              )}
 
               <span>{option.label}</span>
             </li>
