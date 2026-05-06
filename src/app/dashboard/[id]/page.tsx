@@ -70,7 +70,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
         <h1 className="text-2xl font-bold">{dashboardDetail?.title}</h1>
       </div>
       {/* 모바일과 태블릿 환경 전용 UI */}
-      <div className="flex w-full items-center justify-between md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
+      <div className="flex w-full items-center md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
         <div className="flex items-center gap-2 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none]">
           {columnList.map((column) => (
             <button
