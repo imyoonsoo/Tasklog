@@ -9,6 +9,7 @@ import { ImageUpload } from "@/components/ImageUpload";
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
 import { ModalCloseButton } from "@/components/modal/ModalCloseButton";
+import { FlowbiteDatePicker } from "@/components/style/FlowbiteDatePicker";
 import { useCreateCardMutation } from "@/hooks/useCards";
 
 interface Member {
@@ -228,22 +229,12 @@ export function TaskAddForm({
 
         <Input>
           <Label htmlFor="dueDate">마감일</Label>
-          <Input.Wrapper>
-            <Input.Field
-              id="dueDate"
-              type={formData.dueDate ? "datetime-local" : "text"}
-              placeholder="날짜를 선택해 주세요"
-              onFocus={(e) => (e.target.type = "datetime-local")}
-              onBlur={(e) => {
-                if (!formData.dueDate) e.target.type = "text";
-              }}
-              className="w-full border-none! bg-[#201F23]"
-              value={formData.dueDate}
-              onChange={(e) =>
-                setFormData({ ...formData, dueDate: e.target.value })
-              }
-            />
-          </Input.Wrapper>
+          <FlowbiteDatePicker
+            value={formData.dueDate}
+            onChange={(selectedDate) =>
+              setFormData({ ...formData, dueDate: selectedDate })
+            }
+          />
         </Input>
 
         <div className="flex flex-col gap-2">

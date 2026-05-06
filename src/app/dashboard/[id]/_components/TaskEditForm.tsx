@@ -9,6 +9,7 @@ import { Dropdown } from "@/components/Dropdown";
 import { ImageUpload } from "@/components/ImageUpload";
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
+import { FlowbiteDatePicker } from "@/components/style/FlowbiteDatePicker";
 import { cardKeys } from "@/hooks/useCards";
 
 interface Member {
@@ -245,27 +246,12 @@ export function TaskEditForm({
 
       <Input>
         <Label htmlFor="dueDate">마감일</Label>
-        <Input.Wrapper>
-          <Input.Field
-            id="dueDate"
-            type={formData.dueDate ? "datetime-local" : "text"}
-            placeholder="날짜를 선택해 주세요"
-            onFocus={(e: React.FocusEvent<HTMLInputElement>) =>
-              (e.target.type = "datetime-local")
-            }
-            onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-              if (!formData.dueDate) e.target.type = "text";
-            }}
-            value={formData.dueDate}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                dueDate: (e.target as HTMLInputElement).value,
-              })
-            }
-            className="w-full border-none! bg-[#201F23]"
-          />
-        </Input.Wrapper>
+        <FlowbiteDatePicker
+          value={formData.dueDate}
+          onChange={(selectedDate) =>
+            setFormData({ ...formData, dueDate: selectedDate })
+          }
+        />
       </Input>
 
       <div className="flex flex-col gap-2">
