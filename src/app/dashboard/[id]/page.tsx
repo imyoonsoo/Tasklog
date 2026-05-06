@@ -60,7 +60,6 @@ export default function Dashboard({ params }: DashboardPageProps) {
   };
 
   if (!columnList || !dashboardDetail) {
-    // @TODO 스켈레톤 UI 삽입
     return <DashboardSkeletonUI />;
   }
 
