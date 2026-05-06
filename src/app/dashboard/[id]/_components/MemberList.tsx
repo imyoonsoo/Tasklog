@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/Button";
-import { Profile } from "@/components/profile/Profile";
+import { ProfileWrapper } from "@/components/profile/Profile";
 
 interface Member {
   id: number;
@@ -56,9 +56,8 @@ export function MemberList({ type, data }: MemberListProps) {
   return (
     <div className="flex items-center justify-between border-b border-[#383A42] py-3.5 text-gray-100 max-md:py-3">
       <div className="flex items-center gap-3">
-        <Profile
+        <ProfileWrapper
           name={displayName}
-          type={type}
           imageUrl={
             type === "member" ? (data as Member).profileImageUrl : undefined
           }

@@ -3,11 +3,11 @@ import { startTransition, useState } from "react";
 
 import { createComment } from "@/actions/comment";
 import { revalidate } from "@/actions/revalidate";
+import { ProfileImage } from "@/components/profile/Profile";
 import { cn } from "@/lib/cn";
 import type { User } from "@/types/api";
 
 import { Button } from "../../Button";
-import { Profile } from "../Profile/Profile";
 
 import type { CommentAction } from "./CommentWrapper";
 
@@ -75,7 +75,13 @@ export function CommentForm({
       onSubmit={handleCreateComment}
     >
       <div className={cn(isExpended && "hidden")}>
-        {user && <Profile className="h-10 w-10" user={user} />}
+        {user && (
+          <ProfileImage
+            className="h-10 w-10"
+            name={user.nickname}
+            imageUrl={user.profileImageUrl}
+          />
+        )}
       </div>
       <div className="relative flex w-full items-center">
         <textarea
