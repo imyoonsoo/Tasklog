@@ -87,11 +87,6 @@ export default function Dashboard({ params }: DashboardPageProps) {
             </button>
           ))}
         </div>
-        <Link href={`/dashboard/${id}/column-add`}>
-          <button className="active:bg-black-700 m-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-700 pb-1 text-3xl text-gray-400 hover:bg-gray-500">
-            +
-          </button>
-        </Link>
       </div>
       {/* 실제 컬럼 리스트 */}
       <div className="w-full pt-2.5 lg:hidden">
@@ -105,6 +100,14 @@ export default function Dashboard({ params }: DashboardPageProps) {
             <div className="text-gray-400">컬럼 데이터가 없습니다.</div>
           )}
         </div>
+        <Link
+          href={`/dashboard/${id}/column-add`}
+          className="fixed right-5 bottom-5"
+        >
+          <button className="active:bg-black-700 m-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-700 pb-1 text-3xl text-gray-400 hover:bg-gray-500">
+            +
+          </button>
+        </Link>
       </div>
 
       {/* 데스크탑 전용 화면 */}
