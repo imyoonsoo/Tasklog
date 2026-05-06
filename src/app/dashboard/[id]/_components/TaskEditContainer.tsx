@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getCardDetail, getColumnList, getMemberList } from "@/api/data";
 import type { Card, ColumnResponse, Member } from "@/types/api";
 
-import TaskEditForm from "./TaskEditForm";
+import { TaskEditForm } from "./TaskEditForm";
 
 interface Props {
   cardId: number;

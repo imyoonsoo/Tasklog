@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Providers } from "../providers/Queryprovider";
 
 export default function RootLayout({
   children,
@@ -10,8 +11,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="bg-background custom-scrollbar">
-        {children}
-        {modal}
+        <Providers>
+          {children}
+          {modal}
+        </Providers>
       </body>
     </html>
   );
