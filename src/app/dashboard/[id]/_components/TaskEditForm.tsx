@@ -38,16 +38,6 @@ interface CardDetail {
   };
 }
 
-interface PutCardRequest {
-  columnId: number;
-  assigneeUserId: number;
-  title: string;
-  description: string;
-  dueDate: string;
-  tags: string[];
-  imageUrl: string | null;
-}
-
 interface TaskEditFormProps {
   columnList: Column[];
   memberList: Member[];
@@ -137,30 +127,30 @@ export function TaskEditForm({
     setIsLoading(true);
 
     try {
-      let finalImageUrl: string | null = initialData?.imageUrl ?? null;
-      if (isImageRemoved) finalImageUrl = null;
+      let imageUrl: string | null = initialData?.imageUrl ?? null;
+
+      if (isImageRemoved) {
+        imageUrl = null;
+      }
+
       if (imageFile) {
         const uploadRes = await postCardImage(
           Number(formData.columnId),
           imageFile
         );
-        finalImageUrl = uploadRes.imageUrl;
+        imageUrl = uploadRes.imageUrl;
       }
 
-      const submitData: PutCardRequest = {
+      await putCardUpdate(initialData.id, {
         columnId: Number(formData.columnId),
         assigneeUserId: Number(formData.assigneeUserId),
         title: formData.title,
         description: formData.description,
         dueDate: formData.dueDate ? formData.dueDate.replace("T", " ") : "",
         tags,
-        imageUrl: finalImageUrl,
-      };
-
-      await putCardUpdate(initialData.id, {
-        ...submitData,
-        imageUrl: submitData.imageUrl ?? "",
+        imageUrl,
       });
+
       router.refresh();
       onCancel();
     } catch (error) {
@@ -240,7 +230,6 @@ export function TaskEditForm({
       <Input>
         <Label htmlFor="dueDate">마감일</Label>
         <Input.Wrapper>
-          {/* Fix lines 242–243: use React.FocusEvent<HTMLInputElement> instead of any */}
           <Input.Field
             id="dueDate"
             type={formData.dueDate ? "datetime-local" : "text"}
@@ -313,7 +302,6 @@ export function TaskEditForm({
                       {match}
                     </button>
                   ))}
-                {/* Fix line 315: escape the double-quotes with HTML entities */}
                 {!suggestedTags.some((t) => t === tagInput) && (
                   <div className="mt-1 w-full border-t border-gray-800 pt-3">
                     <button
@@ -337,8 +325,8 @@ export function TaskEditForm({
           isImageRemoved ? undefined : (initialData?.imageUrl ?? undefined)
         }
         onImageChange={(file) => {
-          if (file && !/\.(jpg|jpeg)$/i.test(file.name)) {
-            alert("jpg, jpeg 형식의 이미지만 업로드 가능합니다.");
+          if (file && !/\.(png|jpg|jpeg)$/i.test(file.name)) {
+            alert("png,jpg, jpeg 형식의 이미지만 업로드 가능합니다.");
             setImageFile(null);
             setImageKey(Date.now());
             return;

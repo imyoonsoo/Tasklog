@@ -12,12 +12,6 @@ import {
 } from "@/api/data";
 import type { CreateCardRequest, UpdateCardRequest } from "@/types/api";
 
-// get요청을 보낼때는 useQuery를 사용하고, 서버에서 데이터를 들고오는 훅에 적용한다.
-// 쿼리키는 전역적으로 보관하고 있는 useQuery의 요청결과를 보관하는데 씁니다.
-// post put delete를 할때는 useMutation을 사용한다.
-// 요청이 성공했으면 유저에게 변경값을 보내주기 위해서 관련 get요청을 다시 받아올수 있도록
-// invalidateQueries를 요청하게 합니다.
-
 export const cardKeys = {
   all: ["cards"] as const,
   list: (columnId: number) => [...cardKeys.all, "list", columnId] as const,
