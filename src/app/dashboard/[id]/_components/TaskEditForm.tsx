@@ -160,7 +160,7 @@ export function TaskEditForm({
         ...(formData.dueDate
           ? { dueDate: formData.dueDate.replace("T", " ") }
           : { dueDate: null }),
-        ...(tags.length > 0 && { tags }),
+        tags, // 빈 배열이어도 항상 포함
         imageUrl: finalImageUrl,
       };
 
