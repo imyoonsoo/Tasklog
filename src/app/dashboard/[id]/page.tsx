@@ -71,7 +71,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
       </div>
       {/* 모바일과 태블릿 환경 전용 UI */}
       <div className="flex w-full items-center md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
-        <div className="flex items-center gap-2 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex w-full flex-1 items-center gap-2 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none]">
           {columnList.map((column) => (
             <button
               key={column.id}
@@ -94,7 +94,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
         </Link>
       </div>
       {/* 실제 컬럼 리스트 */}
-      <div className="pt-2.5 lg:hidden">
+      <div className="w-full pt-2.5 lg:hidden">
         <div className="flex w-full justify-center gap-1.5">
           {activeCol ? (
             <div>
