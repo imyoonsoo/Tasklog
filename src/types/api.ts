@@ -116,12 +116,12 @@ export interface GetCardListResponse {
 // 카드 수정
 export interface UpdateCardRequest {
   columnId: number;
-  assigneeUserId: number;
+  assigneeUserId?: number | null;
   title: string;
   description: string;
-  dueDate: string;
-  tags: string[];
-  imageUrl?: string;
+  dueDate?: string | null;
+  tags?: string[] | null;
+  imageUrl?: string | null;
 }
 
 export interface UpdateCardResponse {

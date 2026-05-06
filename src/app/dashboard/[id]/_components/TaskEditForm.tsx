@@ -40,12 +40,12 @@ interface CardDetail {
 
 interface PutCardRequest {
   columnId: number;
-  assigneeUserId: number;
+  assigneeUserId?: number | null;
   title: string;
   description: string;
-  dueDate: string;
-  tags: string[];
-  imageUrl: string | null;
+  dueDate?: string | null;
+  tags?: string[] | null;
+  imageUrl?: string | null;
 }
 
 interface TaskEditFormProps {
@@ -149,18 +149,23 @@ export function TaskEditForm({
 
       const submitData: PutCardRequest = {
         columnId: Number(formData.columnId),
-        assigneeUserId: Number(formData.assigneeUserId),
         title: formData.title,
         description: formData.description,
-        dueDate: formData.dueDate ? formData.dueDate.replace("T", " ") : "",
-        tags,
-        imageUrl: finalImageUrl,
+        ...(formData.assigneeUserId && {
+          assigneeUserId: Number(formData.assigneeUserId),
+        }),
+        ...(formData.dueDate
+          ? { dueDate: formData.dueDate.replace("T", " ") }
+          : { dueDate: null }),
+        ...(tags.length > 0 && { tags }),
+        ...(finalImageUrl !== null && { imageUrl: finalImageUrl }),
       };
 
       await putCardUpdate(initialData.id, {
         ...submitData,
         imageUrl: submitData.imageUrl ?? "",
       });
+
       router.refresh();
       onCancel();
     } catch (error) {
