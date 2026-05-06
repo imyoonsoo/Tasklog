@@ -234,6 +234,7 @@ export function TaskAddForm({
             onChange={(selectedDate) =>
               setFormData({ ...formData, dueDate: selectedDate })
             }
+            className="z-[2000]"
           />
         </Input>
 

@@ -3,9 +3,11 @@ import React, { useState, useRef, useEffect } from "react";
 export function FlowbiteDatePicker({
   value,
   onChange,
+  className,
 }: {
   value: string;
   onChange: (val: string) => void;
+  className?: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -90,11 +92,10 @@ export function FlowbiteDatePicker({
     if (dateStr) emitChange(dateStr, hour, next);
   };
 
-  // T 제거 후 표시 (2026-06-12T01:00 → 2026-06-12 01:00)
   const displayValue = value ? value.replace("T", " ").slice(0, 16) : "";
 
   return (
-    <div className="relative w-full" ref={containerRef}>
+    <div className={`relative ${className}`} ref={containerRef}>
       <div
         className="relative cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
