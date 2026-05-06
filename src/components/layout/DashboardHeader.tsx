@@ -9,6 +9,7 @@ import iconSettings from "@/assets/common/ic-setting.svg";
 import iconShare from "@/assets/common/ic-user-plus.svg";
 import icSideMenu from "@/assets/ic-sidemenu.svg";
 import { useSideMenu } from "@/contexts/SideMenuContext";
+import { ProfileImage } from "../profile/Profile";
 
 const PROFILE_COLOR_KEYS = [
   "profile-green",
@@ -102,22 +103,12 @@ export function DashboardHeader() {
           {membersWithColors.map((member, index) => (
             <div
               key={member.id}
-              style={{ backgroundColor: `var(--color-${member.colorKey})` }}
               className={`border-black-900 relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-all ${index !== 0 ? "-ml-2" : ""} md:h-8.5 md:w-8.5 ${index !== 0 ? "md:-ml-3.25" : ""} cursor-pointer hover:z-20 hover:-translate-y-1 hover:border-white`}
             >
-              {member.profileImageUrl ? (
-                <Image
-                  src={member.profileImageUrl}
-                  alt={`${member.nickname} profile`}
-                  fill
-                  sizes="(max-width: 768px) 24px, 34px"
-                  className="rounded-full object-cover"
-                />
-              ) : (
-                <span className="text-[8px] font-medium text-white md:text-[11px]">
-                  {member.nickname.slice(0, 2)}
-                </span>
-              )}
+              <ProfileImage
+                name={member.nickname}
+                imageUrl={member.profileImageUrl}
+              />
             </div>
           ))}
 

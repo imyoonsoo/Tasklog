@@ -50,6 +50,7 @@ export function ColumnList({ column }: { column: ColumnList }) {
               duedate={colCard.dueDate}
               tags={colCard.tags}
               creator={colCard.assignee?.nickname}
+              creatorImageUrl={colCard.assignee?.profileImageUrl}
               imgSrc={colCard.imageUrl}
             />
           </Link>

@@ -1,8 +1,8 @@
 import { ModalCloseButton } from "@/components/modal/ModalCloseButton";
+import { ProfileWrapper } from "@/components/profile/Profile";
 import { KebabButton } from "@/components/TaskDetail/KebabButton";
 import type { Assignee } from "@/types/api";
 
-import { Profile } from "./Profile/Profile";
 import { TaskDetailPanelInfo } from "./TaskDetailPanelInfo";
 
 interface TaskDetailPanelProps {
@@ -35,9 +35,12 @@ export function TaskDetailPanel({
         <TaskDetailPanelInfo label="담당자">
           <div className="flex items-center gap-1.5">
             {assignee && (
-              <Profile user={assignee} className="h-5 w-5 text-[8px]" />
+              <ProfileWrapper
+                name={assignee.nickname}
+                imageUrl={assignee.profileImageUrl}
+                profileClassName="h-5 w-5 text-[8px]"
+              />
             )}
-            {assignee?.nickname}
           </div>
         </TaskDetailPanelInfo>
         <TaskDetailPanelInfo label="마감일">{dueDate}</TaskDetailPanelInfo>

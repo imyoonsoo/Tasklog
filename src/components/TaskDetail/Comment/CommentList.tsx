@@ -2,10 +2,9 @@ import { startTransition } from "react";
 
 import { revalidate } from "@/actions/revalidate";
 import { deleteComment } from "@/api/data";
+import { ProfileImage } from "@/components/profile/Profile";
 import type { Comment } from "@/types/api";
 import { getFormatDate, getFormatTime } from "@/utils/date";
-
-import { Profile } from "../Profile/Profile";
 
 import type { CommentAction } from "./CommentWrapper";
 
@@ -36,7 +35,11 @@ export function CommentList({
     <>
       {comments.map(({ id, author, content, createdAt }) => (
         <div key={id} className="flex gap-3">
-          <Profile className="h-10 w-10" user={author} />
+          <ProfileImage
+            className="h-10 w-10"
+            name={author.nickname}
+            imageUrl={author.profileImageUrl}
+          />
           <div className="flex flex-1 flex-col items-start justify-center gap-2">
             <div className="flex items-center justify-start gap-1">
               <span className="text-base font-semibold text-gray-100">

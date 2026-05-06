@@ -1,11 +1,12 @@
 import Image from "next/image";
 
 import { BadgeContainer } from "@/components/Badge/BadgeContainer";
-import { Profile } from "@/components/profile/Profile";
+import { ProfileWrapper } from "@/components/profile/Profile";
 
 interface ColumnCardProps {
   cardTitle: string;
   creator?: string;
+  creatorImageUrl?: string | null;
   imgSrc?: string;
   tags?: string[];
   descrip?: string;
@@ -16,6 +17,7 @@ export function ColumnCard({
   cardTitle,
   tags,
   creator,
+  creatorImageUrl,
   imgSrc,
   onClick,
   duedate,
@@ -38,7 +40,7 @@ export function ColumnCard({
       {/* 기능구현할 때는 배지리스트 받아서 처리 */}
       {tags && <BadgeContainer tags={tags} />}
       {duedate && <div>{new Date(duedate).toLocaleDateString()}</div>}
-      {creator && <Profile name={creator} type="member" />}
+      {creator && <ProfileWrapper name={creator} imageUrl={creatorImageUrl} />}
     </div>
   );
 }
