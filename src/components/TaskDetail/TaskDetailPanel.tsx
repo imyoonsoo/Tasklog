@@ -28,7 +28,7 @@ export function TaskDetailPanel({
         <KebabButton dashboardId={dashboardId} taskId={taskId} />
         <ModalCloseButton />
       </div>
-      <div className="divide-black-600 flex flex-col divide-y text-gray-100">
+      <div className="flex flex-col divide-y divide-[#696773] text-gray-100">
         <TaskDetailPanelInfo label="프로젝트">
           {dashboardName} / {columnName}
         </TaskDetailPanelInfo>

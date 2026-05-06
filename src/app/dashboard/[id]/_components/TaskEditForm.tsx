@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useMemo } from "react";
 
@@ -8,6 +9,7 @@ import { Dropdown } from "@/components/Dropdown";
 import { ImageUpload } from "@/components/ImageUpload";
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
+import { cardKeys } from "@/hooks/useCards";
 
 interface Member {
   userId: number;
@@ -38,6 +40,16 @@ interface CardDetail {
   };
 }
 
+interface PutCardRequest {
+  columnId: number;
+  assigneeUserId?: number | null;
+  title: string;
+  description: string;
+  dueDate?: string | null;
+  tags?: string[] | null;
+  imageUrl?: string | null;
+}
+
 interface TaskEditFormProps {
   columnList: Column[];
   memberList: Member[];
@@ -52,6 +64,7 @@ export function TaskEditForm({
   initialData,
   onCancel,
 }: TaskEditFormProps) {
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -143,13 +156,28 @@ export function TaskEditForm({
 
       await putCardUpdate(initialData.id, {
         columnId: Number(formData.columnId),
-        assigneeUserId: Number(formData.assigneeUserId),
         title: formData.title,
         description: formData.description,
-        dueDate: formData.dueDate ? formData.dueDate.replace("T", " ") : "",
-        tags,
-        imageUrl,
+        ...(formData.assigneeUserId && {
+          assigneeUserId: Number(formData.assigneeUserId),
+        }),
+        ...(formData.dueDate
+          ? { dueDate: formData.dueDate.replace("T", " ") }
+          : { dueDate: null }),
+        tags, // 빈 배열이어도 항상 포함
+        imageUrl: finalImageUrl,
+      };
+
+      await putCardUpdate(initialData.id, submitData);
+
+      queryClient.invalidateQueries({
+        queryKey: cardKeys.list(formData.columnId),
       });
+      if (formData.columnId !== initialData.columnId) {
+        queryClient.invalidateQueries({
+          queryKey: cardKeys.list(initialData.columnId),
+        });
+      }
 
       router.refresh();
       onCancel();

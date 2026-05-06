@@ -1,3 +1,7 @@
+"use client";
+
+import { useSelectedLayoutSegment } from "next/navigation";
+
 import { DashboardHeader } from "@/components/layout/DashboardHeader";
 import { SideMenu } from "@/components/SideMenu";
 import { SideMenuProvider } from "@/contexts/SideMenuContext";
@@ -12,6 +16,17 @@ export default function DashboardLayout({
   children,
   modal,
 }: DashboardLayoutProps) {
+  const segment = useSelectedLayoutSegment();
+  const isEdit = segment === "edit";
+
+  if (isEdit) {
+    return (
+      <SideMenuProvider>
+        {children}
+        {modal}
+      </SideMenuProvider>
+    );
+  }
   return (
     <SideMenuProvider>
       <div className="grid min-h-screen w-full grid-cols-[auto_1fr]">

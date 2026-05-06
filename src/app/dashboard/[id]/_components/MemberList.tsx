@@ -42,12 +42,13 @@ export function MemberList({ type, data }: MemberListProps) {
 
   const handleAction = () => {
     if (type === "member") {
+      const member = data as Member;
       router.push(
-        `/dashboard/${dashboardId}/edit/member-delete?memberId=${data.id}`
+        `/dashboard/${dashboardId}/member-delete?memberId=${member.id}&userId=${member.userId}`
       );
     } else {
       router.push(
-        `/dashboard/${dashboardId}/edit/invite-cancel?invitationId=${data.id}`
+        `/dashboard/${dashboardId}/invite-cancel?invitationId=${data.id}`
       );
     }
   };

@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -9,7 +10,6 @@ import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
 import { Modal } from "@/components/modal/Modal";
 import { ModalHeader } from "@/components/ModalHeader";
-import { refreshDashboardData } from "@/utils/dashboard";
 
 export interface ApiError {
   response?: {
@@ -22,6 +22,7 @@ export interface ApiError {
 export default function Invite() {
   const router = useRouter();
   const params = useParams();
+  const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,18 +36,16 @@ export default function Invite() {
   const handleSubmit = async (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
 
-    if (!email) {
-      return;
-    }
-
-    if (!dashboardId) return;
+    if (!email || !dashboardId) return;
 
     try {
       setIsLoading(true);
 
       await postInvitation(dashboardId, { email });
 
-      await refreshDashboardData(dashboardId);
+      await queryClient.invalidateQueries({
+        queryKey: ["invitations", dashboardId],
+      });
 
       router.back();
     } catch (error) {

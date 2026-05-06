@@ -1,14 +1,14 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-import { deleteMember } from "@/api/data";
+import { deleteInvitation } from "@/api/data";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/modal/Modal";
-import { refreshDashboardData } from "@/utils/dashboard";
 
-interface ApiError {
+interface AxiosErrorLike {
   response?: {
     data?: {
       message?: string;
@@ -16,39 +16,38 @@ interface ApiError {
   };
 }
 
-export default function MemberDelete() {
+export default function InviteCancel() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
 
   const dashboardId = Number(params.id);
-  const memberId = Number(searchParams.get("memberId"));
+  const invitationId = Number(searchParams.get("invitationId"));
 
   const handleClose = () => {
     router.back();
   };
 
-  const handleDeleteMember = async () => {
-    if (!memberId) {
-      alert("삭제할 멤버 정보가 없습니다.");
+  const handleCancelInvite = async () => {
+    if (!dashboardId || !invitationId) {
+      alert("잘못된 접근입니다.");
       return;
     }
 
     try {
       setIsLoading(true);
-
-      await deleteMember(memberId);
-
-      if (dashboardId) {
-        await refreshDashboardData(dashboardId);
-      }
+      await deleteInvitation(dashboardId, invitationId);
+      await queryClient.invalidateQueries({
+        queryKey: ["invitations", dashboardId],
+      });
 
       router.back();
     } catch (error) {
-      const err = error as ApiError;
+      const err = error as AxiosErrorLike;
       const errorMessage =
-        err.response?.data?.message || "멤버 제외에 실패했습니다.";
+        err.response?.data?.message || "초대 취소에 실패했습니다.";
       alert(errorMessage);
     } finally {
       setIsLoading(false);
@@ -60,7 +59,7 @@ export default function MemberDelete() {
       <div className="flex w-full flex-col items-center gap-10">
         <div className="flex w-full flex-col items-center gap-2 md:gap-3">
           <h2 className="text-lg font-semibold text-gray-200 lg:text-xl">
-            멤버를 제외하시겠습니까?
+            초대를 취소하시겠습니까?
           </h2>
         </div>
 
@@ -76,10 +75,10 @@ export default function MemberDelete() {
           <Button
             colorType="red"
             className="flex-1"
-            onClick={handleDeleteMember}
+            onClick={handleCancelInvite}
             disabled={isLoading}
           >
-            {isLoading ? "제외 중..." : "제외"}
+            {isLoading ? "처리 중..." : "초대 취소"}
           </Button>
         </div>
       </div>
