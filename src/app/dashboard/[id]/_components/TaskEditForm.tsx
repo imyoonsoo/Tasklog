@@ -40,16 +40,6 @@ interface CardDetail {
   };
 }
 
-interface PutCardRequest {
-  columnId: number;
-  assigneeUserId?: number | null;
-  title: string;
-  description: string;
-  dueDate?: string | null;
-  tags?: string[] | null;
-  imageUrl?: string | null;
-}
-
 interface TaskEditFormProps {
   columnList: Column[];
   memberList: Member[];
@@ -140,10 +130,10 @@ export function TaskEditForm({
     setIsLoading(true);
 
     try {
-      let imageUrl: string | null = initialData?.imageUrl ?? null;
+      let finalImageUrl: string | null = initialData?.imageUrl ?? null;
 
       if (isImageRemoved) {
-        imageUrl = null;
+        finalImageUrl = null;
       }
 
       if (imageFile) {
@@ -151,7 +141,7 @@ export function TaskEditForm({
           Number(formData.columnId),
           imageFile
         );
-        imageUrl = uploadRes.imageUrl;
+        finalImageUrl = uploadRes.imageUrl;
       }
 
       await putCardUpdate(initialData.id, {
@@ -164,11 +154,9 @@ export function TaskEditForm({
         ...(formData.dueDate
           ? { dueDate: formData.dueDate.replace("T", " ") }
           : { dueDate: null }),
-        tags, // 빈 배열이어도 항상 포함
+        tags,
         imageUrl: finalImageUrl,
-      };
-
-      await putCardUpdate(initialData.id, submitData);
+      });
 
       queryClient.invalidateQueries({
         queryKey: cardKeys.list(formData.columnId),
