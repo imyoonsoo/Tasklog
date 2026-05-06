@@ -1,36 +1,30 @@
-import { ComponentPropsWithRef } from "react";
-
 import { cn } from "@/lib/cn";
 
 import { useInputContext } from "./input-context";
-import { InputWrapperStylesProps } from "./input-style";
+import { InputWrapperStyles } from "./input-style";
 
-interface InputFieldProps
-  extends
-    ComponentPropsWithRef<"input">,
-    Omit<InputWrapperStylesProps, "error" | "disabled"> {}
+interface InputWrapperProps {
+  children: React.ReactNode;
+  className?: string;
+}
 
 /**
- * @description Input.Field
- * @param {string} className - Input.Field의 클래스 이름
- * @returns {JSX.Element} Input.Field 컴포넌트
+ * @description Input 컴포넌트의 Wrapper
+ * @param {React.ReactNode} children - Input 컴포넌트의 자식 요소
+ * @param {string} className - Input.Wrapper의 클래스 이름
+ * @returns {JSX.Element} Input.Wrapper 컴포넌트
  */
-export function InputField({ className, type, ...props }: InputFieldProps) {
-  const { isPasswordVisible, isDisabled } = useInputContext();
-
-  // 비밀번호 타입일 경우 토글 상태에 따라 실제 type 결정
-  const inputType = type === "password" && isPasswordVisible ? "text" : type;
-
+export function InputWrapper({ children, className }: InputWrapperProps) {
+  const { inputSize, errorMessage, isDisabled } = useInputContext();
   return (
-    <input
-      type={inputType}
-      disabled={isDisabled ?? props.disabled}
+    <div
       className={cn(
-        "w-full bg-transparent text-gray-300 outline-none placeholder:text-gray-500 disabled:cursor-not-allowed disabled:text-gray-400",
-        "autofill-field",
+        InputWrapperStyles({ inputSize, error: !!errorMessage, isDisabled }),
+        "autofill-wrapper",
         className
       )}
-      {...props}
-    />
+    >
+      {children}
+    </div>
   );
 }

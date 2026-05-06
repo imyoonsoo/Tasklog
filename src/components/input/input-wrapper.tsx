@@ -20,7 +20,6 @@ export function InputWrapper({ children, className }: InputWrapperProps) {
     <div
       className={cn(
         InputWrapperStyles({ inputSize, error: !!errorMessage, isDisabled }),
-        "autofill-wrapper",
         className
       )}
     >
