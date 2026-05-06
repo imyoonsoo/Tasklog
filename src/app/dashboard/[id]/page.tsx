@@ -116,9 +116,12 @@ export default function Dashboard({ params }: DashboardPageProps) {
           <ColumnList key={column.id} column={column} />
         ))}
         <div className="group fixed right-8 bottom-5 z-50 text-right">
-          <div className="relative flex h-15 w-15 cursor-pointer items-center justify-center rounded-full bg-green-500 pb-2 text-5xl text-white hover:bg-gray-900">
-            <div className="transition-transform duration-200 hover:rotate-45 hover:pb-1 hover:pl-2">
-              +
+          <div className="relative flex h-15 w-15 cursor-pointer items-center justify-center rounded-full bg-green-500 text-5xl text-white hover:bg-gray-900">
+            <div className="group relative flex h-10 w-10 cursor-pointer items-center justify-center transition-transform duration-200 hover:rotate-45">
+              {/* 가로선 */}
+              <div className="absolute h-0.5 w-5 rounded-full bg-current"></div>
+              {/* 세로선 */}
+              <div className="absolute h-5 w-0.5 rounded-full bg-current"></div>
             </div>
             <div className="invisible absolute right-0 bottom-full mb-2 cursor-default text-left text-base opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
               <Link href={`/dashboard/${id}/column-add`}>
