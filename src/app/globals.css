@@ -99,8 +99,18 @@
   }
 }
 
+/* [추가] box-shadow 보완용 animation */
+@keyframes autofill-fix {
+  from {
+    background-color: var(--color-input-autofill);
+  }
+  to {
+    background-color: var(--color-input-autofill);
+  }
+}
+
 @layer utilities {
-  /* [추가] 자동완성 시 브라우저 기본 흰색 영역 제거 */
+  /* [추가] 자동완성 입력창 스타일 */
 
   /* Chrome, Edge, Safari, iOS */
   .autofill-field:-webkit-autofill,
@@ -111,10 +121,13 @@
     -webkit-text-fill-color: var(--color-input-autofill-text) !important;
     caret-color: var(--color-input-autofill-text);
     font-weight: 500;
-    /* 자동완성 강제 스타일 유지용 우회책 */
+    /* 자동완성 스타일 강제 유지용 우회책 */
     transition:
       background-color 5000s ease-in-out 0s,
       color 5000s ease-in-out 0s;
+    /* [추가] box-shadow 보완용 animation */
+    animation-name: autofill-fix;
+    animation-fill-mode: both;
   }
 
   /* Firefox */
