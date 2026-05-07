@@ -346,6 +346,7 @@ export interface GetMemberListResponse {
 export interface APISuccessResponse {
   success: true;
   data?: unknown;
+  message?: string;
 }
 export interface APIErrorResponse {
   success: false;

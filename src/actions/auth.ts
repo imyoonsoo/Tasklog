@@ -35,7 +35,7 @@ export async function logout(): Promise<APIResponse> {
   const cookieStore = await cookies();
   cookieStore.delete("accessToken");
 
-  return { success: true, message: "로그아웃 되었습니다." };
+  return { success: true };
 }
 
 export async function signup(formData: FormData): Promise<APIResponse> {
@@ -45,7 +45,7 @@ export async function signup(formData: FormData): Promise<APIResponse> {
 
   try {
     await postSignup({ email, nickname, password });
-    return { success: true, message: "가입이 완료되었습니다." };
+    return { success: true };
   } catch (e) {
     if (e instanceof Error) {
       return { success: false, message: e.message };
