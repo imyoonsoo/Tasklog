@@ -9,6 +9,7 @@ import { HashtagIcon } from "@/assets/dashboard/ic-colorchips";
 
 import { ColumnAdd } from "./_components/ColumnAdd";
 import { ColumnList } from "./_components/ColumnList";
+import { DashboardSkeletonUI } from "./_components/DashboardSkeletonUII";
 
 export interface ColumnList {
   id: number;
@@ -59,8 +60,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
   };
 
   if (!columnList || !dashboardDetail) {
-    // @TODO 스켈레톤 UI 삽입
-    return <div className="p-10 text-white">로딩 중...</div>;
+    return <DashboardSkeletonUI />;
   }
 
   return (
