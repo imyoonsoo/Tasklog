@@ -32,7 +32,7 @@ export function ColumnCard({
       className="bg-black-700 flex cursor-pointer flex-col gap-5 rounded-[30px] border border-gray-800 p-5 text-gray-100 lg:w-83"
     >
       {imgSrc && (
-        <div className="relative h-40 w-full shrink-0 overflow-hidden rounded-lg">
+        <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden rounded-l">
           <Image src={imgSrc} fill alt="userAddImg" className="object-cover" />
         </div>
       )}
