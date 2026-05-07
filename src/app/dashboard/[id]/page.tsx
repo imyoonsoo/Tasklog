@@ -111,7 +111,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
       </div>
 
       {/* 데스크탑 전용 화면 */}
-      <div className="hidden gap-15 lg:flex">
+      <div className="hidden gap-15 pb-20 lg:flex">
         {columnList?.map((column) => (
           <ColumnList key={column.id} column={column} />
         ))}
