@@ -46,13 +46,18 @@ export default function DashboardSetupModal() {
   };
 
   //대시보드 생성하는 함수
-  const handlePostNewDashboard = async () => {
+  const handlePostNewDashboard = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (selectHex && dashboardTitle) {
       const response = await postDashboard({
         title: dashboardTitle,
         color: selectHex,
       });
-      router.push(`/dashboard/${response.id}`);
+      const newId = response?.id;
+      router.back();
+      setTimeout(() => {
+        router.push(`/dashboard/${newId}`);
+      }, 100);
     }
   };
 
@@ -65,11 +70,7 @@ export default function DashboardSetupModal() {
   return (
     <div className="border-gray-stroke flex flex-col gap-5 rounded-3xl">
       <ModalHeader>새 대시보드 생성</ModalHeader>
-      <form
-        name="postNewDashboard"
-        onSubmit={handlePostNewDashboard}
-        className="flex flex-col gap-5"
-      >
+      <form name="postNewDashboard" className="flex flex-col gap-5">
         <Input>
           <Input.Wrapper>
             <Input.Field
@@ -89,7 +90,9 @@ export default function DashboardSetupModal() {
           <Button colorType="secondary" type="button" onClick={handleCancel}>
             취소
           </Button>
-          <Button>생성</Button>
+          <Button onClick={handlePostNewDashboard} type="submit">
+            생성
+          </Button>
         </div>
       </form>
     </div>
