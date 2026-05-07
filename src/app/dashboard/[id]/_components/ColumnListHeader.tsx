@@ -57,7 +57,7 @@ export function ColumnListHeader({
   });
 
   return (
-    <div className="flex w-full max-w-83 items-center justify-between md:min-w-125">
+    <div className="flex w-full items-center justify-between max-lg:w-full">
       <div className="flex items-center justify-center gap-2">
         <h1 className="text-[20px] font-bold text-white">{title}</h1>
         <span className="text-gray-400">{contentCount}</span>

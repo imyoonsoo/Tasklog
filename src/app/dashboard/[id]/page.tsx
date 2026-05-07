@@ -65,12 +65,12 @@ export default function Dashboard({ params }: DashboardPageProps) {
 
   return (
     <div className="text-gray-100 max-md:px-4 lg:px-12.5">
-      <div className="flex items-center gap-1 pt-6 pb-3.5 md:mx-10 lg:mx-0">
+      <div className="flex items-center gap-1 pt-6 pb-3.5 max-lg:mx-7.5 max-md:mx-5">
         <HashtagIcon color={dashboardDetail.color} />
         <h1 className="text-2xl font-bold">{dashboardDetail?.title}</h1>
       </div>
       {/* 모바일과 태블릿 환경 전용 UI */}
-      <div className="flex w-full items-center md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
+      <div className="flex w-full items-center max-lg:mx-7.5 max-md:mx-5 lg:hidden [&::-webkit-scrollbar]:hidden">
         <div className="flex w-full flex-1 items-center gap-2 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none]">
           {columnList.map((column) => (
             <button
@@ -92,7 +92,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
       <div className="w-full pt-2.5 lg:hidden">
         <div className="flex w-full justify-center gap-1.5">
           {activeCol ? (
-            <div>
+            <div className="flex flex-col max-lg:w-full max-lg:px-7.5 max-md:px-0">
               <ColumnList key={activeCol.id} column={activeCol} />
               <ColumnAdd />
             </div>
@@ -111,7 +111,7 @@ export default function Dashboard({ params }: DashboardPageProps) {
       </div>
 
       {/* 데스크탑 전용 화면 */}
-      <div className="hidden gap-15 lg:flex">
+      <div className="hidden gap-15 pb-20 lg:flex">
         {columnList?.map((column) => (
           <ColumnList key={column.id} column={column} />
         ))}
