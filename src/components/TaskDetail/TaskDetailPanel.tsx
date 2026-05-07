@@ -38,7 +38,6 @@ export function TaskDetailPanel({
               <ProfileWrapper
                 name={assignee.nickname}
                 imageUrl={assignee.profileImageUrl}
-                profileClassName="h-5 w-5 text-[8px]"
               />
             )}
           </div>
