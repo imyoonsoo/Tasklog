@@ -31,7 +31,7 @@ export function ColumnList({ column }: { column: ColumnList }) {
   const totalCount = data?.totalCount ?? 0;
 
   return (
-    <div className="flex min-w-83.5 flex-col gap-5 md:mx-10 lg:mx-0">
+    <div className="flex min-w-83.5 flex-col gap-5 md:mx-10 md:min-w-125 lg:mx-0">
       <ColumnListHeader
         title={title}
         contentCount={totalCount}

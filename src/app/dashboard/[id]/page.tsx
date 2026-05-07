@@ -70,8 +70,8 @@ export default function Dashboard({ params }: DashboardPageProps) {
         <h1 className="text-2xl font-bold">{dashboardDetail?.title}</h1>
       </div>
       {/* 모바일과 태블릿 환경 전용 UI */}
-      <div className="flex w-full items-center justify-between md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
-        <div className="flex items-center gap-2 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none]">
+      <div className="flex w-full items-center md:mx-10 lg:hidden [&::-webkit-scrollbar]:hidden">
+        <div className="flex w-full flex-1 items-center gap-2 overflow-scroll py-6 [-ms-overflow-style:none] [scrollbar-width:none]">
           {columnList.map((column) => (
             <button
               key={column.id}
@@ -87,14 +87,9 @@ export default function Dashboard({ params }: DashboardPageProps) {
             </button>
           ))}
         </div>
-        <Link href={`/dashboard/${id}/column-add`} className="">
-          <button className="active:bg-black-700 m-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-700 text-3xl text-gray-400 hover:bg-gray-500">
-            +
-          </button>
-        </Link>
       </div>
       {/* 실제 컬럼 리스트 */}
-      <div className="pt-2.5 lg:hidden">
+      <div className="w-full pt-2.5 lg:hidden">
         <div className="flex w-full justify-center gap-1.5">
           {activeCol ? (
             <div>
@@ -105,6 +100,14 @@ export default function Dashboard({ params }: DashboardPageProps) {
             <div className="text-gray-400">컬럼 데이터가 없습니다.</div>
           )}
         </div>
+        <Link
+          href={`/dashboard/${id}/column-add`}
+          className="fixed right-5 bottom-5"
+        >
+          <button className="active:bg-black-700 m-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-700 pb-1 text-3xl text-gray-400 hover:bg-gray-500">
+            +
+          </button>
+        </Link>
       </div>
 
       {/* 데스크탑 전용 화면 */}
@@ -113,8 +116,13 @@ export default function Dashboard({ params }: DashboardPageProps) {
           <ColumnList key={column.id} column={column} />
         ))}
         <div className="group fixed right-8 bottom-5 z-50 text-right">
-          <div className="relative inline-block cursor-pointer text-5xl">
-            +
+          <div className="relative flex h-15 w-15 cursor-pointer items-center justify-center rounded-full bg-green-500 text-5xl text-white hover:bg-gray-900">
+            <div className="group relative flex h-10 w-10 cursor-pointer items-center justify-center transition-transform duration-200 hover:rotate-45">
+              {/* 가로선 */}
+              <div className="absolute h-0.5 w-5 rounded-full bg-current"></div>
+              {/* 세로선 */}
+              <div className="absolute h-5 w-0.5 rounded-full bg-current"></div>
+            </div>
             <div className="invisible absolute right-0 bottom-full mb-2 cursor-default text-left text-base opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
               <Link href={`/dashboard/${id}/column-add`}>
                 <ColumnAdd />
