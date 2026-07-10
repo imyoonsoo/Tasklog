@@ -17,7 +17,7 @@ export function MainHeader({ isLoggedIn = false }: MainHeaderProps) {
         <div className="relative h-[36.25px] w-35 md:h-12 md:w-46.5">
           <Image
             src={logoImg}
-            alt="Taskify로고"
+            alt="Tasklog로고"
             fill
             className="object-contain"
             priority
