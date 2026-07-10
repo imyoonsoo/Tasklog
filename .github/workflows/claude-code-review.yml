@@ -1,0 +1,48 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+    # Optional: Only run on specific file changes
+    # paths:
+    #   - "src/**/*.ts"
+    #   - "src/**/*.tsx"
+    #   - "src/**/*.js"
+    #   - "src/**/*.jsx"
+
+jobs:
+  claude-review:
+    # Optional: Filter by PR author
+    # if: |
+    #   github.event.pull_request.user.login == 'external-contributor' ||
+    #   github.event.pull_request.user.login == 'new-developer' ||
+    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            이 PR을 리뷰해줘.
+            1. conventions/ 폴더의 네이밍 규칙.md, 디렉터리 구조.md, 코드 스타일.md, git 규칙.md 파일을 먼저 읽고 프로젝트 컨벤션을 파악해.
+            2. 이번 PR(${{ github.repository }}/pull/${{ github.event.pull_request.number }})에서 변경된 코드가 이 컨벤션을 잘 지키고 있는지 확인해.
+            3. 컨벤션 위반 사항이 있으면 구체적으로 지적해줘 (파일명, 라인 포함).
+            4. 그 외에 버그, 성능, 보안, 가독성 측면에서 개선점이나 문제점이 있으면 함께 짚어줘.
+            5. 심각도별로 정리해서 알려줘 (Critical / Warning / Suggestion).
+          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
+          # or https://code.claude.com/docs/en/cli-reference for available options
+
