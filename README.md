@@ -1,8 +1,10 @@
-# <img width="50" height="50" alt="Tasklog 로고" src="src/assets/common/logo.svg" /> Tasklog
+# <img width="50" height="50" alt="logo-tasklog" src="https://github.com/user-attachments/assets/e88dd87e-fdba-4724-912f-46aaba5f01eb" /> Tasklog
 
-K-Digital Training 팀 프로젝트 [Taskify](https://github.com/Useung0830/2-team-taskify)(원본 레포)를 기반으로, 브랜드를 변경해 개인 Vercel 프로젝트로 재배포했습니다.
+> **Based on:** [Taskify](https://github.com/Useung0830/2-team-taskify)
+>
+> K-Digital Training 팀프로젝트 Taskify 기반으로 합니다. 팀 단위 개발이 종료되어, 유지보수 및 리팩토링을 위해 리브랜딩한 뒤 개인 Vercel 프로젝트로 배포했습니다.
 
-Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입니다. 대시보드를 만들고 컬럼과 카드로 업무를 정리하며, 팀원을 초대해 함께 관리할 수 있습니다.
+Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입니다. 대시보드를 만들고 컬럼과 카드로 업무를 정리할 수 있으며, 멤버를 초대해 팀 단위의 협업 일정관리도 가능합니다.
 
 ## 주요 기능
 
