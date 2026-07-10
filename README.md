@@ -1,6 +1,4 @@
-# Tasklog
-
-<img width="50" height="50" alt="Tasklog 로고" src="https://github.com/user-attachments/assets/e88dd87e-fdba-4724-912f-46aaba5f01eb" />
+# <img width="30" height="30" alt="Tasklog 로고" src="https://github.com/user-attachments/assets/e88dd87e-fdba-4724-912f-46aaba5f01eb" /> Tasklog
 
 K-Digital Training 팀 프로젝트 [Taskify](https://github.com/Useung0830/2-team-taskify)(원본 레포)를 기반으로, 브랜드를 변경해 개인 Vercel 프로젝트로 재배포했습니다.
 
