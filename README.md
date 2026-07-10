@@ -40,6 +40,14 @@ npm run dev
 
 [http://localhost:3000](http://localhost:3000) 에서 결과를 확인할 수 있습니다.
 
+## 환경 변수
+
+루트에 `.env.local` 파일을 생성하고 아래 값을 설정해야 합니다.
+
+```bash
+NEXT_PUBLIC_BASE_URL= # API 서버 base URL
+```
+
 ## 스크립트
 
 ```bash
@@ -55,6 +63,15 @@ Husky + lint-staged로 커밋 전 검사를 자동화했습니다. `git commit` 
 
 - `*.{ts,tsx,js,jsx}`: ESLint(`--fix`) → Prettier
 - `*.{json,md}`: Prettier
+
+## 컨벤션
+
+프로젝트 컨벤션은 [`conventions/`](conventions) 폴더의 문서를 참고하세요.
+
+- [git 규칙](conventions/git%20규칙.md)
+- [네이밍 규칙](conventions/네이밍%20규칙.md)
+- [디렉터리 구조](conventions/디렉터리%20구조.md)
+- [코드 스타일](conventions/코드%20스타일.md)
 
 ## 프로젝트 구조
 
