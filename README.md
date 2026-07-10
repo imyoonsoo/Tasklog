@@ -60,9 +60,27 @@ Husky + lint-staged로 커밋 전 검사를 자동화했습니다. `git commit` 
 
 ```
 src/
-├── actions/     # 서버 액션 (auth, comment, dashboard, setting 등)
-├── api/         # API 클라이언트 및 데이터 페칭
-├── app/         # App Router 페이지 및 레이아웃
-├── assets/      # 이미지 및 아이콘
-└── components/  # 공통 UI 컴포넌트
+├── actions/       # 서버 액션 (auth, comment, dashboard-edit, setting, revalidate)
+├── api/           # API 클라이언트 및 데이터 페칭 (fetch, data)
+├── app/           # App Router 페이지 및 레이아웃
+│   ├── @modal/    # 병렬 라우트 모달 (account-setting, column-modify, new-dashboard)
+│   ├── card/[cardId]/
+│   ├── dashboard/[id]/
+│   ├── login/
+│   ├── mydashboard/
+│   ├── mypage/
+│   └── signup/
+├── assets/        # 이미지 및 아이콘 (svg, png, 폰트)
+├── components/    # 공통 UI 컴포넌트 (Button, Checkbox, Dropdown, SideMenu 등)
+│   ├── AuthForm/, Badge/, dialog/, icons/, input/, label/
+│   ├── layout/, modal/, profile/, style/, Textarea/
+│   └── TaskDetail/Comment/
+├── constants/     # 상수 (colors, Auth)
+├── contexts/      # React Context (SideMenuContext)
+├── feature/       # 도메인별 기능 단위 모듈 (dashboard, login, mydashboard, mypage, signup)
+├── hooks/         # 공통 커스텀 훅 (useAuth, useCards, useClickOutside)
+├── lib/           # 라이브러리 유틸 (cn 등)
+├── providers/     # 전역 Provider (QueryProvider)
+├── types/         # 타입 정의 (api, images, svgProps)
+└── utils/         # 유틸 함수 (color, dashboard, date, validation)
 ```
