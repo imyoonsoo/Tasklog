@@ -94,7 +94,7 @@ export default function SignupPage() {
 
     const response = await signup(formData);
     setIsSuccess(response.success);
-    setDialogMessage(response.message);
+    setDialogMessage(response.message ?? "요청이 완료되었습니다.");
     setIsDialogOpen(true);
   };
 
