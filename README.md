@@ -2,7 +2,7 @@
 
 > **Based on:** [Taskify](https://github.com/Useung0830/2-team-taskify)
 >
-> K-Digital Training 팀프로젝트 Taskify 기반으로 합니다. 팀 단위 개발이 종료되어, 유지보수 및 리팩토링을 위해 리브랜딩한 뒤 개인 Vercel 프로젝트로 배포했습니다.
+> 팀 단위 개발이 종료되어, Taskify를 리브랜딩하고 리팩토링 및 유지보수를 위해 개인 Vercel 프로젝트로 배포했습니다.
 
 Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입니다. 대시보드를 만들고 컬럼과 카드로 업무를 정리할 수 있으며, 멤버를 초대해 팀 단위의 협업 일정관리도 가능합니다.
 
