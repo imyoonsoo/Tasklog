@@ -13,7 +13,7 @@ export function MainFooter() {
         <div className="relative h-8.5 w-32.5 md:h-11 md:w-42.5 lg:h-12 lg:w-46.5">
           <Image
             src={logoImg}
-            alt="Tasklog 로고"
+            alt="Taskify 로고"
             fill
             className="object-contain"
             priority
@@ -30,7 +30,7 @@ export function MainFooter() {
         </div>
 
         <div className="flex h-5.5 w-23 items-center gap-3.5">
-          <Link href="mailto:contact@tasklog.com">
+          <Link href="mailto:contact@taskify.com">
             <Image src={iconEmail} alt="email" width={22} height={22} />
           </Link>
           <Link href="https://facebook.com" target="_blank">
