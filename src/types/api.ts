@@ -346,7 +346,7 @@ export interface GetMemberListResponse {
 export interface APISuccessResponse {
   success: true;
   data?: unknown;
-  message?: string;
+  message?: string; // [추가]
 }
 export interface APIErrorResponse {
   success: false;

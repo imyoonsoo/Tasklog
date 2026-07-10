@@ -30,14 +30,15 @@ export interface Dashboard {
 }
 
 interface DashboardPageProps {
-  params: Promise<{ id: number }>; // URL 파라미터는 무조건 string!
+  params: Promise<{ id: string }>; // URL 파라미터는 무조건 string
 }
 
 export default function Dashboard({ params }: DashboardPageProps) {
   const [columnList, setColumnList] = useState<ColumnList[]>();
   const [activeCol, setActiveCol] = useState(columnList?.[0]);
   const [dashboardDetail, setDashboardDetail] = useState<Dashboard>();
-  const { id } = use(params);
+  const { id: idParam } = use(params);
+  const id = Number(idParam);
   const searchParams = useSearchParams();
 
   useEffect(() => {
