@@ -53,7 +53,7 @@ export function LandingContent() {
                 더 새로워진 일정 관리
               </p>
               <h1 className="text-brand-500 text-[30px] font-extrabold tracking-tight md:text-6xl lg:text-[90px]">
-                TASKIFY
+                Tasklog
               </h1>
             </div>
 
@@ -85,7 +85,7 @@ export function LandingContent() {
           >
             <Image
               src={imgSection1}
-              alt="Taskify 메인 대시보드"
+              alt="Tasklog 메인 대시보드"
               fill
               priority
               className="object-cover object-left-top"
