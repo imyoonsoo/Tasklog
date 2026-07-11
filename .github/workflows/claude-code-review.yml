@@ -19,6 +19,7 @@ jobs:
     #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
 
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: read
       pull-requests: write
@@ -36,7 +37,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: '--allowed-tools "Read,Grep,Glob,Bash(gh:*)"'
+          claude_args: '--allowed-tools "Read,Grep,Glob,Bash(gh pr comment:),Bash(gh pr review:)"'
           prompt: |
             이 PR을 리뷰해줘.
             1. conventions/ 폴더의 네이밍 규칙.md, 디렉터리 구조.md, 코드 스타일.md, git 규칙.md 파일을 먼저 읽고 프로젝트 컨벤션을 파악해.
