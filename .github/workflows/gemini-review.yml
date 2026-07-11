@@ -53,7 +53,13 @@ jobs:
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}" \
             -H "Content-Type: application/json" \
             -d "$PROMPT" \
-            | jq -r '.candidates[0].content.parts[0].text // "리뷰 생성에 실패했습니다."' > review.txt
+            > raw_response.json
+
+          echo "----- RAW GEMINI RESPONSE (DEBUG, remove after diagnosing) -----"
+          cat raw_response.json
+          echo "-----------------------------------------------------------------"
+
+          jq -r '.candidates[0].content.parts[0].text // "리뷰 생성에 실패했습니다."' raw_response.json > review.txt
 
           cat review.txt
 
