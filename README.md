@@ -1,4 +1,4 @@
-# <img width="50" height="50" alt="logo-tasklog" src="https://github.com/user-attachments/assets/e88dd87e-fdba-4724-912f-46aaba5f01eb" /> Tasklog
+# 📊 Tasklog
 
 > **Based on:** [Taskify](https://github.com/Useung0830/2-team-taskify)
 >
