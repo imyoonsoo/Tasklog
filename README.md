@@ -64,15 +64,6 @@ Husky + lint-staged로 커밋 전 검사를 자동화했습니다. `git commit` 
 - `*.{ts,tsx,js,jsx}`: ESLint(`--fix`) → Prettier
 - `*.{json,md}`: Prettier
 
-## 컨벤션
-
-프로젝트 컨벤션은 [`conventions/`](conventions) 폴더의 문서를 참고하세요.
-
-- [git 규칙](conventions/git%20규칙.md)
-- [네이밍 규칙](conventions/네이밍%20규칙.md)
-- [디렉터리 구조](conventions/디렉터리%20구조.md)
-- [코드 스타일](conventions/코드%20스타일.md)
-
 ## 프로젝트 구조
 
 ```
@@ -101,3 +92,12 @@ src/
 ├── types/         # 타입 정의 (api, images, svgProps)
 └── utils/         # 유틸 함수 (color, dashboard, date, validation)
 ```
+
+## 컨벤션
+
+프로젝트 컨벤션은 [`conventions/`](conventions) 폴더의 문서를 참고하세요.
+
+- [git 규칙](conventions/git%20규칙.md)
+- [네이밍 규칙](conventions/네이밍%20규칙.md)
+- [디렉터리 구조](conventions/디렉터리%20구조.md)
+- [코드 스타일](conventions/코드%20스타일.md)
