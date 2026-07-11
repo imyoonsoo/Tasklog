@@ -1,8 +1,10 @@
-# <img width="30" height="30" alt="Tasklog 로고" src="https://github.com/user-attachments/assets/e88dd87e-fdba-4724-912f-46aaba5f01eb" /> Tasklog
+# 📊 Tasklog
 
-K-Digital Training 팀 프로젝트 [Taskify](https://github.com/Useung0830/2-team-taskify)(원본 레포)를 기반으로, 브랜드를 변경해 개인 Vercel 프로젝트로 재배포했습니다.
+> **Based on:** [Taskify](https://github.com/Useung0830/2-team-taskify)
+>
+> 팀 단위 개발이 종료되어, Taskify를 리브랜딩하고 리팩토링 및 유지보수를 위해 개인 Vercel 프로젝트로 배포했습니다.
 
-Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입니다. 대시보드를 만들고 컬럼과 카드로 업무를 정리하며, 팀원을 초대해 함께 관리할 수 있습니다.
+Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입니다. 대시보드를 만들고 컬럼과 카드로 업무를 정리할 수 있으며, 멤버를 초대해 팀 단위의 협업 일정관리도 가능합니다.
 
 ## 주요 기능
 
@@ -38,6 +40,14 @@ npm run dev
 
 [http://localhost:3000](http://localhost:3000) 에서 결과를 확인할 수 있습니다.
 
+## 환경 변수
+
+루트에 `.env.local` 파일을 생성하고 아래 값을 설정해야 합니다.
+
+```bash
+NEXT_PUBLIC_BASE_URL= # API 서버 base URL
+```
+
 ## 스크립트
 
 ```bash
@@ -58,9 +68,36 @@ Husky + lint-staged로 커밋 전 검사를 자동화했습니다. `git commit` 
 
 ```
 src/
-├── actions/     # 서버 액션 (auth, comment, dashboard, setting 등)
-├── api/         # API 클라이언트 및 데이터 페칭
-├── app/         # App Router 페이지 및 레이아웃
-├── assets/      # 이미지 및 아이콘
-└── components/  # 공통 UI 컴포넌트
+├── actions/       # 서버 액션 (auth, comment, dashboard-edit, setting, revalidate)
+├── api/           # API 클라이언트 및 데이터 페칭 (fetch, data)
+├── app/           # App Router 페이지 및 레이아웃
+│   ├── @modal/    # 병렬 라우트 모달 (account-setting, column-modify, new-dashboard)
+│   ├── card/[cardId]/
+│   ├── dashboard/[id]/
+│   ├── login/
+│   ├── mydashboard/
+│   ├── mypage/
+│   └── signup/
+├── assets/        # 이미지 및 아이콘 (svg, png, 폰트)
+├── components/    # 공통 UI 컴포넌트 (Button, Checkbox, Dropdown, SideMenu 등)
+│   ├── AuthForm/, Badge/, dialog/, icons/, input/, label/
+│   ├── layout/, modal/, profile/, style/, Textarea/
+│   └── TaskDetail/Comment/
+├── constants/     # 상수 (colors, Auth)
+├── contexts/      # React Context (SideMenuContext)
+├── feature/       # 도메인별 기능 단위 모듈 (dashboard, login, mydashboard, mypage, signup)
+├── hooks/         # 공통 커스텀 훅 (useAuth, useCards, useClickOutside)
+├── lib/           # 라이브러리 유틸 (cn 등)
+├── providers/     # 전역 Provider (QueryProvider)
+├── types/         # 타입 정의 (api, images, svgProps)
+└── utils/         # 유틸 함수 (color, dashboard, date, validation)
 ```
+
+## 컨벤션
+
+프로젝트 컨벤션은 [`conventions/`](conventions) 폴더의 문서를 참고하세요.
+
+- [git 규칙](conventions/git%20규칙.md)
+- [네이밍 규칙](conventions/네이밍%20규칙.md)
+- [디렉터리 구조](conventions/디렉터리%20구조.md)
+- [코드 스타일](conventions/코드%20스타일.md)
