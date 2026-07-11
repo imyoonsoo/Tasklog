@@ -36,8 +36,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: '--allowed-tools "Read,Grep,Glob,Bash(gh:*)" --debug'
-          show_full_output: true
+          claude_args: '--allowed-tools "Read,Grep,Glob,Bash(gh:*)"'
           prompt: |
             이 PR을 리뷰해줘.
             1. conventions/ 폴더의 네이밍 규칙.md, 디렉터리 구조.md, 코드 스타일.md, git 규칙.md 파일을 먼저 읽고 프로젝트 컨벤션을 파악해.
@@ -45,8 +44,10 @@ jobs:
             3. 컨벤션 위반 사항이 있으면 구체적으로 지적해줘 (파일명, 라인 포함).
             4. 그 외에 버그, 성능, 보안, 가독성 측면에서 개선점이나 문제점이 있으면 함께 짚어줘.
             5. 심각도별로 정리해서 알려줘 (Critical / Warning / Suggestion).
-            6. 리뷰 결과는 일반 댓글이 아니라 `gh pr review` 명령으로 정식 리뷰를 제출해줘.
-               Critical 이슈가 있으면 `gh pr review ${{ github.event.pull_request.number }} --request-changes --body "..."`,
-               없으면 `gh pr review ${{ github.event.pull_request.number }} --comment --body "..."` 명령을 사용해.
+            6. 리뷰 결과를 아래 두 가지 방식으로 모두 남겨줘.
+               - 먼저 `gh pr comment ${{ github.event.pull_request.number }} --body "..."` 명령으로 상세 리뷰 내용을 일반 댓글로 남기고,
+               - 이어서 Critical 이슈가 있으면 `gh pr review ${{ github.event.pull_request.number }} --request-changes --body "요약"`,
+                 없으면 `gh pr review ${{ github.event.pull_request.number }} --comment --body "요약"` 명령으로 정식 리뷰도 제출해줘.
+                 (정식 리뷰는 짧은 요약만, 상세 내용은 댓글에)
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
