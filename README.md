@@ -2,69 +2,44 @@
 
 > **Based on:** [Taskify](https://github.com/Useung0830/2-team-taskify)
 >
-> 팀 단위 개발이 종료되어, Taskify를 리브랜딩하고 리팩토링 및 유지보수를 위해 개인 Vercel 프로젝트로 배포했습니다.
+> 팀 프로젝트 'Taskify' 종료 후 기술적 성장을 이어가기 위해 프로젝트를 포크했습니다.<br>
+> 할 일 관리의 정체성은 유지하면서 고유한 명칭을 부여하고자 **'Tasklog'** 로 재배포했으며,<br>
+> 현재 리팩토링, 성능 최적화, 기능 확장을 통해 지속적으로 개선 중입니다.
 
-Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입니다. 대시보드를 만들고 컬럼과 카드로 업무를 정리할 수 있으며, 멤버를 초대해 팀 단위의 협업 일정관리도 가능합니다.
+<br>
 
-## 주요 기능
+Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입니다. <br>나만의 대시보드 생성을 통해 컬럼과 카드로 업무를 정리할 수 있으며, 멤버를 초대해 팀 단위의 협업 일정관리도 가능합니다.
+<br>
+## ⚙️ 주요 기능
 
-- **대시보드 관리**: 대시보드 생성/수정/삭제
-- **칸반 보드**: 컬럼 및 카드 생성/수정/삭제, 상태별 업무 관리
-- **댓글**: 카드별 댓글 작성
-- **팀원 초대 및 관리**: 대시보드 초대, 멤버 목록 조회 및 관리
-- **인증**: 로그인/회원가입, 계정 설정(비밀번호 변경 등)
-- **마이페이지 / 내 대시보드**: 참여 중인 대시보드와 초대 목록 확인
+- 대시보드 관리: 대시보드 생성/수정/삭제
+- 칸반보드: 컬럼 및 카드 생성/수정/삭제, 상태별 업무 관리
+- 댓글: 카드별 댓글 작성
+- 팀원 초대 및 관리: 대시보드 초대, 멤버 목록 조회 및 관리
+- 인증: 로그인/회원가입, 계정 설정(비밀번호 변경 등)
+- 마이페이지 / 내 대시보드: 참여 중인 대시보드와 초대 목록 확인
+<br><br>
 
-## 기술 스택
+## 🔧 기술 스택
+| 분류 | 기술 |
+| --- | --- |
+| Framework | Next.js (App Router) |
+| Library | React 19 |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| State/Data | TanStack Query |
+| Tooling | ESLint / Prettier / Husky (lint-staged) |
 
-- [Next.js](https://nextjs.org) (App Router)
-- React 19
-- TypeScript
-- [Tailwind CSS](https://tailwindcss.com) v4
-- [TanStack Query](https://tanstack.com/query)
-- ESLint / Prettier / Husky (lint-staged)
+<br>
 
-## Getting Started
-
-먼저 의존성을 설치합니다.
-
-```bash
-npm install
-```
-
-개발 서버를 실행합니다.
-
-```bash
-npm run dev
-```
-
-[http://localhost:3000](http://localhost:3000) 에서 결과를 확인할 수 있습니다.
-
-## 환경 변수
-
-루트에 `.env.local` 파일을 생성하고 아래 값을 설정해야 합니다.
-
-```bash
-NEXT_PUBLIC_BASE_URL= # API 서버 base URL
-```
-
-## 스크립트
-
-```bash
-npm run dev     # 개발 서버 실행
-npm run build   # 프로덕션 빌드
-npm run start   # 프로덕션 서버 실행
-npm run lint    # ESLint 검사 및 자동 수정
-```
-
-## 코드 품질
+## ⚡ 코드 품질
 
 Husky + lint-staged로 커밋 전 검사를 자동화했습니다. `git commit` 시 스테이징된 파일에 대해 다음이 자동 실행됩니다.
 
 - `*.{ts,tsx,js,jsx}`: ESLint(`--fix`) → Prettier
 - `*.{json,md}`: Prettier
-
-## 프로젝트 구조
+<br><br>
+## 🗂️ 프로젝트 구조
 
 ```
 src/
@@ -93,7 +68,9 @@ src/
 └── utils/         # 유틸 함수 (color, dashboard, date, validation)
 ```
 
-## 컨벤션
+<br>
+
+## 📍 컨벤션
 
 프로젝트 컨벤션은 [`conventions/`](conventions) 폴더의 문서를 참고하세요.
 
