@@ -8,30 +8,38 @@
 
 <br>
 
-Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입니다. <br>나만의 대시보드 생성을 통해 컬럼과 카드로 업무를 정리할 수 있으며, 멤버를 초대해 팀 단위의 협업 일정관리도 가능합니다.
+Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입니다.<br>
+대시보드를 중심으로 업무를 관리하고 팀원과 협업할 수 있습니다.
 <br><br>
+
+## 📅 프로젝트 기간 & 배포링크
+- **진행 기간**: 2026년 4월 20일 ~ 2026년 5월 7일
+- **Vercel 배포**: [tasklog.vercel.app](https://nomadly-imyoonsoo.vercel.app/)
+
+<br>
+
 ## 🔌 주요 기능
 
-- 대시보드 관리: 대시보드 생성/수정/삭제
-- 칸반보드: 컬럼 및 카드 생성/수정/삭제, 상태별 업무 관리
-- 댓글: 카드별 댓글 작성
-- 팀원 초대 및 관리: 대시보드 초대, 멤버 목록 조회 및 관리
-- 인증: 로그인/회원가입, 계정 설정(비밀번호 변경 등)
-- 마이페이지 / 내 대시보드: 참여 중인 대시보드와 초대 목록 확인
-<br><br>
+- **대시보드 관리** — 대시보드 생성, 수정, 삭제 및 관리
+- **칸반보드** — 컬럼 및 카드 CRUD, 드래그 앤 드롭을 통한 상태별 업무 관리
+- **댓글** — 업무 카드별 실시간 댓글 작성 및 피드백
+- **팀원 초대 및 관리** — 이메일 기반 대시보드 초대, 멤버 권한 및 목록 관리
+- **인증** — 로그인/회원가입, 계정 설정 및 비밀번호 변경
+- **마이페이지** — 참여 중인 대시보드 관리 및 초대 수락/거절 목록 확인
+
+<br>
 
 ## 🔧 기술 스택
 
-| Category         | Tech                                   |
-| ---------------- | -------------------------------------- |
-| Framework        | Next.js (App Router)                   |
-| Library          | React 19                               |
-| Language         | TypeScript                             |
-| Styling          | Tailwind CSS v4                        |
-| Server State     | TanStack Query                         |
-| HTTP Client      | Fetch                                  |
-| Code Quality     | ESLint, Prettier, Husky (lint-staged) |
-
+| Category | Tech |
+| :--- | :--- |
+| **Framework** | Next.js (App Router) |
+| **Library** | React 19 |
+| **Language** | TypeScript |
+| **Styling** | Tailwind CSS v4 |
+| **Server State** | TanStack Query |
+| **HTTP Client** | Fetch |
+| **Code Quality** | ESLint, Prettier, Husky (lint-staged) |
 <br>
 
 ## ⚡ 코드 품질
