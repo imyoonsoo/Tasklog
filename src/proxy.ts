@@ -22,5 +22,5 @@ export function proxy(request: NextRequest) {
 
 // 정적 파일이나 API 요청에서는 Proxy가 불필요하게 실행되지 않도록 설정
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|icon.svg).*)"],
 };
