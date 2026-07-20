@@ -9,7 +9,6 @@ import { SideMenuProvider } from "@/contexts/SideMenuContext";
 interface DashboardLayoutProps {
   children: React.ReactNode;
   modal: React.ReactNode;
-  params: Promise<{ id: string }>;
 }
 
 export default function DashboardLayout({
