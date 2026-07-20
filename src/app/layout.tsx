@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
+
 import "./globals.css";
 import { Providers } from "../providers/Queryprovider";
+
+export const metadata: Metadata = {
+  title: "Tasklog",
+  description: "Tasklog",
+};
 
 export default function RootLayout({
   children,
