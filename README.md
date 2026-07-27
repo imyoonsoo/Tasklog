@@ -2,9 +2,9 @@
 
 > **Forked from:** [Taskify](https://github.com/Useung0830/2-team-taskify)
 >
-> 팀 프로젝트 'Taskify' 종료 후 기술적 성장을 이어가기 위해 프로젝트를 포크했습니다.<br>
-> 할 일 관리의 정체성은 유지하면서 고유한 명칭을 부여하고자 **'Tasklog'** 로 재배포했으며,<br>
-> 현재 리팩토링, 성능 최적화, 기능 확장을 통해 지속적으로 개선 중입니다.
+> 팀 프로젝트 'Taskify' 종료 후, 기술적 성장을 이어가고자 이를 포크했습니다.<br>
+> 기존의 정체성은 유지하면서 고유한 명칭 **'Tasklog'**로 재배포했으며,<br>
+> 현재 리팩토링 및 성능 최적화, 기능 확장을 진행하며 지속적으로 개선해 나가고 있습니다.
 
 <br>
 
@@ -15,7 +15,7 @@ Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입�
 ## 📅 프로젝트 기간 & 배포링크
 
 - **진행 기간**: 2026년 4월 20일 ~ 2026년 5월 7일
-- **Vercel 배포**: [tasklog.vercel.app](https://tasklog-imyoonsoo.vercel.app/)
+- [**Vercel 배포**](https://tasklog-imyoonsoo.vercel.app)
 
 <br>
 
