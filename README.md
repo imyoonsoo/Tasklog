@@ -1,6 +1,6 @@
 # 📊 Tasklog
 
-> **Based on:** [Taskify](https://github.com/Useung0830/2-team-taskify)
+> **Forked from:** [Taskify](https://github.com/Useung0830/2-team-taskify)
 >
 > 팀 프로젝트 'Taskify' 종료 후 기술적 성장을 이어가기 위해 프로젝트를 포크했습니다.<br>
 > 할 일 관리의 정체성은 유지하면서 고유한 명칭을 부여하고자 **'Tasklog'** 로 재배포했으며,<br>
