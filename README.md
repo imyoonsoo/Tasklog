@@ -26,6 +26,7 @@ Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입�
 <div id="info"></div>
 
 ## 📅 프로젝트 기간 & 배포링크
+
 - **진행 기간**: 2026년 4월 20일 ~ 2026년 5월 7일
 - [**Vercel 배포**](https://tasklog-imyoonsoo.vercel.app)
 
@@ -48,15 +49,16 @@ Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입�
 
 ## 🔧 기술 스택
 
-| Category | Tech |
-| :--- | :--- |
-| **Framework** | Next.js (App Router) |
-| **Library** | React 19 |
-| **Language** | TypeScript |
-| **Styling** | Tailwind CSS v4 |
-| **Server State** | TanStack Query |
-| **HTTP Client** | Fetch |
+| Category         | Tech                                  |
+| :--------------- | :------------------------------------ |
+| **Framework**    | Next.js (App Router)                  |
+| **Library**      | React 19                              |
+| **Language**     | TypeScript                            |
+| **Styling**      | Tailwind CSS v4                       |
+| **Server State** | TanStack Query                        |
+| **HTTP Client**  | Fetch                                 |
 | **Code Quality** | ESLint, Prettier, Husky (lint-staged) |
+
 <br>
 
 <div id="quality"></div>
@@ -67,15 +69,11 @@ Husky + lint-staged로 커밋 전 검사를 자동화했습니다. `git commit` 
 
 - `*.{ts,tsx,js,jsx}`: ESLint(`--fix`) → Prettier
 - `*.{json,md}`: Prettier
-<<<<<<< Updated upstream
-<br><br>
-=======
 
 <br>
 
 <div id="structure"></div>
 
->>>>>>> Stashed changes
 ## 🗂️ 프로젝트 구조
 
 ```
