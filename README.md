@@ -12,12 +12,27 @@ Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입�
 대시보드를 중심으로 업무를 관리하고 팀원과 협업할 수 있습니다.
 <br><br>
 
+## 📍 목차
+
+- [프로젝트 기간 & 배포링크](#info)
+- [주요 기능](#features)
+- [기술 스택](#stack)
+- [코드 품질](#quality)
+- [프로젝트 구조](#structure)
+- [컨벤션](#convention)
+
+---
+
+<div id="info"></div>
+
 ## 📅 프로젝트 기간 & 배포링크
 
 - **진행 기간**: 2026년 4월 20일 ~ 2026년 5월 7일
 - [**Vercel 배포**](https://tasklog-imyoonsoo.vercel.app)
 
 <br>
+
+<div id="features"></div>
 
 ## 🔌 주요 기능
 
@@ -29,6 +44,8 @@ Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입�
 - **마이페이지** — 참여 중인 대시보드 관리 및 초대 수락/거절 목록 확인
 
 <br>
+
+<div id="stack"></div>
 
 ## 🔧 기술 스택
 
@@ -44,13 +61,18 @@ Tasklog는 대시보드 기반의 칸반 스타일 할 일 관리 서비스입�
 
 <br>
 
+<div id="quality"></div>
+
 ## ⚡ 코드 품질
 
 Husky + lint-staged로 커밋 전 검사를 자동화했습니다. `git commit` 시 스테이징된 파일에 대해 다음이 자동 실행됩니다.
 
 - `*.{ts,tsx,js,jsx}`: ESLint(`--fix`) → Prettier
 - `*.{json,md}`: Prettier
-  <br><br>
+
+<br>
+
+<div id="structure"></div>
 
 ## 🗂️ 프로젝트 구조
 
@@ -82,6 +104,8 @@ src/
 ```
 
 <br>
+
+<div id="convention"></div>
 
 ## 📍 컨벤션
 
